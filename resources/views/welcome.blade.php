@@ -49,38 +49,28 @@
      </style>
  </head>
  <body>
-     @include('nav')
-     {{-- <div class="flex-center position-ref full-height">
-         <div class="content">
-             <div class="title m-b-md">
-                 Join Live Chat
-             </div>
-             @if(Session::has('status'))
-                 <span class="alert alert-info" role="alert">
-                     {{ Session::get('status') }}
-                 </span>
-             @endif
-             <div>
-                 <form action="{{ url('/gr') }}" method="post">
-                     @csrf
-                     <div class="input-group">
-                         <input type="text" name="username" class="form-control"
-                     placeholder="Enter your username" required>
-                         <div class="input-group-append">
-                             <select name='roomid'>
-                                 <option value="1">Room 1</option>
-                                 <option value="2">Room 2</option>
-                                 <option value="3">Room 3</option>
-                                 <option value="4">Room 4</option>
-                             </select>
-                             <button type="submit" class="btn btn-primary">
-                               Join
-                             </button>
-                         </div>
-                     </div>
-                 </form>
-             </div>
-         </div>
-     </div> --}}
+    <ul class="nav flex-center position-ref full-height">
+        <li class="nav-item">
+           <a class="nav-link active" href="/fr"><h2>Chat With Friends</h2></a>
+        </li>
+        <li><h3 style="color: #3490dc">|</h3></li>
+        <li class="nav-item">
+            <a class="nav-link" href="/gr"><h2>Chat With Our Groups</h2></a>
+        </li>
+        <li>
+            <form action="{{ url('/') }}" method="post">
+                @csrf
+                <div class="input-group">
+                    <input type="hidden" name="username" class="form-control"
+                placeholder="Enter your username" value="long" required>
+                        <input type="hidden"  name='roomid' value="1">
+
+                        <button type="submit" class="btn btn-primary">
+                          Join
+                        </button>
+                </div>
+            </form>
+        </li>
+      </ul>
  </body>
  </html>

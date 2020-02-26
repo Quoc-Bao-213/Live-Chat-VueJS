@@ -13,7 +13,7 @@
 // Route::get('/', 'ChatkitController@index');
 Route::get('/', 'ChatkitController@index');
 Route::post('/', 'ChatkitController@join');
-Route::get('chat', 'ChatkitController@chat')->name('chat');
+Route::get('chat/{roomid}', 'ChatkitController@chat')->name('chat');
 Route::post('logout', 'ChatkitController@logout')->name('logout');
 
 Route::post('/api/message','ChatkitController@sendMessage');

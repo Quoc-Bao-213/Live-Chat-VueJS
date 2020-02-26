@@ -41,6 +41,43 @@ class ChatkitController extends Controller
      */
     public function join(Request $request)
     {
+        $this->roomId = '181eca26-2d3a-4cad-ad6d-35b59f329006';
+
+        $chatkit_id = strtolower(Str::random(5));
+        // $chatkit_id = uniqid();
+
+        // Create User account on Chatkit
+        $this->chatkit->createUser([
+            'id' =>  $chatkit_id,
+            'name' => $request->username,
+        ]);
+
+        $this->chatkit->addUsersToRoom([
+            'room_id' => $this->roomId,
+            'user_ids' => [$chatkit_id],
+        ]);
+
+        // Add User details to session
+        $request->session()->push('chatkit_id', $chatkit_id);
+        // $request->session()->push('room_id', $this->roomId);
+        // $request->session()->push('room_name', $request->roomid);
+
+        // Redirect user to Chat Page
+        return redirect('/chat/1');
+    }
+
+    /**
+     * Show the application chat room.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function chat(Request $request)
+    {
+        // $roomId = $request->session()->get('room_id')[0];
+        // $roomName = $request->session()->get('room_name')[0];
+        $userId = $request->session()->get('chatkit_id')[0];
+        $roomName = $request->roomid;
+
         $groupID = $request->roomid;
 
         switch ($groupID) {
@@ -60,41 +97,13 @@ class ChatkitController extends Controller
                 $this->roomId = '181eca26-2d3a-4cad-ad6d-35b59f329006';
         }
 
-        $chatkit_id = strtolower(Str::random(5));
-        // $chatkit_id = uniqid();
+        $roomId = $this->roomId;
 
-        // Create User account on Chatkit
-        $this->chatkit->createUser([
-            'id' =>  $chatkit_id,
-            'name' => $request->username,
-        ]);
+        $request->session()->put('room_id', $roomId);
 
-        $this->chatkit->addUsersToRoom([
-            'room_id' => $this->roomId,
-            'user_ids' => [$chatkit_id],
-        ]);
+        // dd($request->roomid);
+        // $roomName = $request->roomid;
 
-        // Add User details to session
-        $request->session()->push('chatkit_id', $chatkit_id);
-        $request->session()->push('room_id', $this->roomId);
-        $request->session()->push('room_name', $request->roomid);
-
-        // Redirect user to Chat Page
-        return redirect(route('chat'));
-    }
-
-    /**
-     * Show the application chat room.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-    public function chat(Request $request)
-    {
-        $roomId = $request->session()->get('room_id')[0];
-        $userId = $request->session()->get('chatkit_id')[0];
-        $roomName = $request->session()->get('room_name')[0];
-
-        // dd($request->session()->get('chatkit_id')[0]);
         if (is_null($userId)) {
             $request->session()->flash('status', 'Join to access chat room!');
             return redirect(url('/'));
@@ -107,18 +116,14 @@ class ChatkitController extends Controller
             'limit' => 100
         ]);
 
-        // dd($fetchMessages);
         $messages = collect($fetchMessages['body'])->map(function ($message) {
             return [
                 'id' => $message['id'],
                 'senderId' => $message['user_id'],
                 'text' => $message['text'],
                 'timestamp' => $message['created_at'],
-                // dd($message['text']),
             ];
         });
-
-
 
         return view('chat')->with(compact('messages', 'roomId', 'userId', 'roomName'));
     }
@@ -150,7 +155,7 @@ class ChatkitController extends Controller
      */
     public function sendMessage(Request $request)
     {
-        $roomId = $request->session()->get('room_id')[0];
+        $roomId = $request->session()->get('room_id');
 
         $message = $this->chatkit->sendSimpleMessage([
             'sender_id' => $request->user,

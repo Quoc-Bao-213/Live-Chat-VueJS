@@ -2131,8 +2131,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     scrollToEnd: function scrollToEnd() {
       var container = this.$el.querySelector("#chatbox");
-      container.scrollTop = container.scrollHeight + 300;
-      console.log(container.scrollHeight + 1000);
+      container.scrollTop = container.scrollHeight + 300; // console.log(container.scrollHeight+1000);
     },
     formatTime: function formatTime(timestamp) {
       return moment__WEBPACK_IMPORTED_MODULE_2___default()(timestamp).fromNow();
@@ -6689,7 +6688,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n#chatbox {\n    text-align: left;\n    max-height: 400px;\n    overflow-y: scroll;\n}\n", ""]);
+exports.push([module.i, "\n#chatbox {\n    text-align: left;\n    max-height: 400px;\n    overflow-y: scroll;\n    height: 400px;\n}\n", ""]);
 
 // exports
 

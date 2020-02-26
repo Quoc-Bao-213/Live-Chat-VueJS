@@ -130,7 +130,7 @@
             scrollToEnd: function() {
             var container = this.$el.querySelector("#chatbox");
             container.scrollTop = (container.scrollHeight+300);
-            console.log(container.scrollHeight+1000);
+            // console.log(container.scrollHeight+1000);
             },
             formatTime(timestamp) {
                return moment(timestamp).fromNow();
@@ -147,5 +147,6 @@
         text-align: left;
         max-height: 400px;
         overflow-y: scroll;
+        height: 400px;
     }
     </style>

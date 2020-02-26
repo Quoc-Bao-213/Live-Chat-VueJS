@@ -1,6 +1,7 @@
   <!-- resources/views/chat.blade.php -->
   <!DOCTYPE html>
   <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
   <head>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,175 +18,178 @@
       <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
       <style>
-        html,
-        body {
-            background-color: #fff;
-            color: #636b6f;
-            font-family: 'Nunito', sans-serif;
-            font-weight: 200;
-            height: 100vh;
-            margin: 0;
-        }
-        .full-height {
-            height: 100vh;
-        }
-        .flex-center {
-            align-items: center;
-            display: flex;
-            justify-content: center;
-        }
-        .position-ref {
-            position: relative;
-        }
-        .top-right {
-            position: absolute;
-            right: 10px;
-            top: 18px;
-        }
-        .links>a {
-            color: #636b6f;
-            padding: 0 25px;
-            font-size: 13px;
-            font-weight: 600;
-            letter-spacing: .1rem;
-            text-decoration: none;
-            text-transform: uppercase;
-        }
-        .m-b-md {
-            margin-bottom: 30px;
-        }
-        ul{
-            margin: 0;
-            padding: 0;
-        }
+          html,
+          body {
+              background-color: #fff;
+              color: #636b6f;
+              font-family: 'Nunito', sans-serif;
+              font-weight: 200;
+              height: 100vh;
+              margin: 0;
+          }
 
-        li{
-            list-style: none;
-        }
+          .full-height {
+              height: 100vh;
+          }
 
-        .user-wrapper{
-            border: 1px solid #dddddd;
-            overflow-y: auto;
-        }
+          .flex-center {
+              align-items: center;
+              display: flex;
+              justify-content: center;
+          }
 
-        .user-wrapper{
-            height: 58.8vh;
-        }
+          .position-ref {
+              position: relative;
+          }
 
-        .room{
-            cursor: pointer;
-            padding: 5px 0;
-            position: relative;
-        }
+          .top-right {
+              position: absolute;
+              right: 10px;
+              top: 18px;
+          }
 
-        .room:hover{
-            background: #eeeeee;
-        }
+          .links>a {
+              color: #636b6f;
+              padding: 0 25px;
+              font-size: 13px;
+              font-weight: 600;
+              letter-spacing: .1rem;
+              text-decoration: none;
+              text-transform: uppercase;
+          }
 
-        .room:last-child{
-            margin-bottom: 0;
-        }
+          .m-b-md {
+              margin-bottom: 30px;
+          }
 
-        .pending{
-            position: absolute;
-            left: 13px;
-            top: 9px;
-            background: #b600ff;
-            margin: 0;
-            border-radius: 50%;
-            width: 18px;
-            height: 18px;
-            line-height: 18px;
-            padding-left: 5px;
-            color: #ffffff;
-            font-size: 12px;
-        }
+          ul {
+              margin: 0;
+              padding: 0;
+          }
 
-        .media-left{
-            margin: 0 10px;
-        }
+          li {
+              list-style: none;
+          }
 
-        .media-left img{
-            width: 64px;
-            border-radius: 64px;
-        }
+          .user-wrapper {
+              border: 1px solid #dddddd;
+              overflow-y: auto;
+          }
 
-        .media-body p{
-            margin: 6px 0;
-        }
+          .user-wrapper {
+              height: 58.8vh;
+          }
+
+          .room {
+              cursor: pointer;
+              padding: 5px 0;
+              position: relative;
+          }
+
+          .room:hover {
+              background: #eeeeee;
+          }
+
+          .room:last-child {
+              margin-bottom: 0;
+          }
+
+          .pending {
+              position: absolute;
+              left: 13px;
+              top: 9px;
+              background: #b600ff;
+              margin: 0;
+              border-radius: 50%;
+              width: 18px;
+              height: 18px;
+              line-height: 18px;
+              padding-left: 5px;
+              color: #ffffff;
+              font-size: 12px;
+          }
+
+          .media-left {
+              margin: 0 10px;
+          }
+
+          .media-left img {
+              width: 64px;
+              border-radius: 64px;
+          }
+
+          .media-body p {
+              margin: 6px 15px;
+          }
+
+          .media-body {
+              margin-top: 14px;
+          }
+
+          .active {
+              background: #eeeeee;
+          }
+
+          .card-body{
+              height: 500px;
+          }
+
+          .card-body .input-group {
+                /* position: ;
+                width: 595px;
+                bottom: 0; */
+            }
       </style>
   </head>
+
   <body>
       <div id="app" class="flex-center position-ref full-height">
-        <div class="top-right links">
-            <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+          <div class="top-right links">
+              <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
             document.getElementById('logout-form').submit();">
-                Leave Chat Room
-            </a>
-            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                @csrf
-            </form>
-        </div>
+                  Leave Chat Room
+              </a>
+              <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                  @csrf
+              </form>
+          </div>
           <div class="container">
               <div class="row">
-                <div class="col-md-4">
-                    <div class="user-wrapper">
-                        <ul class="rooms">
-                            <li class="room" id="">
-                                <span class="pending"></span>
-                                <div class="media">
-                                    <div class="media-left">
-                                        <img src="https://via.placeholder.com/150" alt="" class="media-object">
-                                    </div>
-                                    <div class="media-body">
-                                        <p class="name">Room 1</p>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="room" id="">
-                                <span class="pending"></span>
-                                <div class="media">
-                                    <div class="media-left">
-                                        <img src="https://via.placeholder.com/150" alt="" class="media-object">
-                                    </div>
-                                    <div class="media-body">
-                                        <p class="name">Room 2</p>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="room" id="">
-                                <span class="pending"></span>
-                                <div class="media">
-                                    <div class="media-left">
-                                        <img src="https://via.placeholder.com/150" alt="" class="media-object">
-                                    </div>
-                                    <div class="media-body">
-                                        <p class="name">Room 3</p>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="room" id="">
-                                <span class="pending"></span>
-                                <div class="media">
-                                    <div class="media-left">
-                                        <img src="https://via.placeholder.com/150" alt="" class="media-object">
-                                    </div>
-                                    <div class="media-body">
-                                        <p class="name">Room 4</p>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+                  <div class="col-md-4">
+                      <div class="card">
+                          <div class="card-header"> List Groups.</div>
+                          <div class="card-body">
+                              <div id="chatbox">
+                                  <ul class="rooms">
+                                      @for ($i = 1; $i <= 7; $i++) <li class="room {{  ($i == $roomName) ? 'active' : '' }}" name="roomid" id=" {{  $i    }}">
+                                          {{-- <span class="pending"></span> --}}
+                                          <div class="media">
+                                              <div class="media-left">
+                                                  <img src="https://image.flaticon.com/icons/svg/615/615075.svg" alt="" class="media-object">
+                                              </div>
+                                              <div class="media-body">
+                                                  <a href="/chat/{{ $i }}">
+                                                      <p class="name">Room {{ $i }}</p>
+                                                  </a>
+                                              </div>
+                                          </div>
+                                          </li>
+                                        @endfor
+                                  </ul>
+                              </div>
+                          </div>
+                      </div>
+{{--  --}}
+                  </div>
                   <div class="col-md-7">
                       <div class="card">
-                        <div class="card-header"> Live Chat Room {{ $roomName }}</div>
-                        <chatbox user-id='{{ $userId }}' room-id='{{ $roomId }}' :initial-messages='@json($messages)'> </chatbox>
+                          <div class="card-header"> Live Chat Room {{ $roomName }}</div>
+                          <chatbox user-id='{{ $userId }}' room-id='{{ $roomId }}' :initial-messages='@json($messages)'> </chatbox>
                       </div>
                   </div>
               </div>
           </div>
       </div>
   </body>
+
   </html>

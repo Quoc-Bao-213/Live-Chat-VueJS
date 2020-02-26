@@ -63,7 +63,7 @@
                 <div class="input-group">
                     <input type="hidden" name="username" class="form-control"
                 placeholder="Enter your username" value="long" required>
-                        <input type="hidden"  name='roomid' value="1">
+                        <input type="hidden"  name='roomid'>
 
                         <button type="submit" class="btn btn-primary">
                           Join

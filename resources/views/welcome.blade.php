@@ -22,7 +22,7 @@
              margin: 0;
          }
          .full-height {
-             height: 100vh;
+             height: 80vh;
          }
          .flex-center {
              align-items: center;
@@ -49,7 +49,8 @@
      </style>
  </head>
  <body>
-     <div class="flex-center position-ref full-height">
+     @include('nav')
+     {{-- <div class="flex-center position-ref full-height">
          <div class="content">
              <div class="title m-b-md">
                  Join Live Chat
@@ -60,7 +61,7 @@
                  </span>
              @endif
              <div>
-                 <form action="{{ url('/') }}" method="post">
+                 <form action="{{ url('/gr') }}" method="post">
                      @csrf
                      <div class="input-group">
                          <input type="text" name="username" class="form-control"
@@ -80,6 +81,6 @@
                  </form>
              </div>
          </div>
-     </div>
+     </div> --}}
  </body>
  </html>

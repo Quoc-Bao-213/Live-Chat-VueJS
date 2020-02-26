@@ -59,8 +59,8 @@
                 this.currentUser.subscribeToRoomMultipart({
                     roomId: this.roomId,
                     hooks: {
-                        onMessage: message => {
-                            this.messages.push({
+                        onMessage: async message => {
+                           await this.messages.push({
                                 id: message.id,
                                 senderId: message.senderId,
                                 text: message['parts'][0]['payload']['content'],
@@ -86,7 +86,7 @@
                                 })
                             }
 
-                            this.scrollToEnd();
+                            await this.scrollToEnd();
                         },
                         onUserJoined: async user => {
                             await this.getUsers()
@@ -129,7 +129,8 @@
             },
             scrollToEnd: function() {
             var container = this.$el.querySelector("#chatbox");
-            container.scrollTop = container.scrollHeight;
+            container.scrollTop = (container.scrollHeight+300);
+            console.log(container.scrollHeight+1000);
             },
             formatTime(timestamp) {
                return moment(timestamp).fromNow();

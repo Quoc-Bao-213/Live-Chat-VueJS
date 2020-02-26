@@ -2011,43 +2011,68 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.currentUser.subscribeToRoomMultipart({
         roomId: this.roomId,
         hooks: {
-          onMessage: function onMessage(message) {
-            _this2.messages.push({
-              id: message.id,
-              senderId: message.senderId,
-              text: message['parts'][0]['payload']['content'],
-              timestamp: message.createdAt
-            });
-
-            if (message.senderId != _this2.userId) {
-              var Toast = Swal.mixin({
-                toast: true,
-                position: 'center-end',
-                showConfirmButton: false,
-                timer: 3000,
-                timerProgressBar: true,
-                onOpen: function onOpen(toast) {
-                  toast.addEventListener('mouseenter', Swal.stopTimer);
-                  toast.addEventListener('mouseleave', Swal.resumeTimer);
-                }
-              });
-              Toast.fire({
-                icon: 'success',
-                title: 'You have a Message!'
-              });
-            }
-
-            _this2.scrollToEnd();
-          },
-          onUserJoined: function () {
-            var _onUserJoined = _asyncToGenerator(
+          onMessage: function () {
+            var _onMessage = _asyncToGenerator(
             /*#__PURE__*/
-            _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(user) {
+            _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(message) {
+              var Toast;
               return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
                 while (1) {
                   switch (_context.prev = _context.next) {
                     case 0:
                       _context.next = 2;
+                      return _this2.messages.push({
+                        id: message.id,
+                        senderId: message.senderId,
+                        text: message['parts'][0]['payload']['content'],
+                        timestamp: message.createdAt
+                      });
+
+                    case 2:
+                      if (message.senderId != _this2.userId) {
+                        Toast = Swal.mixin({
+                          toast: true,
+                          position: 'center-end',
+                          showConfirmButton: false,
+                          timer: 3000,
+                          timerProgressBar: true,
+                          onOpen: function onOpen(toast) {
+                            toast.addEventListener('mouseenter', Swal.stopTimer);
+                            toast.addEventListener('mouseleave', Swal.resumeTimer);
+                          }
+                        });
+                        Toast.fire({
+                          icon: 'success',
+                          title: 'You have a Message!'
+                        });
+                      }
+
+                      _context.next = 5;
+                      return _this2.scrollToEnd();
+
+                    case 5:
+                    case "end":
+                      return _context.stop();
+                  }
+                }
+              }, _callee);
+            }));
+
+            function onMessage(_x) {
+              return _onMessage.apply(this, arguments);
+            }
+
+            return onMessage;
+          }(),
+          onUserJoined: function () {
+            var _onUserJoined = _asyncToGenerator(
+            /*#__PURE__*/
+            _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(user) {
+              return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+                while (1) {
+                  switch (_context2.prev = _context2.next) {
+                    case 0:
+                      _context2.next = 2;
                       return _this2.getUsers();
 
                     case 2:
@@ -2057,13 +2082,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                     case 3:
                     case "end":
-                      return _context.stop();
+                      return _context2.stop();
                   }
                 }
-              }, _callee);
+              }, _callee2);
             }));
 
-            function onUserJoined(_x) {
+            function onUserJoined(_x2) {
               return _onUserJoined.apply(this, arguments);
             }
 
@@ -2106,7 +2131,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     scrollToEnd: function scrollToEnd() {
       var container = this.$el.querySelector("#chatbox");
-      container.scrollTop = container.scrollHeight;
+      container.scrollTop = container.scrollHeight + 300;
+      console.log(container.scrollHeight + 1000);
     },
     formatTime: function formatTime(timestamp) {
       return moment__WEBPACK_IMPORTED_MODULE_2___default()(timestamp).fromNow();
@@ -68906,8 +68932,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\bao.ta\Desktop\LiveChatVueJS\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\bao.ta\Desktop\LiveChatVueJS\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! D:\GitHub\Live-Chat-VueJS\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! D:\GitHub\Live-Chat-VueJS\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

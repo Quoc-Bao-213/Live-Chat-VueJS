@@ -28,7 +28,7 @@ class ChatkitController extends Controller
 
         if (!is_null($userId)) {
             // Redirect user to Chat Page
-            return redirect(route('chat'));
+            return redirect('chat/1');
         }
         return view('welcome');
     }
@@ -76,7 +76,12 @@ class ChatkitController extends Controller
         // $roomId = $request->session()->get('room_id')[0];
         // $roomName = $request->session()->get('room_name')[0];
         $userId = $request->session()->get('chatkit_id')[0];
-        $roomName = $request->roomid;
+
+        if ($request->roomid == '1-4'){
+            $roomName = $request->roomid;
+        }else{
+            $roomName = 1;
+        }
 
         $groupID = $request->roomid;
 
@@ -100,9 +105,6 @@ class ChatkitController extends Controller
         $roomId = $this->roomId;
 
         $request->session()->put('room_id', $roomId);
-
-        // dd($request->roomid);
-        // $roomName = $request->roomid;
 
         if (is_null($userId)) {
             $request->session()->flash('status', 'Join to access chat room!');

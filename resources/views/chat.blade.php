@@ -133,12 +133,6 @@
           .card-body{
               height: 500px;
           }
-
-          .card-body .input-group {
-                /* position: ;
-                width: 595px;
-                bottom: 0; */
-            }
       </style>
   </head>
 
@@ -157,7 +151,7 @@
               <div class="row">
                   <div class="col-md-4">
                       <div class="card">
-                          <div class="card-header"> List Groups.</div>
+                          <div class="card-header">List Groups</div>
                           <div class="card-body">
                               <div id="chatbox">
                                   <ul class="rooms">
@@ -179,7 +173,6 @@
                               </div>
                           </div>
                       </div>
-{{--  --}}
                   </div>
                   <div class="col-md-7">
                       <div class="card">

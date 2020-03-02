@@ -14,12 +14,18 @@
 Route::get('/fr/login', 'LoginController@index')->name('login')->middleware('guest');
 Route::post('/fr/login','LoginController@Login')->name('xu-ly-dang-nhap');
 
+Route::get('/fr/register','RegisterController@index')->name('register');
+Route::post('/fr/register','RegisterController@register')->name('actionregister');
+
 Route::middleware('auth')->group(function(){
 
-    Route::get('/fr/Homepage', function () {
-        return view('chatUser');
-    })->name('chatUser');
+    Route::get('/fr/Homepage','ChatUserController@friendhomepage')->name('chatUser');
+    // Route::post('/fr/Homepage','ChatUserController@createRoom');
+    Route::get('/fr/{friendID}','ChatUserController@createRoom')->name('chatFriend');
 
+    Route::get('api/users', 'ChatUserController@getUsers');
+    Route::post('api/message','ChatUserController@sendMessage');
+    Route::get('/fr/chat', 'ChatUserController@chat')->name('chatuserabc');
 });
 
 Route::get('/', 'ChatkitController@index');

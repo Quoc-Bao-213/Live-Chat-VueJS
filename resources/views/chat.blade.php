@@ -130,7 +130,7 @@
               background: #eeeeee;
           }
 
-          .card-body{
+          .card-body {
               height: 500px;
           }
       </style>
@@ -148,8 +148,36 @@
               </form>
           </div>
           <div class="container">
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Create Room</button>
+
+              <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                          <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel">Create Room</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                              </button>
+                          </div>
+                          <div class="modal-body">
+                              <form action="" method="POST">
+                                  @csrf
+                                  <div class="form-group">
+                                      <label for="recipient-name" class="col-form-label">Room Name:</label>
+                                      <input type="text" class="form-control" id="recipient-name" placeholder="Enter your room name...">
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Create</button>
+                                </div>
+                              </form>
+                          </div>
+                      </div>
+                  </div>
+              </div>
               <div class="row">
                   <div class="col-md-4">
+
                       <div class="card">
                           <div class="card-header">List Groups</div>
                           <div class="card-body">
@@ -168,7 +196,7 @@
                                               </div>
                                           </div>
                                           </li>
-                                        @endfor
+                                          @endfor
                                   </ul>
                               </div>
                           </div>
@@ -176,7 +204,7 @@
                   </div>
                   <div class="col-md-7">
                       <div class="card">
-                          <div class="card-header"> Live Chat Room {{ $roomName }}</div>
+                          <div class="card-header"> Live Chat Room {{ $roomName ?? '' }}</div>
                           <chatbox user-id='{{ $userId }}' room-id='{{ $roomId }}' :initial-messages='@json($messages)'> </chatbox>
                       </div>
                   </div>

@@ -41,10 +41,9 @@ class ChatkitController extends Controller
      */
     public function join(Request $request)
     {
-        $this->roomId = '181eca26-2d3a-4cad-ad6d-35b59f329006';
+        $this->roomId = '9948882c-93ae-4402-b5ae-a344b923c30b';
 
         $chatkit_id = strtolower(Str::random(5));
-        // $chatkit_id = uniqid();
 
         // Create User account on Chatkit
         $this->chatkit->createUser([
@@ -59,8 +58,6 @@ class ChatkitController extends Controller
 
         // Add User details to session
         $request->session()->push('chatkit_id', $chatkit_id);
-        // $request->session()->push('room_id', $this->roomId);
-        // $request->session()->push('room_name', $request->roomid);
 
         // Redirect user to Chat Page
         return redirect('/chat/1');
@@ -73,11 +70,9 @@ class ChatkitController extends Controller
      */
     public function chat(Request $request)
     {
-        // $roomId = $request->session()->get('room_id')[0];
-        // $roomName = $request->session()->get('room_name')[0];
         $userId = $request->session()->get('chatkit_id')[0];
 
-        if ($request->roomid == '1-4'){
+        if (preg_match('/^[1-4]$/', $request->roomid)){
             $roomName = $request->roomid;
         }else{
             $roomName = 1;
@@ -87,19 +82,19 @@ class ChatkitController extends Controller
 
         switch ($groupID) {
             case 1:
-                $this->roomId = '181eca26-2d3a-4cad-ad6d-35b59f329006';
+                $this->roomId = '9948882c-93ae-4402-b5ae-a344b923c30b';
                 break;
             case 2:
-                $this->roomId = '67f38d4a-2116-4c4a-9adb-9d0a698b088d';
+                $this->roomId = '7f981066-c780-4355-aba1-31f70f424de0';
                 break;
             case 3:
-                $this->roomId = 'bd35aaa3-aef5-4637-b5b1-00522a103082';
+                $this->roomId = '24614173-415f-4cf3-b53b-eb9c0f971788';
                 break;
             case 4:
-                $this->roomId = '6a768a1f-5e86-4c66-9af0-d229fccee2d6';
+                $this->roomId = 'af88fd67-8bd4-4ccf-97a6-c237a8862105';
                 break;
             default:
-                $this->roomId = '181eca26-2d3a-4cad-ad6d-35b59f329006';
+                $this->roomId = '9948882c-93ae-4402-b5ae-a344b923c30b';
         }
 
         $roomId = $this->roomId;
@@ -178,7 +173,7 @@ class ChatkitController extends Controller
     {
         $opt['limit'] = 100;
         $users = $this->chatkit->getUsers($opt);
-        // dd($users );
+
         return response($users);
     }
 

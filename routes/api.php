@@ -17,4 +17,3 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::post('authenticate','ChatkitController@authenticate');
-Route::get('users', 'ChatkitController@getUsers');

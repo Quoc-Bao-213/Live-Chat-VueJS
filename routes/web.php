@@ -19,12 +19,12 @@ Route::post('/fr/register','RegisterController@register')->name('actionregister'
 
 Route::middleware('auth')->group(function(){
 
-    Route::get('/fr/Homepage','ChatUserController@friendhomepage')->name('chatUser');
+    Route::get('/fr/{friendID}','ChatUserController@friendhomepage')->name('chatUser');
     // Route::post('/fr/Homepage','ChatUserController@createRoom');
-    Route::get('/fr/{friendID}','ChatUserController@createRoom')->name('chatFriend');
+    // Route::get('/fr/{friendID}','ChatUserController@createRoom')->name('chatFriend');
 
-    Route::get('api/users', 'ChatUserController@getUsers');
-    Route::post('api/message','ChatUserController@sendMessage');
+    Route::get('/fr/api/users', 'ChatUserController@getUsers');
+    Route::post('/fr/api/message','ChatUserController@sendMessage');
     Route::get('/fr/chat', 'ChatUserController@chat')->name('chatuserabc');
 });
 
@@ -33,3 +33,4 @@ Route::post('/', 'ChatkitController@join');
 Route::get('chat/{roomid}', 'ChatkitController@chat')->name('chat');
 Route::post('logout', 'ChatkitController@logout')->name('logout');
 Route::post('/api/message','ChatkitController@sendMessage');
+Route::get('/api/users', 'ChatkitController@getUsers');

@@ -18,7 +18,7 @@ class LoginController extends Controller
 
     	if(Auth::attempt(['email' => $email,'password' => $password]))
     	{
-            return redirect()->route('chatUser');
+            return redirect('fr/'.Auth::user()->id_pusher);
     	}
 		return redirect(route('login'))->with('notify',"Please Try Again!");
     }

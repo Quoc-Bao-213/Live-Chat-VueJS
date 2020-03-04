@@ -41,7 +41,7 @@ class ChatkitController extends Controller
      */
     public function join(Request $request)
     {
-        $this->roomId = '9948882c-93ae-4402-b5ae-a344b923c30b';
+        $this->roomId = '34c69f79-77b2-4c41-ae30-dd709182ef96';
 
         $chatkit_id = strtolower(Str::random(5));
 
@@ -82,19 +82,19 @@ class ChatkitController extends Controller
 
         switch ($groupID) {
             case 1:
-                $this->roomId = '9948882c-93ae-4402-b5ae-a344b923c30b';
+                $this->roomId = '34c69f79-77b2-4c41-ae30-dd709182ef96';
                 break;
             case 2:
-                $this->roomId = '7f981066-c780-4355-aba1-31f70f424de0';
+                $this->roomId = '56b9f7ad-1bec-475a-bc83-34d3f497f30c';
                 break;
             case 3:
-                $this->roomId = '24614173-415f-4cf3-b53b-eb9c0f971788';
+                $this->roomId = 'ece3f102-0d5e-4b4e-b203-2ff0fe825f84';
                 break;
             case 4:
-                $this->roomId = 'af88fd67-8bd4-4ccf-97a6-c237a8862105';
+                $this->roomId = '00f230e9-025a-4578-a86b-4a3423506d30';
                 break;
             default:
-                $this->roomId = '9948882c-93ae-4402-b5ae-a344b923c30b';
+                $this->roomId = '34c69f79-77b2-4c41-ae30-dd709182ef96';
         }
 
         $roomId = $this->roomId;

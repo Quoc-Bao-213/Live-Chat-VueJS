@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserRoom extends Model
 {
-    protected $fillable = [''];
+    protected $fillable = ['my_id', 'friend_id', 'room_id'];
 }

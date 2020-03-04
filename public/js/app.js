@@ -1991,7 +1991,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         url: "".concat("http://localhost:8000", "/api/authenticate")
       });
       var chatManager = new _pusher_chatkit_client__WEBPACK_IMPORTED_MODULE_3___default.a.ChatManager({
-        instanceLocator: "v1:us1:4b72d70a-73cd-4de9-a68d-69a5b4dea9e1",
+        instanceLocator: "v1:us1:fc032194-6646-432b-a300-cb9ac8b28190",
         userId: this.userId,
         tokenProvider: tokenProvider
       });
@@ -2211,7 +2211,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         url: "".concat("http://localhost:8000", "/api/authenticate")
       });
       var chatManager = new _pusher_chatkit_client__WEBPACK_IMPORTED_MODULE_3___default.a.ChatManager({
-        instanceLocator: "v1:us1:4b72d70a-73cd-4de9-a68d-69a5b4dea9e1",
+        instanceLocator: "v1:us1:fc032194-6646-432b-a300-cb9ac8b28190",
         userId: this.userId,
         tokenProvider: tokenProvider
       });
@@ -2321,7 +2321,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     getUsers: function getUsers() {
       var _this3 = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("".concat("http://localhost:8000", "/api/users")).then(function (res) {
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("".concat("http://localhost:8000", "/fr/api/users")).then(function (res) {
         _this3.users = res['data']['body']; // console.log(res['data']['body']);
       });
     },
@@ -2329,9 +2329,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this4 = this;
 
       if (this.message.trim() === '') return;
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("".concat("http://localhost:8000", "/api/message"), {
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("".concat("http://localhost:8000", "/fr/api/message"), {
         user: this.userId,
-        message: this.message
+        message: this.message,
+        currentRoom: this.roomId
       }).then(function (message) {
         _this4.message = '';
       });

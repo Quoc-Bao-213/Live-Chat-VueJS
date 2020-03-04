@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\User;
 use App\UserRoom;
+use DB;
 
 class ChatUserController extends Controller
 {
@@ -18,61 +19,41 @@ class ChatUserController extends Controller
         $this->roomId = env('CHATKIT_GENERAL_ROOM_ID');
     }
 
-    public function friendhomepage(Request $request)
+    public function friendhomepage(Request $request, $friendID)
     {
-        //chua check room va id luc rong
-        $id_join = $request->idjoin;
-        $get_RoomName = $request->roomnamecreate;
-
-        $listFriends = User::all();
-        $userGiDo = User::where('id', '=', Auth::id())->get();
-
-        foreach ($userGiDo as $key => $value) {
-            $id_pusher = $value['id_pusher'];
-        }
-
-        // set room động
-        $this->room_Id = '5cd5623b-be0a-4587-bd20-257dcbfaeb5f';
-
-        $room_Id = $this->room_Id;
-
-        $fetchMessages = $this->chatkit->getRoomMessages([
-            'room_id' => $room_Id,
-            'direction' => 'newer',
-            'limit' => 100
-        ]);
-
-        $messages = collect($fetchMessages['body'])->map(function ($message) {
-            return [
-                'id' => $message['id'],
-                'senderId' => $message['user_id'],
-                'text' => $message['text'],
-                'timestamp' => $message['created_at'],
-            ];
-        });
-
-        $request->session()->put('room_id', $room_Id);
-
-        return view('app')->with(compact('id_pusher', 'room_Id', 'messages', 'listFriends'));
-    }
-
-    public function createRoom($friendID)
-    {
-        $id_pusher = $friendID;
-        $curentPusherID = User::find(Auth::id())->id_pusher;
+        $id_pusher = $friendID; // id friend
+        $curentPusherID = User::find(Auth::id())->id_pusher;  // id mình my_id
         $roomName = $curentPusherID.'_'.$id_pusher;
-        // $query = UserRoom::
 
-        $create = $this->chatkit->createRoom([
-            'creator_id' => $curentPusherID,
-            'name' => $roomName,
-            'user_ids' => [$id_pusher],
-            'private' => true,
-            'custom_data' => ['foo' => 'bar']
-        ]);
+        // đoạn này check trong database xem room có chưa
+        $checkRoomExist = DB::select("SELECT * FROM `user_rooms` where `my_id` = '$curentPusherID'  and `friend_id` = '$friendID'");
 
-        $curentRoom = $create['body']['id'];
-        // dd($create);
+
+        if (empty($checkRoomExist)){
+            // câu này để cho là bạn mình nó bấm vô mình thì cũng chỉ có chung 1 room thôi.
+            $checkRoomExist = DB::select("SELECT * FROM `user_rooms` where `friend_id` = '$curentPusherID'  and `my_id` = '$friendID'");
+        }
+        // dd ($checkRoomExist);// ==>  chưa có
+
+        // Nếu có room r thì ko tạo mới, ngược lại tạo room r lưu vô database
+        if (!empty($checkRoomExist) && $checkRoomExist[0]->room_id){
+            $curentRoom = $checkRoomExist[0]->room_id;
+        }else{
+            $create = $this->chatkit->createRoom([
+                'creator_id' => $curentPusherID,
+                'name' => $roomName,
+                'user_ids' => [$id_pusher],
+                'private' => true,
+                'custom_data' => ['foo' => 'bar']
+            ]);
+            $curentRoom = $create['body']['id'];
+
+            $addUserRoom = new UserRoom;
+            $addUserRoom->my_id = $curentPusherID;
+            $addUserRoom->friend_id = $id_pusher;
+            $addUserRoom->room_id = $curentRoom;
+            $addUserRoom->save();
+        }
 
         $this->room_Id = $curentRoom;
         $listFriends = User::all();
@@ -94,9 +75,10 @@ class ChatUserController extends Controller
             ];
         });
 
-
-
-        return view('app')->with(compact('id_pusher', 'messages', 'room_Id', 'listFriends'));
+        $request->session()->put('my_id', $curentPusherID);
+        $request->session()->put('room_id', $room_Id);
+        $friendName = User::where('id_pusher', $friendID)->first()->name ;
+        return view('app')->with(compact('id_pusher', 'messages', 'room_Id', 'listFriends', 'friendName'));
     }
 
      /**
@@ -107,10 +89,11 @@ class ChatUserController extends Controller
      */
     public function sendMessage(Request $request)
     {
-        $roomId = $request->session()->get('room_id');
+        $roomId = $request->currentRoom;
+        $my_id = Auth::user()->id_pusher;
 
         $message = $this->chatkit->sendSimpleMessage([
-            'sender_id' => $request->user,
+            'sender_id' => $my_id,
             'room_id' => $roomId,
             'text' => $request->message
         ]);

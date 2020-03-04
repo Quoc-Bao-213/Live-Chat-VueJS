@@ -27,8 +27,8 @@
         @csrf
         <h1>Register</h1>
         <input type="text" name="username" id="username" placeholder="Username" required="">
-        <input type="password" name="password" id="password" placeholder="Password" required="">
         <input type="text" name="email" id="email" placeholder="Email" required="">
+        <input type="password" name="password" id="password" placeholder="Password" required="">
         <input type="text" name="avatar" id="avatar" placeholder="Avatar" required="">
         <button class="btn btn-danger btn-block" type="submit"> Register </button>
     </form>

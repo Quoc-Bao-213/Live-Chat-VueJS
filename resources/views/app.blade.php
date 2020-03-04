@@ -136,7 +136,16 @@
 </head>
 
 <body>
-    <div id="app" class="flex-center position-ref full-height">
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+  <a class="navbar-brand" href="#">{{ Str::upper(Auth::user()->name) }}</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
         <div class="top-right links">
             <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
             document.getElementById('logout-form').submit();">
@@ -146,50 +155,29 @@
                 @csrf
             </form>
         </div>
-        <div class="container">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Create Room</button>
+      </li>
+    </ul>
 
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Create Room</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <form action="" method="post">
-                                @csrf
-                                <div class="form-group">
-                                    <label for="recipient-name" class="col-form-label">Room Name:</label>
-                                    <input type="text" class="form-control" id="recipient-name" name="roomnamecreate" placeholder="Enter your room name...">
-                                    <label for="recipient-name" class="col-form-label">User ID:</label>
-                                    <input type="text" class="form-control" id="recipient-name" name="idjoin" placeholder="Add ID you want to invite">
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary">Create</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
+  </div>
+</nav>
+
+    <div id="app" class="flex-center position-ref full-height">
+        <div class="container">
             <div class="row">
                 <div class="col-md-4">
 
                     <div class="card">
-                        <div class="card-header">List Users</div>
+                        <div class="card-header">List Friends</div>
                         <div class="card-body">
                             <div id="chatbox">
                                 <ul class="rooms">
-                                   @foreach ($listFriends as $friend)
+                                    @foreach ($listFriends as $friend)
+                                    @if ($friend->id_pusher != Auth::user()->id_pusher )
                                     <li class="room" name="roomid" id="">
                                         {{-- <span class="pending"></span> --}}
                                         <div class="media">
                                             <div class="media-left">
-                                                <img src="https://image.flaticon.com/icons/svg/615/615075.svg" alt="" class="media-object">
+                                                <img src="{{ $friend->avatar }}" alt="" class="media-object">
                                             </div>
                                             <div class="media-body">
                                                 <a href="/fr/{{ $friend->id_pusher }}">
@@ -197,7 +185,8 @@
                                                 </a>
                                             </div>
                                         </div>
-                                        </li>
+                                    </li>
+                                    @endif
                                     @endforeach
                                 </ul>
                             </div>
@@ -206,7 +195,7 @@
                 </div>
                 <div class="col-md-7">
                     <div class="card">
-                    <div class="card-header">Live Chat Room {{ $room_Id }}</div>
+                        <div class="card-header">Current Chat With: {{ $friendName }}</div>
                         <chatbox user-id='{{ $id_pusher }}' room-id='{{ $room_Id }}' :initial-messages='@json($messages)'> </chatbox>
                     </div>
                 </div>

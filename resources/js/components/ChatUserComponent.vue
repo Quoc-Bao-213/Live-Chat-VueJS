@@ -98,7 +98,7 @@
                 })
             },
             getUsers() {
-                axios.get(`${process.env.MIX_APP_URL}/api/users`)
+                axios.get(`${process.env.MIX_APP_URL}/fr/api/users`)
                     .then(res => {
                         this.users = res['data']['body']
                         // console.log(res['data']['body']);
@@ -106,9 +106,10 @@
             },
             sendMessage() {
                 if (this.message.trim() === '') return;
-                axios.post( `${process.env.MIX_APP_URL}/api/message`, {
+                axios.post( `${process.env.MIX_APP_URL}/fr/api/message`, {
                     user: this.userId,
-                    message: this.message
+                    message: this.message,
+                    currentRoom: this.roomId,
                 })
                 .then(message => {
                     this.message = ''

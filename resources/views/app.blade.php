@@ -13,19 +13,12 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/chatbox.css') }}" rel="stylesheet">
+
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
     <style>
-        html,
-        body {
-            background-color: #fff;
-            color: #636b6f;
-            font-family: 'Nunito', sans-serif;
-            font-weight: 200;
-            height: 100vh;
-            margin: 0;
-        }
 
         .full-height {
             height: 100vh;
@@ -196,7 +189,7 @@
                 <div class="col-md-7">
                     <div class="card">
                         <div class="card-header">Current Chat With: {{ $friendName }}</div>
-                        <chatbox user-id='{{ $id_pusher }}' room-id='{{ $room_Id }}' :initial-messages='@json($messages)'> </chatbox>
+                        <chatfr user-id='{{ $id_pusher }}' room-id='{{ $room_Id }}' :initial-messages='@json($messages)'> </chatfr>
                     </div>
                 </div>
             </div>

@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Session;
+use App\Http\Requests\LoginRequest;
 
 class LoginController extends Controller
 {
@@ -12,13 +11,13 @@ class LoginController extends Controller
         return view('login');
     }
 
-    public function Login(Request $request){
+    public function Login(LoginRequest $request){
         $email = $request->email;
     	$password = $request->password;
 
     	if(Auth::attempt(['email' => $email,'password' => $password]))
     	{
-            return redirect('fr/'.Auth::user()->id_pusher);
+            return redirect(route('homepage'));
     	}
 		return redirect(route('login'))->with('notify',"Please Try Again!");
     }

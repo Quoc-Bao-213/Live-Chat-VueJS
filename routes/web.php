@@ -11,26 +11,23 @@
 |
 */
 
-Route::get('/fr/login', 'LoginController@index')->name('login')->middleware('guest');
-Route::post('/fr/login','LoginController@Login')->name('xu-ly-dang-nhap');
+Route::get('/', 'LoginController@index')->name('login')->middleware('guest');
+Route::post('/','LoginController@Login')->name('actionLogin');
 
-Route::get('/fr/register','RegisterController@index')->name('register');
-Route::post('/fr/register','RegisterController@register')->name('actionregister');
+Route::get('/register','RegisterController@index')->name('register');
+Route::post('/register','RegisterController@register')->name('actionRegister');
+
+Route::post('logout', 'ChatkitController@logout')->name('logout');
 
 Route::middleware('auth')->group(function(){
 
-    Route::get('/fr/{friendID}','ChatUserController@friendhomepage')->name('chatUser');
-    // Route::post('/fr/Homepage','ChatUserController@createRoom');
-    // Route::get('/fr/{friendID}','ChatUserController@createRoom')->name('chatFriend');
+    Route::get('/homepage', function () {
+        return view('welcome');
+    })->name('homepage');
 
+    Route::get('/fr/{friendID}','ChatUserController@friendhomepage')->name('chatUser');
     Route::get('/fr/api/users', 'ChatUserController@getUsers');
     Route::post('/fr/api/message','ChatUserController@sendMessage');
-    Route::get('/fr/chat', 'ChatUserController@chat')->name('chatuserabc');
+    Route::post('/gr/chat/create','ChatKitController@createRoom');
+    Route::get('/gr/chat/{roomid}', 'ChatkitController@chat')->name('chat');
 });
-
-Route::get('/', 'ChatkitController@index');
-Route::post('/', 'ChatkitController@join');
-Route::get('chat/{roomid}', 'ChatkitController@chat')->name('chat');
-Route::post('logout', 'ChatkitController@logout')->name('logout');
-Route::post('/api/message','ChatkitController@sendMessage');
-Route::get('/api/users', 'ChatkitController@getUsers');

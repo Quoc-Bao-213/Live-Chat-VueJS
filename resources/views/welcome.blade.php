@@ -81,43 +81,27 @@
  </head>
 
  <body>
-     <ul class="nav flex-center position-ref full-height ">
-         <li class="nav-item">
-             <a class="nav-link active" href="{{ url('/fr/login') }}">
-                 <h2>Chat With Friends</h2>
-             </a>
-         </li>
-         <li>
-             <h3 style="color: #3490dc">|</h3>
-         </li>
-         <li class="nav-item dropdown">
-             <a class="nav-link" href="javascript:void(0)">
-                 <h2>Chat With Our Groups</h2>
-             </a>
-             <ul>
-                <li>
-                    <form action="{{ url('/') }}" method="post">
-                        @csrf
-                        <div class="input-group">
-                            <input type="text" name="username" class="form-control" placeholder="Enter your username" value="QuocBao" required>
-
-                            <button type="submit" class="btn btn-primary">
-                                Join
-                            </button>
-                        </div>
-                    </form>
-                </li>
-             </ul>
-         </li>
-     </ul>
-     <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-     <script type="text/javascript">
-     $(document).ready(function(){
-        $('.dropdown a').click(function(){
-            $('.dropdown ul').toggleClass('active')
-        })
-     });
-    </script>
+    <ul class="nav flex-center position-ref full-height ">
+        <div class="top-right links">
+            <form action="{{ route('logout') }}" method="POST">
+                @csrf
+                <input type="submit" class="btn btn-primary" value="logout">
+            </form>
+        </div>
+        <li class="nav-item">
+            <a class="nav-link active" href="{{ url('fr/'.Auth::user()->id_pusher) }}">
+                <h2>Chat With Friends</h2>
+            </a>
+        </li>
+        <li>
+            <h3 style="color: #3490dc">|</h3>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link" href="{{ url('gr/chat/1') }}">
+                <h2>Chat With Our Groups</h2>
+            </a>
+        </li>
+    </ul>
  </body>
 
  </html>

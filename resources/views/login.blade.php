@@ -27,10 +27,12 @@
     <form class="box" method="POST" action="" >
         @csrf
         <h1>Login</h1>
-        <input type="text" name="email" id="tai_khoan" placeholder="Email" required="">
-        <input type="password" name="password" id="mat_khau" placeholder="Password" required="">
+        <input type="text" name="email" id="tai_khoan" placeholder="Email">
+        <span style="color: red;">{{ $errors->first('email') }}</span>
+        <input type="password" name="password" id="mat_khau" placeholder="Password">
+        <span style="color: red;">{{ $errors->first('password') }}</span>
         <button class="btn btn-danger btn-block" type="submit"> Login </button>
-        <a href="{{ url('fr/register') }}">Register Here!</a>
+        <a href="{{ url('register') }}">Register Here!</a>
     </form>
 </body>
 </html>

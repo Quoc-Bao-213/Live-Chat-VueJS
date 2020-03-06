@@ -33,7 +33,6 @@ class ChatUserController extends Controller
             // câu này để cho là bạn mình nó bấm vô mình thì cũng chỉ có chung 1 room thôi.
             $checkRoomExist = DB::select("SELECT * FROM `user_rooms` where `friend_id` = '$curentPusherID'  and `my_id` = '$friendID'");
         }
-        // dd ($checkRoomExist);// ==>  chưa có
 
         // Nếu có room r thì ko tạo mới, ngược lại tạo room r lưu vô database
         if (!empty($checkRoomExist) && $checkRoomExist[0]->room_id){
@@ -56,8 +55,6 @@ class ChatUserController extends Controller
         }
 
         $this->room_Id = $curentRoom;
-        $listFriends = User::all();
-
         $room_Id = $this->room_Id;
 
         $fetchMessages = $this->chatkit->getRoomMessages([
@@ -75,9 +72,9 @@ class ChatUserController extends Controller
             ];
         });
 
-        $request->session()->put('my_id', $curentPusherID);
-        $request->session()->put('room_id', $room_Id);
-        $friendName = User::where('id_pusher', $friendID)->first()->name ;
+        $listFriends = User::all();
+        $friendName = User::where('id_pusher', $friendID)->first()->name;
+
         return view('app')->with(compact('id_pusher', 'messages', 'room_Id', 'listFriends', 'friendName'));
     }
 

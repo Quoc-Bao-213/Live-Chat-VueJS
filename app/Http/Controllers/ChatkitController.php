@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
+use App\RoomChat;
+use DB;
+use Illuminate\Support\Facades\Auth;
 
 class ChatkitController extends Controller
 {
@@ -18,95 +20,34 @@ class ChatkitController extends Controller
     }
 
     /**
-     * Show the welcome page.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-    public function index(Request $request)
-    {
-        $userId = $request->session()->get('chatkit_id');
-
-        if (!is_null($userId)) {
-            // Redirect user to Chat Page
-            return redirect('chat/1');
-        }
-        return view('welcome');
-    }
-
-    /**
-     * The user joins chat room.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @return mixed
-     */
-    public function join(Request $request)
-    {
-        $this->roomId = '34c69f79-77b2-4c41-ae30-dd709182ef96';
-
-        $chatkit_id = strtolower(Str::random(5));
-
-        // Create User account on Chatkit
-        $this->chatkit->createUser([
-            'id' =>  $chatkit_id,
-            'name' => $request->username,
-        ]);
-
-        $this->chatkit->addUsersToRoom([
-            'room_id' => $this->roomId,
-            'user_ids' => [$chatkit_id],
-        ]);
-
-        // Add User details to session
-        $request->session()->push('chatkit_id', $chatkit_id);
-
-        // Redirect user to Chat Page
-        return redirect('/chat/1');
-    }
-
-    /**
      * Show the application chat room.
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function chat(Request $request)
     {
-        $userId = $request->session()->get('chatkit_id')[0];
+        $chatkit_id = Auth::user()->id_pusher;
+        $listRoom = RoomChat::all();
 
-        if (preg_match('/^[1-4]$/', $request->roomid)){
-            $roomName = $request->roomid;
-        }else{
+        $query = DB::select("select count(id) as NumberOfRoom from room_chats");
+
+        if ((int)$request->roomid > $query[0]->NumberOfRoom){
+            $this->roomId = RoomChat::where('id', '=', 1)->first()->id_room;
             $roomName = 1;
-        }
-
-        $groupID = $request->roomid;
-
-        switch ($groupID) {
-            case 1:
-                $this->roomId = '34c69f79-77b2-4c41-ae30-dd709182ef96';
-                break;
-            case 2:
-                $this->roomId = '56b9f7ad-1bec-475a-bc83-34d3f497f30c';
-                break;
-            case 3:
-                $this->roomId = 'ece3f102-0d5e-4b4e-b203-2ff0fe825f84';
-                break;
-            case 4:
-                $this->roomId = '00f230e9-025a-4578-a86b-4a3423506d30';
-                break;
-            default:
-                $this->roomId = '34c69f79-77b2-4c41-ae30-dd709182ef96';
+        }else if ((int)$request->roomid <= $query[0]->NumberOfRoom){
+            $this->roomId = RoomChat::where('id', '=', $request->roomid)->first()->id_room;
+            $roomName = $request->roomid;
         }
 
         $roomId = $this->roomId;
 
         $request->session()->put('room_id', $roomId);
 
-        if (is_null($userId)) {
-            $request->session()->flash('status', 'Join to access chat room!');
-            return redirect(url('/'));
-        }
+        $this->chatkit->addUsersToRoom([
+            'room_id' => $this->roomId,
+            'user_ids' => [$chatkit_id],
+        ]);
 
-        // Get messages via Chatkit
         $fetchMessages = $this->chatkit->getRoomMessages([
             'room_id' => $roomId,
             'direction' => 'newer',
@@ -122,7 +63,7 @@ class ChatkitController extends Controller
             ];
         });
 
-        return view('chat')->with(compact('messages', 'roomId', 'userId', 'roomName'));
+        return view('chat')->with(compact('messages', 'roomId', 'chatkit_id', 'listRoom', 'roomName'));
     }
 
     /**
@@ -163,6 +104,24 @@ class ChatkitController extends Controller
         return response($message);
     }
 
+    public function createRoom(Request $request)
+    {
+        $roomChat = new RoomChat;
+        $roomName = $request->roomname;
+        $create = $this->chatkit->createRoom([
+            'creator_id' => Auth::user()->id_pusher,
+            'name' => $roomName,
+            'user_ids' => [Auth::user()->id_pusher],
+            'private' => false,
+            'custom_data' => ['foo' => 'bar']
+        ]);
+
+        $roomChat->id_room = $create['body']['id'];
+        $roomChat->save();
+
+        return redirect('/gr/chat/1');
+    }
+
     /**
      * Get all users.
      *
@@ -187,6 +146,6 @@ class ChatkitController extends Controller
     {
         $request->session()->flush();
 
-        return redirect(url('/'));
+        return redirect(route('login'));
     }
 }

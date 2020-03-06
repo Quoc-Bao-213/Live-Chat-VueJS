@@ -142,11 +142,13 @@
         },
     };
     </script>
-    <style>
+    <style scoped>
+
     #chatbox {
         text-align: left;
         max-height: 400px;
         overflow-y: scroll;
         height: 400px;
     }
+
     </style>

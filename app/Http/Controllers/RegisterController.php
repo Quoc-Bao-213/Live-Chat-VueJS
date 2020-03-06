@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use App\Http\Requests\RegisterRequest;
 
 class RegisterController extends Controller
 {
@@ -19,7 +19,7 @@ class RegisterController extends Controller
         return view("register");
     }
 
-    public function register(Request $request){
+    public function register(RegisterRequest $request){
         $user = new User;
         $username = $request->username;
         $email =  $request->email;

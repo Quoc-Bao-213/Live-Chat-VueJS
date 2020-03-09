@@ -24,7 +24,8 @@ Route::middleware('auth')->group(function(){
     Route::get('/homepage', function () {
         return view('welcome');
     })->name('homepage');
-
+    
+    route::get('/fr','ChatUserController@index')->name('index');
     Route::get('/fr/{friendID}','ChatUserController@friendhomepage')->name('chatUser');
     Route::get('/fr/api/users', 'ChatUserController@getUsers');
     Route::post('/fr/api/message','ChatUserController@sendMessage');

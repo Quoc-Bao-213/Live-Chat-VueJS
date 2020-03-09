@@ -66,7 +66,7 @@
                                               </div>
                                               <div class="media-body">
                                                   <a href="/gr/chat/{{ $room->id }}">
-                                                      <p class="name">Room {{ $room->id }}</p>
+                                                      <p class="name">{{ $room->room_name }}</p>
                                                   </a>
                                               </div>
                                           </div>

@@ -32,7 +32,7 @@
                                     @foreach ($listFriends as $friend)
                                     @if ($friend->id_pusher != Auth::user()->id_pusher )
                                     <li class="room" name="roomid" id="">
-                                        {{-- <span class="pending"></span> --}}
+                                         {{-- <span class="pending"></span> --}}
                                         <div class="media">
                                             <div class="media-left">
                                                 <img src="{{ $friend->avatar }}" alt="" class="media-object">
@@ -53,8 +53,7 @@
                 </div>
                 <div class="col-md-8">
                     <div class="card max-height">
-                        <div class="card-header">Friend {{ $friendName }}</div>
-                        <chatfr user-id='{{ $curentPusherID }}' room-id='{{ $room_Id }}' :initial-messages='@json($messages)'> </chatfr>
+                        <div class="card-header">Friend</div>
                     </div>
                 </div>
             </div>

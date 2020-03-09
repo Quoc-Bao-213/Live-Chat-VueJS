@@ -40,7 +40,7 @@
         <span style="color: red;">{{ $errors->first('email') }}</span>
         <input type="password" name="password" id="password" placeholder="Password">
         <span style="color: red;">{{ $errors->first('password') }}</span>
-        <input type="text" name="avatar" id="avatar" placeholder="Avatar">
+        {{-- <input type="text" name="avatar" id="avatar" placeholder="Avatar"> --}}
         {{-- <span style="color: red;">{{ $errors->first('avatar') }}</span> --}}
         <button class="btn btn-danger btn-block" type="submit"> Register </button>
         <a href="{{ url('fr/login') }}">Login Here!</a>

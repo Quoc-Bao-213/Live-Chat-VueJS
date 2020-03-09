@@ -14,12 +14,6 @@
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('homepage') }}">Leave Chat Room <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('homepage') }}"> ... <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('homepage') }}">... <span class="sr-only">(current)</span></a>
-            </li>
         </ul>
       </div>
   </nav>

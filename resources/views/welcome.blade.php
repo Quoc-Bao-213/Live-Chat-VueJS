@@ -89,7 +89,8 @@
             </form>
         </div>
         <li class="nav-item">
-            <a class="nav-link active" href="{{ url('fr/'.Auth::user()->id_pusher) }}">
+            {{-- <a class="nav-link active" href="{{ url('fr/'.Auth::user()->id_pusher) }}"> --}}
+            <a class="nav-link active" href="{{ route('index') }}">
                 <h2>Chat With Friends</h2>
             </a>
         </li>

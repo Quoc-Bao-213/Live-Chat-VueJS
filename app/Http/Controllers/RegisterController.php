@@ -24,7 +24,7 @@ class RegisterController extends Controller
         $username = $request->username;
         $email =  $request->email;
         $pass = $request->password;
-        $avatar = $request->avatar;
+        // $avatar = $request->avatar;
         $id_pusher = strtolower(Str::random(5));
 
         $this->chatkit->createUser([
@@ -38,7 +38,7 @@ class RegisterController extends Controller
             $user->name = $username;
             $user->email = $email;
             $user->password = Hash::make($pass);
-            $user->avatar = $avatar;
+            $user->avatar = "https://via.placeholder.com/150";
             $user->email_verified_at = now();
             $user->remember_token = Str::random(10);
             $user->id_pusher = $id_pusher;

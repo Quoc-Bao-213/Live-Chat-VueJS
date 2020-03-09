@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\RoomChat;
-use DB;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class ChatkitController extends Controller
@@ -116,7 +116,9 @@ class ChatkitController extends Controller
             'custom_data' => ['foo' => 'bar']
         ]);
 
+        $roomChat->room_name = $roomName;
         $roomChat->id_room = $create['body']['id'];
+        $roomChat->id_user_create_room = Auth::user()->id_pusher;
         $roomChat->save();
 
         return redirect('/gr/chat/1');

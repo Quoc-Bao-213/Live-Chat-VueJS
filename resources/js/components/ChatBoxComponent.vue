@@ -12,11 +12,12 @@
                 </div>
                 <div v-else class="left-mess">
                     <i> ({{ formatTime(message.timestamp) }}) </i>
-                    <dt style="right-mess" v-if="message.id"><strong>{{ findSender(message.senderId).name }}</strong></dt>
+                    <dt v-if="message.id"><strong>{{ findSender(message.senderId).name }}</strong></dt>
                     <dd>{{ message.text }}</dd>
                 </div>
             </dl>
         </div>
+        <div id="typing"></div>
         <hr>
         <div class="input-group">
             <input v-on:keyup="isTypingIn" type="text" v-model="message" @keyup.enter="sendMessage" class="form-control" placeholder="Type your message..." autofocus>
@@ -38,7 +39,6 @@
             initialMessages: Array,
         },
         data () {
-            // console.log(this.userId);
             return {
                 getcurrentUser: this.userId,
                 message: '',
@@ -72,9 +72,15 @@
                     hooks: {
                         onUserStartedTyping: user => {
                             console.log(`User ${user.name} started typing`)
+                            /// chat
+                            // var test = this.$el.querySelector("#typing")
+                            // test.innerHTML = `${user.name} started typing`
                         },
                         onUserStoppedTyping: user => {
                             console.log(`User ${user.name} stopped typing`)
+                            //un chat
+                            // var test = this.$el.querySelector("#typing")
+                            // test.innerHTML = ''
                         },
                         onMessage: async message => {
                            await this.messages.push({
@@ -152,20 +158,15 @@
             },
             findSender(senderId){
                 // console.log(this.users.find(user => senderId == user.id));
-
                 if (this.users.find(user => senderId == user.id)){
                      return this.users.find(user => senderId == user.id);
                 }else{
                     return "";
                 }
-
-                //const sender = this.users.find(user => senderId == user.id);
-
             },
             scrollToEnd() {
                 var container = this.$el.querySelector("#chatbox");
                 container.scrollTop = (container.scrollHeight+300);
-             // console.log(container.scrollHeight+1000);
             },
             formatTime(timestamp) {
                return moment(timestamp).fromNow();
@@ -177,6 +178,3 @@
         },
     };
     </script>
-    <style>
-
-    </style>

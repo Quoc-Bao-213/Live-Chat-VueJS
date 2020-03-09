@@ -19,6 +19,13 @@ class ChatUserController extends Controller
         $this->roomId = env('CHATKIT_GENERAL_ROOM_ID');
     }
 
+    public function index()
+    {
+        $listFriends = User::all();
+        return view('hp_user', compact('listFriends'));
+
+    }
+
     public function friendhomepage(Request $request, $friendID)
     {
         $id_pusher = $friendID; // id friend
@@ -75,7 +82,7 @@ class ChatUserController extends Controller
         $listFriends = User::all();
         $friendName = User::where('id_pusher', $friendID)->first()->name;
 
-        return view('app')->with(compact('id_pusher', 'messages', 'room_Id', 'listFriends', 'friendName'));
+        return view('app')->with(compact('curentPusherID', 'messages', 'room_Id', 'listFriends', 'friendName'));
     }
 
      /**
@@ -106,7 +113,8 @@ class ChatUserController extends Controller
      */
     public function getUsers()
     {
-        $users = $this->chatkit->getUsers();
+        $opt['limit'] = 100;
+        $users = $this->chatkit->getUsers($opt);
 
         return response($users);
     }

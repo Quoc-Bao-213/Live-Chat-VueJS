@@ -9,21 +9,21 @@
 {{--  --}}
 @section('layout')
 <div class="layout">
-    @if(session('notify'))
-         <script type="text/javascript">Swal.fire('{{session('notify')}}')</script>
-    @elseif(session('error'))
-        <script type="text/javascript">
-            Swal.fire({
-                icon: 'Error',
-                title: 'Oops...',
-                text: 'Your email already exists!',})
-        </script>
-    @endif
+
     <div class="container d-flex flex-column">
+
         <div class="row align-items-center justify-content-center no-gutters min-vh-100">
 
             <div class="col-12 col-md-5 col-lg-4 py-8 py-md-11">
-
+                @if(session('notify'))
+                    <div class="alert alert-success" role="alert">
+                        {{ session('notify') }}
+                    </div>
+                @elseif(session('error'))
+                    <div class="alert alert-danger" role="alert">
+                        {{ session('error') }}
+                    </div>
+                @endif
                 <!-- Heading -->
                 <h1 class="font-bold text-center">Sign up</h1>
 

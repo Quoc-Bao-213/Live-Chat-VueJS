@@ -14,9 +14,7 @@
                 </div>
             </dl>
         </div>
-        <div id="typing" class="typing-indicator">
-
-        </div>
+        <div id="typing" class="typing-indicator"></div>
         <hr>
         <div class="input-group">
             <input v-on:keyup="isTypingIn" type="text" v-model="message" @keyup.enter="sendMessage" class="form-control" placeholder="Type your message..." autofocus>
@@ -69,11 +67,17 @@
                 this.currentUser.subscribeToRoomMultipart({
                     roomId: this.roomId,
                     hooks: {
+                        // onNewReadCursor: user => {
+
+                        //     console.log("seen")
+
+                        // },
                          onUserStartedTyping: user => {
                             console.log(`User ${user.name} started typing`)
                             /// chat
                             var test = this.$el.querySelector("#typing")
-                            test.innerHTML = `<span>${user.name} Typing...</span>`
+                            // test.innerHTML = `<span>${user.name} Typing...</span>`
+                            test.innerHTML = `<img style="height: 30px" src="https://thumbs.gfycat.com/WavyViciousIrishdraughthorse-size_restricted.gif" alt="">`
                         },
                         onUserStoppedTyping: user => {
                             console.log(`User ${user.name} stopped typing`)
@@ -120,7 +124,7 @@
                     messageLimit: 0
                 })
             },
-             isTypingIn() {
+            isTypingIn() {
                 if (this.message.length > 0){
                 this.currentUser.isTypingIn({ roomId: this.roomId })
                 .then(() => {
@@ -132,7 +136,7 @@
                 }
             },
             getUsers() {
-                axios.get(`${process.env.MIX_APP_URL}/fr/api/users`)
+                axios.get(`${process.env.MIX_APP_URL}/api/users`)
                     .then(res => {
                         this.users = res['data']['body']
                         // console.log(res['data']['body']);
@@ -142,7 +146,7 @@
                 if (this.message.trim() === '') return;
                 var mess = this.message;
                 this.message = "";
-                axios.post( `${process.env.MIX_APP_URL}/fr/api/message`, {
+                axios.post( `${process.env.MIX_APP_URL}/api/message`, {
                     user: this.userId,
                     message: mess,
                     currentRoom: this.roomId,

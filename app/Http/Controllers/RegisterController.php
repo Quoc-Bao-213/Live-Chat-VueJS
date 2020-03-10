@@ -16,7 +16,7 @@ class RegisterController extends Controller
     }
 
     public function index(){
-        return view("register");
+        return view("signup");
     }
 
     public function register(RegisterRequest $request){
@@ -32,7 +32,7 @@ class RegisterController extends Controller
             'name' => $request->username,
         ]);
 
-        $check = $user::where('email',$email)->exists();
+        $check = $user::where('email', $email)->exists();
 
         if(!$check){
             $user->name = $username;
@@ -44,10 +44,9 @@ class RegisterController extends Controller
             $user->id_pusher = $id_pusher;
             $user->save();
 
-            return redirect(route("register"))->with('notify',"Register Successfully!");
-            // return redirect(route("login"))->with('thongbao',"Đăng ký thành công");
+            return redirect(route("signup"))->with('notify',"Register Successfully!");
         }else{
-            return redirect(route("register"))->with('error',"Your email already exists!");
+            return redirect(route("signup"))->with('error',"Your email already exists!");
         }
     }
 }

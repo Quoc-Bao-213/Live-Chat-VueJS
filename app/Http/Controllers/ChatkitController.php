@@ -148,6 +148,6 @@ class ChatkitController extends Controller
     {
         $request->session()->flush();
 
-        return redirect(route('login'));
+        return redirect(route('signin'));
     }
 }

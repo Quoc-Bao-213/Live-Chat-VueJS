@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\User;
 use App\UserRoom;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 class ChatUserController extends Controller
 {
@@ -34,7 +34,6 @@ class ChatUserController extends Controller
 
         // đoạn này check trong database xem room có chưa
         $checkRoomExist = DB::select("SELECT * FROM `user_rooms` where `my_id` = '$curentPusherID'  and `friend_id` = '$friendID'");
-
 
         if (empty($checkRoomExist)){
             // câu này để cho là bạn mình nó bấm vô mình thì cũng chỉ có chung 1 room thôi.
@@ -118,4 +117,12 @@ class ChatUserController extends Controller
 
         return response($users);
     }
+    // public function deleteMessage(Request $request)
+    // {
+    //     $delete = $this->chatkit->deleteMessage([
+    //     'message_id' => Auth::user()->id_pusher,
+    //     'room_id' => 'myroom'
+    //   ]);
+
+    // }
 }

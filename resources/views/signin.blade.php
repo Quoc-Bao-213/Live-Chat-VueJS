@@ -9,14 +9,16 @@
 {{--  --}}
 @section('layout')
 <div class="layout">
-    @if(session('notify'))
-    <script type="text/javascript">Swal.fire('Email or Password doesn\'t exits', '{{session('notify')}}', 'error')</script>
-    @endif
+   
     <div class="container d-flex flex-column">
         <div class="row align-items-center justify-content-center no-gutters min-vh-100">
 
             <div class="col-12 col-md-5 col-lg-4 py-8 py-md-11">
-
+                @if(session('notify'))
+                    <div class="alert alert-success" role="alert">
+                        {{ session('notify') }}
+                    </div>
+                @endif
                 <!-- Heading -->
                 <h1 class="font-bold text-center">Sign in</h1>
 
@@ -37,13 +39,14 @@
                     <div class="form-group">
                         <label for="password" class="sr-only">Password</label>
                         <input type="password" class="form-control form-control-lg" name="password" id="password" placeholder="Enter your password">
+                        <span style="color: red;">{{ $errors->first('password') }}</span>
                     </div>
 
                     <div class="form-group d-flex justify-content-between">
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox" class="custom-control-input" checked="" id="checkbox-remember">
                             <label class="custom-control-label" for="checkbox-remember">Remember me</label>
-                            <span style="color: red;">{{ $errors->first('password') }}</span>
+                          
                         </div>
                         {{-- <a href="./password-reset.html">Reset password</a> --}}
                     </div>

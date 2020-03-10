@@ -44,7 +44,7 @@ class RegisterController extends Controller
             $user->id_pusher = $id_pusher;
             $user->save();
 
-            return redirect(route("signup"))->with('notify',"Register Successfully!");
+            return redirect(route("signin"))->with('notify',"Register Successfully!");
         }else{
             return redirect(route("signup"))->with('error',"Your email already exists!");
         }

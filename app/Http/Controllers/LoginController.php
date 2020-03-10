@@ -19,7 +19,7 @@ class LoginController extends Controller
     	{
             return redirect(route('homepage'));
     	}
-		return redirect(route('signin'))->with('notify',"Please Try Again!");
+		return redirect(route('signin'))->with('notify',"Email or Password invalid!");
     }
 
     public function Logout()

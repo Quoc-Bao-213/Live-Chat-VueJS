@@ -27,6 +27,12 @@
 
                 <div class="col-12 col-md-5 col-lg-4 py-8 py-md-11">
 
+                    @if(session('notify'))
+                        <div class="alert alert-danger" style="text-align: center;" role="alert">
+                            {{ session('notify') }}
+                        </div>
+                    @endif
+
                     <!-- Heading -->
                     <h1 class="font-bold text-center">Sign in</h1>
 
@@ -50,6 +56,7 @@
                             <span class="text-danger" style="margin-left: 10px;">{{ $errors->first('password') }}</span>
                         </div>
 
+                        {{-- Comming Soon --}}
                         <div class="form-group d-flex justify-content-between">
                             <div class="custom-control custom-checkbox">
                                 <input type="checkbox" class="custom-control-input" checked="" id="checkbox-remember">
@@ -57,6 +64,7 @@
                             </div>
                             <a href="#">Reset password</a>
                         </div>
+                        {{-- Comming Soon --}}
 
                         <!-- Submit -->
                         <button class="btn btn-lg btn-block btn-primary" type="submit">Sign in</button>
@@ -64,7 +72,7 @@
 
                     <!-- Text -->
                     <p class="text-center">
-                        Don't have an account yet <a href="#">Sign up</a>.
+                        Don't have an account yet <a href="{{ route('signup') }}">Sign up</a>.
                     </p>
 
                 </div>

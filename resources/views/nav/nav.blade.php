@@ -30,14 +30,7 @@
             </a>
         </li>
 
-        <!-- Friend -->
-        <li class="nav-item mt-xl-9">
-            <a class="nav-link position-relative p-0 py-xl-3" data-toggle="tab" href="#tab-content-friends" title="Friends" role="tab">
-                <i class="icon-lg fe-users"></i>
-            </a>
-        </li>
-
-        <!-- Chats -->
+        <!-- Chats Friend -->
         <li class="nav-item mt-xl-9">
             <a class="nav-link position-relative p-0 py-xl-3 active" data-toggle="tab" href="#tab-content-dialogs" title="Chats" role="tab">
                 <i class="icon-lg fe-message-square"></i>
@@ -45,24 +38,18 @@
             </a>
         </li>
 
+        <!-- Chats Group -->
+        {{-- <li class="nav-item mt-xl-9">
+            <a class="nav-link position-relative p-0 py-xl-3 active" data-toggle="tab" href="#tab-content-dialogs" title="Chats" role="tab">
+                <i class="icon-lg fe-message-square"></i>
+                <div class="badge badge-dot badge-primary badge-bottom-center"></div>
+            </a>
+        </li> --}}
+
         <!-- Profile -->
-        <li class="nav-item mt-xl-9">
+        <li class="nav-item mt-xl-9" style="margin-bottom: 27em">
             <a class="nav-link position-relative p-0 py-xl-3" data-toggle="tab" href="#tab-content-user" title="User" role="tab">
                 <i class="icon-lg fe-user"></i>
-            </a>
-        </li>
-
-        <!-- Demo only: Documentation -->
-        <li class="nav-item mt-xl-9 d-none d-xl-block flex-xl-grow-1">
-            <a class="nav-link position-relative p-0 py-xl-3" data-toggle="tab" href="#tab-content-demos" title="Demos" role="tab">
-                <i class="icon-lg fe-layers"></i>
-            </a>
-        </li>
-
-        <!-- Settings -->
-        <li class="nav-item mt-xl-9">
-            <a class="nav-link position-relative p-0 py-xl-3" href="settings.html" title="Settings">
-                <i class="icon-lg fe-settings"></i>
             </a>
         </li>
 

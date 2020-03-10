@@ -78,31 +78,6 @@
                                                 <i class="icon-md fe-search"></i>
                                             </a>
                                         </li>
-
-                                        <li class="nav-item list-inline-item d-none d-xl-block mr-0">
-                                            <a class="nav-link text-muted px-3" href="#" data-chat-sidebar-toggle="#chat-2-info" title="Details">
-                                                <i class="icon-md fe-more-vertical"></i>
-                                            </a>
-                                        </li>
-
-                                        <!-- Mobile nav -->
-                                        <li class="nav-item list-inline-item d-block d-xl-none">
-                                            <div class="dropdown">
-                                                <a class="nav-link text-muted px-0" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <i class="icon-md fe-more-vertical"></i>
-                                                </a>
-                                                <div class="dropdown-menu">
-                                                    <a class="dropdown-item d-flex align-items-center" data-toggle="collapse" data-target="#chat-2-search" href="#">
-                                                        Search <span class="ml-auto pl-5 fe-search"></span>
-                                                    </a>
-
-                                                    <a class="dropdown-item d-flex align-items-center" href="#" data-chat-sidebar-toggle="#chat-2-info">
-                                                        Chat Info <span class="ml-auto pl-5 fe-more-horizontal"></span>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <!-- Mobile nav -->
                                     </ul>
                                 </div>
 

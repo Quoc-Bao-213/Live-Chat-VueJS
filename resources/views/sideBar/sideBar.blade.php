@@ -7,7 +7,7 @@
                     <div class="container-fluid py-6">
 
                         <!-- Title -->
-                        <h2 class="font-bold mb-6">Create group</h2>
+                        <h2 class="font-bold mb-6">Create Group</h2>
                         <!-- Title -->
 
                         <!-- Search -->
@@ -27,10 +27,6 @@
                         <ul class="nav nav-tabs nav-justified mb-6" role="tablist">
                             <li class="nav-item">
                                 <a href="#create-group-details" class="nav-link active" data-toggle="tab" role="tab" aria-selected="true">Details</a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a href="#create-group-members" class="nav-link" data-toggle="tab" role="tab" aria-selected="false">Members</a>
                             </li>
                         </ul>
                         <!-- Tabs -->
@@ -776,7 +772,7 @@
                     <div class="container-fluid py-6">
 
                         <!-- Title -->
-                        <h2 class="font-bold mb-6">Chats</h2>
+                        <h2 class="font-bold mb-6">Chat Friends</h2>
                         <!-- Title -->
 
                         <!-- Search -->
@@ -791,66 +787,6 @@
                             </div>
                         </form>
                         <!-- Search -->
-
-                        <!-- Favourites -->
-                        <div class="text-center hide-scrollbar d-flex my-7" data-horizontal-scroll="">
-                            <a href="#" class="d-block text-reset mr-7 mr-lg-6">
-                                <div class="avatar avatar-sm avatar-online mb-3">
-                                    <img class="avatar-img" src="assets/2.jfif" alt="Image Description">
-                                </div>
-                                <div class="small">William</div>
-                            </a>
-
-                            <a href="#" class="d-block text-reset mr-7 mr-lg-6">
-                                <div class="avatar avatar-sm avatar-online mb-3">
-                                    <img class="avatar-img" src="assets/3.jfif" alt="Image Description">
-                                </div>
-                                <div class="small">Simon</div>
-                            </a>
-
-                            <a href="#" class="d-block text-reset mr-7 mr-lg-6">
-                                <div class="avatar avatar-sm avatar-online mb-3">
-                                    <img class="avatar-img" src="assets/4.jfif" alt="Image Description">
-                                </div>
-                                <div class="small">Thomas</div>
-                            </a>
-
-                            <a href="#" class="d-block text-reset mr-7 mr-lg-6">
-                                <div class="avatar avatar-sm avatar-online mb-3">
-                                    <img class="avatar-img" src="assets/5.jfif" alt="Image Description">
-                                </div>
-                                <div class="small">Zane</div>
-                            </a>
-
-                            <a href="#" class="d-block text-reset mr-7 mr-lg-6">
-                                <div class="avatar avatar-sm mb-3">
-                                    <img class="avatar-img" src="assets/6.jfif" alt="Image Description">
-                                </div>
-                                <div class="small">Thomas</div>
-                            </a>
-
-                            <a href="#" class="d-block text-reset mr-7 mr-lg-6">
-                                <div class="avatar avatar-sm mb-3">
-                                    <img class="avatar-img" src="assets/7.jfif" alt="Image Description">
-                                </div>
-                                <div class="small">William</div>
-                            </a>
-
-                            <a href="#" class="d-block text-reset mr-7 mr-lg-6">
-                                <div class="avatar avatar-sm mb-3">
-                                    <img class="avatar-img" src="assets/8.jfif" alt="Image Description">
-                                </div>
-                                <div class="small">Simon</div>
-                            </a>
-
-                            <a href="#" class="d-block text-reset mr-7 mr-lg-6">
-                                <div class="avatar avatar-sm mb-3">
-                                    <img class="avatar-img" src="assets/9.jfif" alt="Image Description">
-                                </div>
-                                <div class="small">Thomas</div>
-                            </a>
-                        </div>
-                        <!-- Favourites -->
 
                         <!-- Chats -->
                         <nav class="nav d-block list-discussions-js mb-n6">
@@ -879,9 +815,9 @@
                                     </div>
 
 
-                                    <div class="badge badge-circle badge-primary badge-border-light badge-top-right">
+                                    {{-- <div class="badge badge-circle badge-primary badge-border-light badge-top-right">
                                         <span>3</span>
-                                    </div>
+                                    </div> --}}
 
                                 </div>
                             </a>
@@ -1193,7 +1129,7 @@
                     <div class="container-fluid py-6">
 
                         <!-- Title -->
-                        <h2 class="font-bold mb-6">Profile</h2>
+                        <h2 class="font-bold mb-6">My Profile</h2>
                         <!-- Title -->
 
                         <!-- Search -->
@@ -1310,14 +1246,6 @@
                         <!-- Card -->
 
                         <div class="form-row">
-                            <div class="col">
-                                <!-- Button -->
-                                <button type="button" class="btn btn-lg btn-block btn-basic d-flex align-items-center">
-                                    Settings
-                                    <span class="fe-settings ml-auto"></span>
-                                </button>
-                            </div>
-
                             <div class="col">
                                 <!-- Button -->
                                 <button type="button" class="btn btn-lg btn-block btn-basic d-flex align-items-center">

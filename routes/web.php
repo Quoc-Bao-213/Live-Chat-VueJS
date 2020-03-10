@@ -11,7 +11,7 @@
 |
 */
 
-Route::get('/', 'LoginController@index')->name('signin')->middleware('guest');
+Route::get('/', 'LoginController@index')->name('signin');
 Route::post('/','LoginController@Login')->name('actionLogin');
 
 Route::get('/register','RegisterController@index')->name('signup');
@@ -36,7 +36,7 @@ Route::post('/register','RegisterController@register')->name('actionRegister');
 // });
 
 // test new UI
-Route::get('/', function () {
+Route::get('/123', function () {
     return view('index');
 })->name('homepage');
 

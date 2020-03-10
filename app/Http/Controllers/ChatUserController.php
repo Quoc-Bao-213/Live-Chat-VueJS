@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\User;
 use App\UserRoom;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 class ChatUserController extends Controller
 {
@@ -118,4 +118,12 @@ class ChatUserController extends Controller
 
         return response($users);
     }
+    // public function deleteMessage(Request $request)
+    // {
+    //     $delete = $this->chatkit->deleteMessage([
+    //     'message_id' => Auth::user()->id_pusher,
+    //     'room_id' => 'myroom'
+    //   ]);
+
+    // }
 }

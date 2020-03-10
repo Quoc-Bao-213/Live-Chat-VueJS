@@ -11,10 +11,10 @@
 |
 */
 
-Route::get('/', 'LoginController@index')->name('login')->middleware('guest');
+Route::get('/', 'LoginController@index')->name('signin')->middleware('guest');
 Route::post('/','LoginController@Login')->name('actionLogin');
 
-Route::get('/register','RegisterController@index')->name('register');
+Route::get('/register','RegisterController@index')->name('signup');
 Route::post('/register','RegisterController@register')->name('actionRegister');
 
 Route::post('logout', 'ChatkitController@logout')->name('logout');

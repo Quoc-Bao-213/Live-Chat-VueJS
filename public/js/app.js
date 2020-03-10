@@ -1999,10 +1999,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this = this;
 
       var tokenProvider = new _pusher_chatkit_client__WEBPACK_IMPORTED_MODULE_3___default.a.TokenProvider({
-        url: "".concat("http://pusher.localhost", "/api/authenticate")
+        url: "".concat("http://localhost:8000", "/api/authenticate")
       });
       var chatManager = new _pusher_chatkit_client__WEBPACK_IMPORTED_MODULE_3___default.a.ChatManager({
-        instanceLocator: "v1:us1:fc032194-6646-432b-a300-cb9ac8b28190",
+        instanceLocator: "v1:us1:4b72d70a-73cd-4de9-a68d-69a5b4dea9e1",
         userId: this.userId,
         tokenProvider: tokenProvider
       });
@@ -2138,7 +2138,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     getUsers: function getUsers() {
       var _this3 = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("".concat("http://pusher.localhost", "/fr/api/users")).then(function (res) {
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("".concat("http://localhost:8000", "/fr/api/users")).then(function (res) {
         _this3.users = res['data']['body']; // console.log(res['data']['body']);
       });
     },
@@ -2148,7 +2148,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       if (this.message.trim() === '') return;
       var mess = this.message;
       this.message = "";
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("".concat("http://pusher.localhost", "/fr/api/message"), {
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("".concat("http://localhost:8000", "/fr/api/message"), {
         user: this.userId,
         message: mess,
         currentRoom: this.roomId
@@ -2258,10 +2258,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this = this;
 
       var tokenProvider = new _pusher_chatkit_client__WEBPACK_IMPORTED_MODULE_3___default.a.TokenProvider({
-        url: "".concat("http://pusher.localhost", "/api/authenticate")
+        url: "".concat("http://localhost:8000", "/api/authenticate")
       });
       var chatManager = new _pusher_chatkit_client__WEBPACK_IMPORTED_MODULE_3___default.a.ChatManager({
-        instanceLocator: "v1:us1:fc032194-6646-432b-a300-cb9ac8b28190",
+        instanceLocator: "v1:us1:4b72d70a-73cd-4de9-a68d-69a5b4dea9e1",
         userId: this.userId,
         tokenProvider: tokenProvider
       });
@@ -2398,7 +2398,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     getUsers: function getUsers() {
       var _this3 = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("".concat("http://pusher.localhost", "/fr/api/users")).then(function (res) {
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("".concat("http://localhost:8000", "/fr/api/users")).then(function (res) {
         _this3.users = res['data']['body']; // console.log(res['data']['body']);
       });
     },
@@ -2408,7 +2408,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       if (this.message.trim() === '') return;
       var mess = this.message;
       this.message = "";
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("".concat("http://pusher.localhost", "/fr/api/message"), {
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("".concat("http://localhost:8000", "/fr/api/message"), {
         user: this.userId,
         message: mess,
         currentRoom: this.roomId
@@ -69457,8 +69457,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\GitHub\Live-Chat-VueJS\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! D:\GitHub\Live-Chat-VueJS\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! D:\LAT\Git\Live-Chat-VueJS\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! D:\LAT\Git\Live-Chat-VueJS\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

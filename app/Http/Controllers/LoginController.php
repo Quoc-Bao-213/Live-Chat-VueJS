@@ -8,7 +8,7 @@ use App\Http\Requests\LoginRequest;
 class LoginController extends Controller
 {
     public function index(){
-        return view('login');
+        return view('signin');
     }
 
     public function Login(LoginRequest $request){
@@ -19,12 +19,12 @@ class LoginController extends Controller
     	{
             return redirect(route('homepage'));
     	}
-		return redirect(route('login'))->with('notify',"Please Try Again!");
+		return redirect(route('signin'))->with('notify',"Please Try Again!");
     }
 
     public function Logout()
     {
         Auth::logout();
-        return redirect()->route('dang-nhap');
+        return redirect()->route('signin');
     }
 }

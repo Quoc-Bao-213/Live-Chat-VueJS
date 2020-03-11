@@ -51,10 +51,19 @@ class ChatkitController extends Controller
         $fetchMessages = $this->chatkit->getRoomMessages([
             'room_id' => $roomId,
             'direction' => 'newer',
-            'limit' => 100
+            'limit' => 10
         ]);
-
+            
         $messages = collect($fetchMessages['body'])->map(function ($message) {
+            if (isset( $message['attachment']['resource_link'])){
+                return [
+                    'id' => $message['id'],
+                    'senderId' => $message['user_id'],
+                    'text' => $message['text'],
+                    'timestamp' => $message['created_at'],
+                    'image' =>  $message['attachment']['resource_link'],
+                ];
+            }
             return [
                 'id' => $message['id'],
                 'senderId' => $message['user_id'],
@@ -83,25 +92,6 @@ class ChatkitController extends Controller
                 $response['body'],
                 $response['status']
             );
-    }
-
-     /**
-     * Send user message.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return mixed
-     */
-    public function sendMessage(Request $request)
-    {
-        $roomId = $request->session()->get('room_id');
-
-        $message = $this->chatkit->sendSimpleMessage([
-            'sender_id' => $request->user,
-            'room_id' => $roomId,
-            'text' => $request->message
-        ]);
-
-        return response($message);
     }
 
     public function createRoom(Request $request)

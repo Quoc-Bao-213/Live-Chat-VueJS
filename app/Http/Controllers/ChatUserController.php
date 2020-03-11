@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use App\User;
 use App\UserRoom;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ChatUserController extends Controller
 {
@@ -95,13 +97,31 @@ class ChatUserController extends Controller
     {
         $roomId = $request->currentRoom;
         $my_id = Auth::user()->id_pusher;
+        if($request->isAttachment)
+        {
 
-        $message = $this->chatkit->sendSimpleMessage([
-            'sender_id' => $my_id,
-            'room_id' => $roomId,
-            'text' => $request->message
-        ]);
+            $imageType = 'jpg';
+            $base64_image = base64_decode(explode(',',$request->image)[1]);
+            $nameImage = Str::random(10).".".$imageType;
+            $saveImage = Storage::disk('mychat')->put($nameImage, $base64_image);
+            $resource_link = url('/').'/uploads/'.$nameImage;  
 
+            //
+            $options['sender_id'] = $my_id;
+            $options['room_id']  = $roomId;
+            $options['text']  = $request->message;
+
+            $options['attachment']['resource_link'] = $resource_link            ;
+            $options['attachment']['type'] = 'image';
+    
+            $message = $this->chatkit->sendMessage($options);
+        }else{
+            $message = $this->chatkit->sendSimpleMessage([
+                'sender_id' => $my_id,
+                'room_id' => $roomId,
+                'text' => $request->message
+            ]);
+        }
         return response($message);
     }
 

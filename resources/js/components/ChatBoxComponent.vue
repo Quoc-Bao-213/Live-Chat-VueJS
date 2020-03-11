@@ -1,34 +1,38 @@
-  <!-- resources/js/components/ChatBoxComponent.vue -->
-
-    <template>
-      <div class="card-body">
-          <!-- here iam: {{ getcurrentUser }} -->
+<!-- resources/js/components/ChatBoxComponent.vue -->
+<template>
+    <div class="card-body">
         <div id="chatbox" v-if="users">
             <dl v-for="message in messages" :key="message.id">
                 <div v-if="message.senderId == getcurrentUser" class="right-mess">
                     <i> ({{ formatTime(message.timestamp) }}) </i>
                     <dt v-if="message.id"> <strong>{{ findSender(message.senderId).name }}</strong></dt>
+                    <img  v-if="message.image" :src="message.image" height="200">
+                    <br>
                     <dd>{{ message.text }}</dd>
                 </div>
                 <div v-else class="left-mess">
                     <i> ({{ formatTime(message.timestamp) }}) </i>
                     <dt v-if="message.id"><strong>{{ findSender(message.senderId).name }}</strong></dt>
-                    <dd>{{ message.text }}</dd>
+                    <img :src="message.image" height="200">
+                    <br>
+                    <dd> {{ message.text }}</dd>
                 </div>
             </dl>
         </div>
         <div id="typing"></div>
         <hr>
         <div class="input-group">
-            <input v-on:keyup="isTypingIn" type="text" v-model="message" @keyup.enter="sendMessage" class="form-control" placeholder="Type your message..." autofocus>
+            <input v-bind:class="[activeClass]" v-on:keyup="isTypingIn" type="text" v-model="message"
+                @keyup.enter="sendMessage" class="form-control" placeholder="Type your message..." autofocus>
+            <input type="file" accept="image/*" class="form-control-file" v-on:change="onImageChange" id="uploadimages">
             <div class="input-group-append">
-              <button @click="sendMessage" class="btn btn-primary">Send</button>
+                <button @click="sendMessage" class="btn btn-primary">Send</button>
             </div>
         </div>
-      </div>
-    </template>
+    </div>
+</template>
 
-    <script>
+<script>
     import axios from 'axios';
     import moment from 'moment';
     import Chatkit from '@pusher/chatkit-client';
@@ -38,12 +42,14 @@
             userId: String,
             initialMessages: Array,
         },
-        data () {
+        data() {
             return {
+                activeClass: '',
                 getcurrentUser: this.userId,
                 message: '',
                 messages: this.initialMessages,
                 users: null,
+                image: '',
             }
         },
         methods: {
@@ -63,7 +69,7 @@
                         console.log('Connected Successfully')
                     })
                     .catch(error => {
-                            console.log('Error on connection', error)
+                        console.log('Error on connection', error)
                     })
             },
             subscribeToRoom() {
@@ -83,16 +89,31 @@
                             // test.innerHTML = ''
                         },
                         onMessage: async message => {
-                           await this.messages.push({
-                                id: message.id,
-                                senderId: message.senderId,
-                                text: message['parts'][0]['payload']['content'],
-                                timestamp: message.createdAt
-                            })
-
-                            if (message.senderId != this.userId){
+                            
+                            // check image
+                            if (message['parts'][1]) { 
+                                await this.messages.push({
+                                    id: message.id,
+                                    senderId: message.senderId,
+                                    text: message['parts'][0]['payload']['content'],
+                                    image: message['parts'][1]['payload']['url'],
+                                    timestamp: message.createdAt,
+                                })
+                                this.image = null;
+                                console.log('dax xoa hinh');
+                            }
+                            else {
+                                await this.messages.push({
+                                    id: message.id,
+                                    senderId: message.senderId,
+                                    text: message['parts'][0]['payload']['content'],
+                                    image: '',
+                                    timestamp: message.createdAt
+                                })
+                            }
+                            if (message.senderId != this.userId) {
                                 // sound mess
-                                var audio = new Audio('/sound/facebook_sound.mp3'); // path to file
+                                var audio = new Audio('/sound/facebook_sound.mp3');
                                 audio.play();
                                 //
                                 const Toast = Swal.mixin({
@@ -106,35 +127,54 @@
                                         toast.addEventListener('mouseleave', Swal.resumeTimer)
                                     }
                                 })
-                                    Toast.fire({
+                                Toast.fire({
                                     icon: 'success',
                                     title: 'You have a Message!'
                                 })
                             }
-
                             await this.scrollToEnd();
                         },
                         onUserJoined: async user => {
                             await this.getUsers()
-                            this.messages.push({
-                                text: `${user.name} joined ${this.formatTime(user.created_at)}`
-                            })
+                            if(this.userId != this.currentUser)
+                            {
+                                this.messages.push({
+                                    text: `${user.name} joined ${this.formatTime(user.created_at)}`
+                                })
+                            }
                         },
                     },
-                    messageLimit: 0
+                    messageLimit: 10
                 })
             },
+            // send image
+            onImageChange(e) {
+                let files = e.target.files || e.dataTransfer.files;
+                if (!files.length)
+                    return;
+                this.createImage(files[0]);
+                console.log('ok');
+            },
+            createImage(file) {
+                let reader = new FileReader();
+                let vm = this;
+                reader.onload = (e) => {
+                    vm.image = e.target.result;
+                };
+                reader.readAsDataURL(file);
+                console.log(this.image);
+            },
+            // typing 
             isTypingIn() {
-                if (this.message.length > 0){
-                this.currentUser.isTypingIn({ roomId: this.roomId })
-                .then(() => {
-                    console.log('Success!')
-                })
-                .catch(err => {
-                    console.log(`Error sending typing indicator: ${err}`)
-                })
+                if (this.message.length > 0) {
+                    this.currentUser.isTypingIn({ roomId: this.roomId })
+                        .then(() => {
+                            console.log('Success!')
+                        })
+                        .catch(err => {
+                            console.log(`Error sending typing indicator: ${err}`)
+                        })
                 }
-
             },
             getUsers() {
                 axios.get(`${process.env.MIX_APP_URL}/fr/api/users`)
@@ -144,37 +184,48 @@
                     });
             },
             sendMessage() {
-                if (this.message.trim() === '') return;
+                var isAttachment = false;
+                if (this.message.trim() === '') {
+                    // check when nothing type on input then set active input color red    
+                    this.activeClass = "active";
+                    return;
+                }
                 var mess = this.message;
                 this.message = "";
-                axios.post( `${process.env.MIX_APP_URL}/fr/api/message`, {
+                // check image isset 
+                if (this.image) {
+                    isAttachment = true;
+                }
+                axios.post(`${process.env.MIX_APP_URL}/fr/api/message`, {
                     user: this.userId,
                     message: mess,
                     currentRoom: this.roomId,
+                    isAttachment: isAttachment,
+                    image: this.image
                 })
                 .then(message => {
                     this.message = ''
-                });
+                })
             },
-            findSender(senderId){
+            findSender(senderId) {
                 // console.log(this.users.find(user => senderId == user.id));
-                if (this.users.find(user => senderId == user.id)){
-                     return this.users.find(user => senderId == user.id);
-                }else{
+                if (this.users.find(user => senderId == user.id)) {
+                    return this.users.find(user => senderId == user.id);
+                } else {
                     return "";
                 }
             },
             scrollToEnd() {
                 var container = this.$el.querySelector("#chatbox");
-                container.scrollTop = (container.scrollHeight+300);
+                container.scrollTop = (container.scrollHeight);
             },
             formatTime(timestamp) {
-               return moment(timestamp).fromNow();
+                return moment(timestamp).fromNow();
             },
         },
-        created () {
+        created() {
             this.getUsers();
             this.connectToChatkit();
         },
     };
-    </script>
+</script>

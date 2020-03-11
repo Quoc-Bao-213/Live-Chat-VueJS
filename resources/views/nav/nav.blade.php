@@ -25,30 +25,28 @@
 
         <!-- Create group -->
         <li class="nav-item">
-            <a class="nav-link position-relative p-0 py-xl-3" data-toggle="tab" href="#tab-content-create-chat" title="Create chat" role="tab">
+            <a class="nav-link position-relative p-0 py-xl-3" data-toggle="tab" href="#tab-content-create-chat" title="Create Group" role="tab">
                 <i class="icon-lg fe-edit"></i>
             </a>
         </li>
 
         <!-- Chats Friend -->
         <li class="nav-item mt-xl-9">
-            <a class="nav-link position-relative p-0 py-xl-3 active" data-toggle="tab" href="#tab-content-dialogs" title="Chats" role="tab">
+            <a class="nav-link position-relative p-0 py-xl-3 active" data-toggle="tab" href="#tab-content-dialogs" title="Chat Friends" role="tab">
                 <i class="icon-lg fe-message-square"></i>
-                <div class="badge badge-dot badge-primary badge-bottom-center"></div>
             </a>
         </li>
 
         <!-- Chats Group -->
-        {{-- <li class="nav-item mt-xl-9">
-            <a class="nav-link position-relative p-0 py-xl-3 active" data-toggle="tab" href="#tab-content-dialogs" title="Chats" role="tab">
-                <i class="icon-lg fe-message-square"></i>
-                <div class="badge badge-dot badge-primary badge-bottom-center"></div>
+        <li class="nav-item mt-xl-9">
+            <a class="nav-link position-relative p-0 py-xl-3" data-toggle="tab" href="#tab-content-group" title="Chat Group" role="tab">
+                <i class="icon-lg fe-users mr-4" style="margin-left: 13px;"></i>
             </a>
-        </li> --}}
+        </li>
 
         <!-- Profile -->
         <li class="nav-item mt-xl-9" style="margin-bottom: 27em">
-            <a class="nav-link position-relative p-0 py-xl-3" data-toggle="tab" href="#tab-content-user" title="User" role="tab">
+            <a class="nav-link position-relative p-0 py-xl-3" data-toggle="tab" href="#tab-content-user" title="My Profile" role="tab">
                 <i class="icon-lg fe-user"></i>
             </a>
         </li>

@@ -19,7 +19,6 @@
 </head>
 
 <body>
-    @include('nav.nav')
     <div id="app" class="appchat">
         <div class="container-fluid">
             <div class="row">

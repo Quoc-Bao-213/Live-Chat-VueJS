@@ -17,7 +17,7 @@ class LoginController extends Controller
 
     	if(Auth::attempt(['email' => $email,'password' => $password]))
     	{
-            return redirect(route('homepage'));
+            return redirect(route('index'));
     	}
 		return redirect(route('signin'))->with('notify',"Email or Password invalid!");
     }

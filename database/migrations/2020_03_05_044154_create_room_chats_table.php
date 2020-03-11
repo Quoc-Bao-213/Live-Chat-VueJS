@@ -17,6 +17,7 @@ class CreateRoomChatsTable extends Migration
             $table->increments('id');
             $table->string('room_name');
             $table->string('id_room');
+            $table->string('avatar_room');
             $table->string('id_user_create_room');
             $table->timestamps();
         });

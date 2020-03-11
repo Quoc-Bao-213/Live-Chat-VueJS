@@ -14,7 +14,6 @@
     <link href="{{ asset('assets/template_002.css') }}" rel="stylesheet" media="(prefers-color-scheme: dark)">
 
 
-
 </head>
 <!-- Head -->
 

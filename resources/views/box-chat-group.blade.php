@@ -60,13 +60,15 @@
                                 <div class="col-6 col-xl-6">
                                     <div class="media text-center text-xl-left">
                                         <div class="avatar avatar-sm d-none d-xl-inline-block mr-5">
-                                            <img src="assets/images/avatars/11.jpg" class="avatar-img" alt="">
+                                            <img src="{{ $imgRoom }}" class="avatar-img" alt="">
                                         </div>
 
                                         <div class="media-body align-self-center text-truncate">
-                                            <h6 class="text-truncate mb-n1">Bootstrap Themes</h6>
+                                            <h6 class="text-truncate mb-n1">{{ $roomName }}</h6>
+                                            {{-- Comming Soon --}}
                                             <small class="text-muted">35 members</small>
                                             <small class="text-muted mx-2"> • </small>
+                                            {{-- Comming Soon --}}
                                             <small class="text-muted">HTML, CSS, and Javascript Help</small>
                                         </div>
                                     </div>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\RoomChat;
+use App\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
@@ -27,16 +28,18 @@ class ChatkitController extends Controller
     public function chat(Request $request)
     {
         $chatkit_id = Auth::user()->id_pusher;
-        $listRoom = RoomChat::all();
+        $listRooms = RoomChat::all();
+        $listFriends = User::all();
 
         $query = DB::select("select count(id) as NumberOfRoom from room_chats");
 
         if ((int)$request->roomid > $query[0]->NumberOfRoom){
             $this->roomId = RoomChat::where('id', '=', 1)->first()->id_room;
-            $roomName = 1;
+            $roomName = "Room 1";
         }else if ((int)$request->roomid <= $query[0]->NumberOfRoom){
             $this->roomId = RoomChat::where('id', '=', $request->roomid)->first()->id_room;
-            $roomName = $request->roomid;
+            $roomName = RoomChat::where('id', $request->roomid)->first()->room_name;
+            $imgRoom = RoomChat::where('id', $request->roomid)->first()->avatar_room;
         }
 
         $roomId = $this->roomId;
@@ -63,7 +66,7 @@ class ChatkitController extends Controller
             ];
         });
 
-        return view('chat')->with(compact('messages', 'roomId', 'chatkit_id', 'listRoom', 'roomName'));
+        return view('box-chat-group')->with(compact('messages', 'roomId', 'chatkit_id', 'listFriends', 'listRooms', 'roomName', 'imgRoom'));
     }
 
     /**
@@ -108,6 +111,7 @@ class ChatkitController extends Controller
     {
         $roomChat = new RoomChat;
         $roomName = $request->roomname;
+
         $create = $this->chatkit->createRoom([
             'creator_id' => Auth::user()->id_pusher,
             'name' => $roomName,
@@ -118,10 +122,12 @@ class ChatkitController extends Controller
 
         $roomChat->room_name = $roomName;
         $roomChat->id_room = $create['body']['id'];
+        $roomChat->avatar_room = "https://i.picsum.photos/id/".rand(500, 999)."/200/200.jpg";
+        // $roomChat->avatar_room = $imgRoom;
         $roomChat->id_user_create_room = Auth::user()->id_pusher;
         $roomChat->save();
 
-        return redirect('/gr/chat/1');
+        return redirect('/group/1');
     }
 
     /**
@@ -136,18 +142,5 @@ class ChatkitController extends Controller
         $users = $this->chatkit->getUsers($opt);
 
         return response($users);
-    }
-
-    /**
-     * Get all users.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return mixed
-     */
-    public function logout(Request $request)
-    {
-        $request->session()->flush();
-
-        return redirect(route('signin'));
     }
 }

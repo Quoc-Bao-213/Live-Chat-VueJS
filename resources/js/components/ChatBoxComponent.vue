@@ -19,7 +19,7 @@
                 </div>
             </dl>
         </div>
-        <div id="typing"></div>
+        <div id="typing" class="typing-indicator"></div>
         <hr>
         <div class="input-group">
             <input v-bind:class="[activeClass]" v-on:keyup="isTypingIn" type="text" v-model="message"
@@ -79,14 +79,14 @@
                         onUserStartedTyping: user => {
                             console.log(`User ${user.name} started typing`)
                             /// chat
-                            // var test = this.$el.querySelector("#typing")
-                            // test.innerHTML = `${user.name} started typing`
+                            var test = this.$el.querySelector("#typing")
+                            test.innerHTML = `<span>${user.name} Typing...</span>`
                         },
                         onUserStoppedTyping: user => {
                             console.log(`User ${user.name} stopped typing`)
                             //un chat
-                            // var test = this.$el.querySelector("#typing")
-                            // test.innerHTML = ''
+                            var test = this.$el.querySelector("#typing")
+                            test.innerHTML = ''
                         },
                         onMessage: async message => {
                             
@@ -177,7 +177,7 @@
                 }
             },
             getUsers() {
-                axios.get(`${process.env.MIX_APP_URL}/fr/api/users`)
+                axios.get(`${process.env.MIX_APP_URL}/api/users`)
                     .then(res => {
                         this.users = res['data']['body']
                         // console.log(res['data']['body']);
@@ -196,7 +196,7 @@
                 if (this.image) {
                     isAttachment = true;
                 }
-                axios.post(`${process.env.MIX_APP_URL}/fr/api/message`, {
+                axios.post( `${process.env.MIX_APP_URL}/api/message`, {
                     user: this.userId,
                     message: mess,
                     currentRoom: this.roomId,
@@ -229,3 +229,6 @@
         },
     };
 </script>
+
+    </script>
+    

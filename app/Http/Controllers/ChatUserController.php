@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\User;
 use App\UserRoom;
+use App\RoomChat;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -24,8 +25,9 @@ class ChatUserController extends Controller
     public function index()
     {
         $listFriends = User::all();
-        return view('hp_user', compact('listFriends'));
-
+        $listRooms = RoomChat::all();
+        
+        return view('index', compact('listFriends', 'listRooms'));
     }
 
     public function friendhomepage(Request $request, $friendID)
@@ -36,7 +38,6 @@ class ChatUserController extends Controller
 
         // đoạn này check trong database xem room có chưa
         $checkRoomExist = DB::select("SELECT * FROM `user_rooms` where `my_id` = '$curentPusherID'  and `friend_id` = '$friendID'");
-
 
         if (empty($checkRoomExist)){
             // câu này để cho là bạn mình nó bấm vô mình thì cũng chỉ có chung 1 room thôi.
@@ -83,8 +84,10 @@ class ChatUserController extends Controller
 
         $listFriends = User::all();
         $friendName = User::where('id_pusher', $friendID)->first()->name;
+        $avatar = User::where('id_pusher', $friendID)->first()->avatar;
+        $listRooms = RoomChat::all();
 
-        return view('app')->with(compact('curentPusherID', 'messages', 'room_Id', 'listFriends', 'friendName'));
+        return view('box-chat-friend')->with(compact('curentPusherID', 'listRooms', 'messages', 'room_Id', 'listFriends', 'friendName', 'avatar'));
     }
 
      /**
@@ -138,6 +141,7 @@ class ChatUserController extends Controller
 
         return response($users);
     }
+
     // public function deleteMessage(Request $request)
     // {
     //     $delete = $this->chatkit->deleteMessage([

@@ -1,5 +1,5 @@
 <!-- resources/js/components/ChatBoxComponent.vue -->
-<template>
+<!-- <template>
     <div class="card-body">
         <div id="chatbox" v-if="users">
             <dl v-for="message in messages" :key="message.id">
@@ -19,7 +19,7 @@
                 </div>
             </dl>
         </div>
-        <div id="typing" class="typing-indicator"></div>
+        <div id="typing"></div>
         <hr>
         <div class="input-group">
             <input v-bind:class="[activeClass]" v-on:keyup="isTypingIn" type="text" v-model="message"
@@ -30,6 +30,10 @@
             </div>
         </div>
     </div>
+</template> -->
+
+<template>
+
 </template>
 
 <script>
@@ -89,9 +93,9 @@
                             test.innerHTML = ''
                         },
                         onMessage: async message => {
-                            
+
                             // check image
-                            if (message['parts'][1]) { 
+                            if (message['parts'][1]) {
                                 await this.messages.push({
                                     id: message.id,
                                     senderId: message.senderId,
@@ -164,7 +168,7 @@
                 reader.readAsDataURL(file);
                 console.log(this.image);
             },
-            // typing 
+            // typing
             isTypingIn() {
                 if (this.message.length > 0) {
                     this.currentUser.isTypingIn({ roomId: this.roomId })
@@ -186,13 +190,13 @@
             sendMessage() {
                 var isAttachment = false;
                 if (this.message.trim() === '') {
-                    // check when nothing type on input then set active input color red    
+                    // check when nothing type on input then set active input color red
                     this.activeClass = "active";
                     return;
                 }
                 var mess = this.message;
                 this.message = "";
-                // check image isset 
+                // check image isset
                 if (this.image) {
                     isAttachment = true;
                 }
@@ -231,4 +235,3 @@
 </script>
 
     </script>
-    

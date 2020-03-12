@@ -28,8 +28,6 @@ Route::middleware('auth')->group(function(){
     //     return view('welcome');
     // })->name('homepage');
 
-    // Route::get('/fr/{friendID}','ChatUserController@friendhomepage')->name('chatUser');
-
     // Route::get('/gr/chat/{roomid}', 'ChatkitController@chat')->name('chat');
 
     // Trang Index

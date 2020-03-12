@@ -20,7 +20,7 @@
 
 <body>
 
-    <div class="layout">
+    <div id="app" class="layout">
 
         <!-- Navigation -->
         @include('nav.nav')

@@ -26,7 +26,7 @@ class ChatUserController extends Controller
     {
         $listFriends = User::all();
         $listRooms = RoomChat::all();
-        
+
         return view('index', compact('listFriends', 'listRooms'));
     }
 
@@ -83,11 +83,10 @@ class ChatUserController extends Controller
         });
 
         $listFriends = User::all();
-        $friendName = User::where('id_pusher', $friendID)->first()->name;
         $avatar = User::where('id_pusher', $friendID)->first()->avatar;
         $listRooms = RoomChat::all();
 
-        return view('box-chat-friend')->with(compact('curentPusherID', 'listRooms', 'messages', 'room_Id', 'listFriends', 'friendName', 'avatar'));
+        return view('box-chat-friend')->with(compact('curentPusherID', 'listRooms', 'messages', 'room_Id', 'listFriends', 'avatar'));
     }
 
      /**
@@ -107,7 +106,7 @@ class ChatUserController extends Controller
             $base64_image = base64_decode(explode(',',$request->image)[1]);
             $nameImage = Str::random(10).".".$imageType;
             $saveImage = Storage::disk('mychat')->put($nameImage, $base64_image);
-            $resource_link = url('/').'/uploads/'.$nameImage;  
+            $resource_link = url('/').'/uploads/'.$nameImage;
 
             //
             $options['sender_id'] = $my_id;
@@ -116,7 +115,7 @@ class ChatUserController extends Controller
 
             $options['attachment']['resource_link'] = $resource_link            ;
             $options['attachment']['type'] = 'image';
-    
+
             $message = $this->chatkit->sendMessage($options);
         }else{
             $message = $this->chatkit->sendSimpleMessage([

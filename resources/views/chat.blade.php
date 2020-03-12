@@ -80,10 +80,7 @@
                   <div class="col-md-8">
                       <div class="card max-height">
                           <div class="card-header custom-2"> <span class="custom">Live Chat Room {{ $roomName }} </span> </div>
-                          <chatgr
-                          user-id='{{ $chatkit_id }}'
-                          room-id='{{ $roomId }}'
-                          :initial-messages='@json($messages)'>
+                          <chatgr user-id='{{ $chatkit_id }}' room-id='{{ $roomId }}' :initial-messages='@json($messages)'>
                         </chatgr>
                       </div>
                   </div>

@@ -35,12 +35,10 @@
         <div class="main main-visible" data-mobile-height="">
 
             <!-- Chat -->
-            <div id="chat-2" class="chat dropzone-form-js" data-dz-url="some.php">
-
+            <div id="chat-2" class="chat dropzone-form-js" data-dz-url="#">
                 <!-- Chat: body -->
                 <chatfr user-id='{{ $curentPusherID }}' img-friend='{{ $avatar }}' img-sender='{{ Auth::user()->avatar }}' room-id='{{ $room_Id }}' :initial-messages='@json($messages)'> </chatfr>
                 <!-- Chat: body -->
-
             </div>
             <!-- Chat -->
 

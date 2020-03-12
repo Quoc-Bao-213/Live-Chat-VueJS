@@ -10,8 +10,8 @@
 
     <!-- Template core CSS -->
 
-    <link href="assets/template.css" rel="stylesheet">
-    <link href="assets/template_002.css" rel="stylesheet" media="(prefers-color-scheme: dark)">
+    <link href="{{ asset('assets/template.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/template_002.css') }}" rel="stylesheet" media="(prefers-color-scheme: dark)">
 
 
 </head>
@@ -26,23 +26,19 @@
 
                 <div class="col-12 col-md-5 col-lg-4 py-8 py-md-11">
 
-                    @if(session('notifyRegister'))
+                    @if(session('notify'))
                         <div class="alert alert-success" style="text-align: center;" role="alert">
-                            {{ session('notifyRegister') }}
+                            {{ session('notify') }}
                         </div>
-                        @elseif (session('error'))
-                            <div class="alert alert-error" style="text-align: center;" role="alert">
-                                {{ session('error') }}
-                            </div>
+                    @elseif (session('error'))
+                        <div class="alert alert-danger" style="text-align: center;" role="alert">
+                            {{ session('error') }}
+                        </div>
                     @endif
-
-
                     <!-- Heading -->
                     <h1 class="font-bold text-center">Sign up</h1>
-
                     <!-- Text -->
                     <p class="text-center mb-6">Welcome to the official Chat web-client.</p>
-
                     <!-- Form -->
                 <form class="mb-6" method="post" action="{{ route('actionRegister') }}">
                     @csrf
@@ -52,7 +48,6 @@
                             <input type="text" name="username" class="form-control form-control-lg" id="name" placeholder="Enter your name">
                             <span class="text-danger" style="margin-left: 10px;">{{ $errors->first('username') }}</span>
                         </div>
-
                         <!-- Email -->
                         <div class="form-group">
                             <label for="email" class="sr-only">Email Address</label>
@@ -83,10 +78,10 @@
     </div><!-- .layout -->
 
     <!-- Scripts -->
-    <script src="assets/jquery.js"></script>
-    <script src="assets/bootstrap.js"></script>
-    <script src="assets/plugins.js"></script>
-    <script src="assets/template.js"></script>
+    <script src="{{ asset('assets/jquery.js') }}"></script>
+    <script src="{{ asset('assets/bootstrap.js') }}"></script>
+    <script src="{{ asset('assets/plugins.js') }}"></script>
+    <script src="{{ asset('assets/template.js') }}"></script>
     <!-- Scripts -->
 
 

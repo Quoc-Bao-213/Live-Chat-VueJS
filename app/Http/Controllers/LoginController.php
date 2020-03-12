@@ -19,7 +19,7 @@ class LoginController extends Controller
     	{
             return redirect(route('index'));
     	}
-		return redirect(route('signin'))->with('notify',"Email or Password invalid!");
+		return redirect(route('signin'))->with('error',"Email or Password invalid!");
     }
 
     public function Logout()

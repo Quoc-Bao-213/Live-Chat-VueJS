@@ -33,7 +33,7 @@
 </template> -->
 
 <template>
-    <div v-if="users" class="chat-body">
+    <div class="chat-body">
 
         <!-- Chat: Header -->
         <div class="chat-header border-bottom py-4 py-lg-6 px-lg-8">
@@ -108,120 +108,118 @@
         <!-- Chat: Search -->
 
         <!-- Chat: Content-->
-        <div id="chatbox" class="chat-content px-lg-8">
-            <div class="container-xxl py-6 py-lg-10">
-                <div v-for="message in messages" :key="message.id">
+        <div id="chatbox" v-if="users" class="chat-content px-lg-8">
+            <div v-for="message in messages" :key="message.id" class="container-xxl py-6">
 
-                    <!-- Message -->
-                    <div style="margin-bottom: 1em;" v-if="message.senderId != getCurrentUser" class="message">
-                        <!-- Avatar -->
-                        <a class="avatar avatar-sm mr-4 mr-lg-5" href="#" data-chat-sidebar-toggle="#chat-1-user-profile">
-                            <img class="avatar-img" src="" alt="">
-                        </a>
+                <!-- Message -->
+                <div v-if="message.senderId != getcurrentUser" class="message">
+                    <!-- Avatar -->
+                    <a class="avatar avatar-sm mr-4 mr-lg-5" href="#" data-chat-sidebar-toggle="#chat-1-user-profile">
+                        <img class="avatar-img" src="https://i.picsum.photos/id/500/200/200.jpg" alt="">
+                    </a>
 
-                        <!-- Message: body -->
-                        <div class="message-body">
+                    <!-- Message: body -->
+                    <div class="message-body">
 
-                            <!-- Message: row -->
-                            <div class="message-row">
-                                <div class="d-flex align-items-center">
+                        <!-- Message: row -->
+                        <div class="message-row">
+                            <div class="d-flex align-items-center">
 
-                                    <!-- Message: content -->
-                                    <div class="message-content bg-light">
-                                        <h6 class="mb-2">{{ findSender(message.senderId).name }}</h6>
-                                        <div>{{ message.text }}</div>
-
-                                        <div class="mt-1">
-                                            <small class="opacity-65">{{ formatTime(message.timestamp) }}</small>
-                                        </div>
+                                <!-- Message: content -->
+                                <div style="max-width: 45%" class="message-content bg-light">
+                                    <h6 class="mb-2">{{ findSender(message.senderId).name }}</h6>
+                                    <div style="word-wrap:break-word;">{{ message.text }}</div>
+                                    <img v-if="message.image" :src="message.image" height="200">
+                                    <div class="mt-1">
+                                        <small class="opacity-65">{{ formatTime(message.timestamp) }}</small>
                                     </div>
-                                    <!-- Message: content -->
-
-                                    <!-- Message: dropdown -->
-                                    <div class="dropdown">
-                                        <a class="text-muted opacity-60 ml-3" href="#" data-toggle="dropdown"
-                                            aria-haspopup="true" aria-expanded="false">
-                                            <i class="fe-more-vertical"></i>
-                                        </a>
-
-                                        <div class="dropdown-menu">
-                                            <a class="dropdown-item d-flex align-items-center" href="#">
-                                                Edit <span class="ml-auto fe-edit-3"></span>
-                                            </a>
-                                            <a class="dropdown-item d-flex align-items-center" href="#">
-                                                Share <span class="ml-auto fe-share-2"></span>
-                                            </a>
-                                            <a class="dropdown-item d-flex align-items-center" href="#">
-                                                Delete <span class="ml-auto fe-trash-2"></span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <!-- Message: dropdown -->
-
                                 </div>
-                            </div>
-                            <!-- Message: row -->
+                                <!-- Message: content -->
 
-                        </div>
-                        <!-- Message: Body -->
-                    </div>
-                    <!-- Message -->
+                                <!-- Message: dropdown -->
+                                <div class="dropdown">
+                                    <a class="text-muted opacity-60 ml-3" href="#" data-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="false">
+                                        <i class="fe-more-vertical"></i>
+                                    </a>
 
-                    <!-- Message -->
-                    <div style="margin-bottom: 1em;" v-else class="message message-right">
-                        <!-- Avatar -->
-                        <div class="avatar avatar-sm ml-4 ml-lg-5 d-none d-lg-block">
-                            <img class="avatar-img" v-bind:src="imgSenderVue" alt="">
-                        </div>
-
-                        <!-- Message: body -->
-                        <div class="message-body">
-
-                            <!-- Message: row -->
-                            <div class="message-row">
-                                <div class="d-flex align-items-center justify-content-end">
-
-                                    <!-- Message: dropdown -->
-                                    <div class="dropdown">
-                                        <a class="text-muted opacity-60 mr-3" href="#" data-toggle="dropdown"
-                                            aria-haspopup="true" aria-expanded="false">
-                                            <i class="fe-more-vertical"></i>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item d-flex align-items-center" href="#">
+                                            Edit <span class="ml-auto fe-edit-3"></span>
                                         </a>
-
-                                        <div class="dropdown-menu">
-                                            <a class="dropdown-item d-flex align-items-center" href="#">
-                                                Edit <span class="ml-auto fe-edit-3"></span>
-                                            </a>
-                                            <a class="dropdown-item d-flex align-items-center" href="#">
-                                                Share <span class="ml-auto fe-share-2"></span>
-                                            </a>
-                                            <a class="dropdown-item d-flex align-items-center" href="#">
-                                                Delete <span class="ml-auto fe-trash-2"></span>
-                                            </a>
-                                        </div>
+                                        <a class="dropdown-item d-flex align-items-center" href="#">
+                                            Share <span class="ml-auto fe-share-2"></span>
+                                        </a>
+                                        <a class="dropdown-item d-flex align-items-center" href="#">
+                                            Delete <span class="ml-auto fe-trash-2"></span>
+                                        </a>
                                     </div>
-                                    <!-- Message: dropdown -->
-
-                                    <!-- Message: content -->
-                                    <div class="message-content bg-primary text-white">
-                                        <div>{{ message.text }}</div>
-
-                                        <div class="mt-1">
-                                            <small class="opacity-65">{{ formatTime(message.timestamp) }}</small>
-                                        </div>
-                                    </div>
-                                    <!-- Message: content -->
-
                                 </div>
+                                <!-- Message: dropdown -->
+
                             </div>
-                            <!-- Message: row -->
-
                         </div>
-                        <!-- Message: body -->
-                    </div>
-                    <!-- Message -->
+                        <!-- Message: row -->
 
-                 </div>
+                    </div>
+                    <!-- Message: Body -->
+                </div>
+                <!-- Message -->
+
+                <!-- Message -->
+                <div v-else class="message message-right">
+                    <!-- Avatar -->
+                    <div class="avatar avatar-sm ml-4 ml-lg-5 d-none d-lg-block">
+                        <img class="avatar-img" v-bind:src="imgSenderVue" alt="">
+                    </div>
+
+                    <!-- Message: body -->
+                    <div class="message-body">
+
+                        <!-- Message: row -->
+                        <div class="message-row">
+                            <div class="d-flex align-items-center justify-content-end">
+
+                                <!-- Message: dropdown -->
+                                <div class="dropdown">
+                                    <a class="text-muted opacity-60 mr-3" href="#" data-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="false">
+                                        <i class="fe-more-vertical"></i>
+                                    </a>
+
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item d-flex align-items-center" href="#">
+                                            Edit <span class="ml-auto fe-edit-3"></span>
+                                        </a>
+                                        <a class="dropdown-item d-flex align-items-center" href="#">
+                                            Share <span class="ml-auto fe-share-2"></span>
+                                        </a>
+                                        <a class="dropdown-item d-flex align-items-center" href="#">
+                                            Delete <span class="ml-auto fe-trash-2"></span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- Message: dropdown -->
+
+                                <!-- Message: content -->
+                                <div class="message-content bg-primary text-white">
+                                    <div style="word-wrap:break-word;">{{ message.text }}</div>
+                                    <img v-if="message.image" :src="message.image" height="200">
+                                    <div class="mt-1">
+                                        <small class="opacity-65">{{ formatTime(message.timestamp) }}</small>
+                                    </div>
+                                </div>
+                                <!-- Message: content -->
+
+                            </div>
+                        </div>
+                        <!-- Message: row -->
+
+                    </div>
+                    <!-- Message: body -->
+                </div>
+                <!-- Message -->
+
             </div>
             <div id="typing"></div>
             <!-- Scroll to end -->
@@ -229,13 +227,8 @@
         </div>
         <!-- Chat: Content -->
 
-        <!-- Chat: DropzoneJS container -->
-        <div class="chat-files hide-scrollbar px-lg-8">
-            <div class="container-xxl">
-                <div class="dropzone-previews-js form-row py-4"></div>
-            </div>
-        </div>
-        <!-- Chat: DropzoneJS container -->
+
+
 
         <!-- Chat: Footer -->
         <div class="chat-footer border-top py-4 py-lg-6 px-lg-8">
@@ -248,8 +241,8 @@
 
                                 <!-- Textarea -->
                                 <input id="chat-id-1-input" class="form-control bg-transparent border-0"
-                                    placeholder="Type your message..." v-bind:class="[activeClass]" v-on:keyup="isTypingIn" type="text" v-model="message"
-                @keyup.enter="sendMessage" rows="1" data-emoji-input
+                                    placeholder="Type your message..." v-on:keyup="isTypingIn" type="text"
+                                    v-model="message" @keyup.enter="sendMessage" rows="1" data-emoji-input
                                     data-autosize="true" autofocus>
 
                                 <!-- Emoji button -->
@@ -270,18 +263,16 @@
 
                                 <!-- Upload button -->
                                 <div class="input-group-append">
-                                    <button id="chat-upload-btn-1"
+                                    <!-- <input type="file" accept="image/*" class="form-control-file"
+                                        v-on:change="onImageChange" id="uploadimages"> -->
+                                    <span class="btn btn-file bg-transparent dropzone-button-js">
+                                        <i style="font-size: 20px; padding-top: 1px; color: rgb(182, 182, 182); display: block;" class="fe-paperclip"></i> <input type="file" v-on:change="onImageChange" accept="image/*">
+                                    </span>
+                                    <!-- <button id="chat-upload-btn-1"
                                         class="btn btn-ico btn-secondary btn-minimal bg-transparent border-0 dropzone-button-js"
-                                        type="button">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round"
-                                            class="feather feather-paperclip injected-svg">
-                                            <path
-                                                d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48">
-                                            </path>
-                                        </svg>
-                                    </button>
+                                        type="button" accept="image/*" v-on:change="onImageChange">
+                                        <i class="fe-paperclip"></i>
+                                    </button> -->
                                 </div>
 
                             </div>
@@ -290,7 +281,7 @@
 
                         <!-- Submit button -->
                         <div class="col-auto">
-                            <button @click="sendMessage" class="btn btn-ico btn-primary rounded-circle" >
+                            <button @click="sendMessage" class="btn btn-ico btn-primary rounded-circle">
                                 <span class="fe-send"></span>
                             </button>
                         </div>
@@ -359,11 +350,11 @@
                             console.log(`User ${user.name} started typing`)
                             /// chat
                             var test = this.$el.querySelector("#typing")
-                            test.innerHTML = `<span>${user.name} Typing...</span>`
+                            test.innerHTML = `<img style="height: 30px" src="https://thumbs.gfycat.com/WavyViciousIrishdraughthorse-size_restricted.gif" alt="">`
                         },
                         onUserStoppedTyping: user => {
                             console.log(`User ${user.name} stopped typing`)
-                            //un chat
+                            //unchat
                             var test = this.$el.querySelector("#typing")
                             test.innerHTML = ''
                         },
@@ -379,7 +370,7 @@
                                     timestamp: message.createdAt,
                                 })
                                 this.image = null;
-                                console.log('dax xoa hinh');
+                                // console.log('dax xoa hinh');
                             }
                             else {
                                 await this.messages.push({
@@ -390,6 +381,7 @@
                                     timestamp: message.createdAt
                                 })
                             }
+
                             if (message.senderId != this.userId) {
                                 // sound mess
                                 // var audio = new Audio('/sound/facebook_sound.mp3');
@@ -411,6 +403,7 @@
                                 //     title: 'You have a Message!'
                                 // })
                             }
+
                             await this.scrollToEnd();
                         },
                         onUserJoined: async user => {
@@ -422,7 +415,7 @@
                             }
                         },
                     },
-                    messageLimit: 10
+                    messageLimit: 0
                 })
             },
             // send image
@@ -463,17 +456,21 @@
             },
             sendMessage() {
                 var isAttachment = false;
+
                 if (this.message.trim() === '') {
                     // check when nothing type on input then set active input color red
-                    this.activeClass = "active";
+                    this.activeClass = "btn-danger";
                     return;
                 }
+
                 var mess = this.message;
                 this.message = "";
+
                 // check image isset
                 if (this.image) {
                     isAttachment = true;
                 }
+
                 axios.post(`${process.env.MIX_APP_URL}/api/message`, {
                     user: this.userId,
                     message: mess,
@@ -493,9 +490,9 @@
                     return "";
                 }
             },
-            scrollToEnd() {
+            scrollToEnd: function () {
                 var container = this.$el.querySelector("#chatbox");
-                container.scrollTop = (container.scrollHeight);
+                container.scrollTop = (container.scrollHeight + 300);
             },
             formatTime(timestamp) {
                 return moment(timestamp).fromNow();
@@ -508,4 +505,26 @@
     };
 </script>
 
-</script>
+<style scoped>
+    .btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    cursor: inherit;
+    display: block;
+}
+/* span i:hover{
+    color: #7f808c;
+} */
+</style>

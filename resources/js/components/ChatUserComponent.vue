@@ -90,9 +90,9 @@
                             <div class="d-flex align-items-center">
 
                                 <!-- Message: content -->
-                                <div class="message-content bg-light">
+                                <div style="max-width: 35%" class="message-content bg-light">
                                     <h6 class="mb-2">{{ findSender(message.senderId).name }}</h6>
-                                    <div>{{ message.text }}</div>
+                                    <div style="word-wrap:break-word;">{{ message.text }}</div>
 
                                     <div class="mt-1">
                                         <small class="opacity-65">{{ formatTime(message.timestamp) }}</small>
@@ -161,7 +161,7 @@
 
                                 <!-- Message: content -->
                                 <div class="message-content bg-primary text-white">
-                                    <div>{{ message.text }}</div>
+                                    <div style="word-wrap:break-word;">{{ message.text }}</div>
 
                                     <div class="mt-1">
                                         <small class="opacity-65">{{ formatTime(message.timestamp) }}</small>

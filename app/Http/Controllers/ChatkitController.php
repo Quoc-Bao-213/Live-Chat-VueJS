@@ -36,6 +36,7 @@ class ChatkitController extends Controller
         if ((int)$request->roomid > $query[0]->NumberOfRoom){
             $this->roomId = RoomChat::where('id', '=', 1)->first()->id_room;
             $roomName = "Room 1";
+            $imgRoom = RoomChat::where('id', 1)->first()->avatar_room;
         }else if ((int)$request->roomid <= $query[0]->NumberOfRoom){
             $this->roomId = RoomChat::where('id', '=', $request->roomid)->first()->id_room;
             $roomName = RoomChat::where('id', $request->roomid)->first()->room_name;
@@ -54,7 +55,7 @@ class ChatkitController extends Controller
         $fetchMessages = $this->chatkit->getRoomMessages([
             'room_id' => $roomId,
             'direction' => 'newer',
-            'limit' => 50
+            'limit' => 100
         ]);
 
         $messages = collect($fetchMessages['body'])->map(function ($message) {

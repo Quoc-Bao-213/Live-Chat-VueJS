@@ -35,59 +35,64 @@ class ChatUserController extends Controller
         $id_pusher = $friendID; // id friend
         $curentPusherID = User::find(Auth::id())->id_pusher;  // id mình my_id
         $roomName = $curentPusherID.'_'.$id_pusher;
-
-        // đoạn này check trong database xem room có chưa
-        $checkRoomExist = DB::select("SELECT * FROM `user_rooms` where `my_id` = '$curentPusherID'  and `friend_id` = '$friendID'");
-
-        if (empty($checkRoomExist)){
-            // câu này để cho là bạn mình nó bấm vô mình thì cũng chỉ có chung 1 room thôi.
-            $checkRoomExist = DB::select("SELECT * FROM `user_rooms` where `friend_id` = '$curentPusherID'  and `my_id` = '$friendID'");
-        }
-
-        // Nếu có room r thì ko tạo mới, ngược lại tạo room r lưu vô database
-        if (!empty($checkRoomExist) && $checkRoomExist[0]->room_id){
-            $curentRoom = $checkRoomExist[0]->room_id;
-        }else{
-            $create = $this->chatkit->createRoom([
-                'creator_id' => $curentPusherID,
-                'name' => $roomName,
-                'user_ids' => [$id_pusher],
-                'private' => true,
-                'custom_data' => ['foo' => 'bar']
-            ]);
-            $curentRoom = $create['body']['id'];
-
-            $addUserRoom = new UserRoom;
-            $addUserRoom->my_id = $curentPusherID;
-            $addUserRoom->friend_id = $id_pusher;
-            $addUserRoom->room_id = $curentRoom;
-            $addUserRoom->save();
-        }
-
-        $this->room_Id = $curentRoom;
-        $room_Id = $this->room_Id;
-
-        $fetchMessages = $this->chatkit->getRoomMessages([
-            'room_id' => $room_Id,
-            'direction' => 'newer',
-            'limit' => 100
-        ]);
-
-        $messages = collect($fetchMessages['body'])->map(function ($message) {
-            return [
-                'id' => $message['id'],
-                'senderId' => $message['user_id'],
-                'text' => $message['text'],
-                'timestamp' => $message['created_at'],
-            ];
-        });
-
         $listFriends = User::all();
-        $avatar = User::where('id_pusher', $friendID)->first()->avatar;
-        $FriendName = User::where('id_pusher', $friendID)->first()->name;
         $listRooms = RoomChat::all();
 
-        return view('box-chat-friend')->with(compact('curentPusherID', 'listRooms', 'messages', 'room_Id', 'listFriends', 'avatar', 'FriendName'));
+        if (DB::select("select name from users where id_pusher = '".$id_pusher."'")){
+
+            // đoạn này check trong database xem room có chưa
+            $checkRoomExist = DB::select("SELECT * FROM `user_rooms` where `my_id` = '$curentPusherID'  and `friend_id` = '$friendID'");
+
+            if (empty($checkRoomExist)){
+                // câu này để cho là bạn mình nó bấm vô mình thì cũng chỉ có chung 1 room thôi.
+                $checkRoomExist = DB::select("SELECT * FROM `user_rooms` where `friend_id` = '$curentPusherID'  and `my_id` = '$friendID'");
+            }
+
+            // Nếu có room r thì ko tạo mới, ngược lại tạo room r lưu vô database
+            if (!empty($checkRoomExist) && $checkRoomExist[0]->room_id){
+                $curentRoom = $checkRoomExist[0]->room_id;
+            }else{
+                $create = $this->chatkit->createRoom([
+                    'creator_id' => $curentPusherID,
+                    'name' => $roomName,
+                    'user_ids' => [$id_pusher],
+                    'private' => true,
+                    'custom_data' => ['foo' => 'bar']
+                ]);
+                $curentRoom = $create['body']['id'];
+
+                $addUserRoom = new UserRoom;
+                $addUserRoom->my_id = $curentPusherID;
+                $addUserRoom->friend_id = $id_pusher;
+                $addUserRoom->room_id = $curentRoom;
+                $addUserRoom->save();
+            }
+
+            $this->room_Id = $curentRoom;
+            $room_Id = $this->room_Id;
+
+            $fetchMessages = $this->chatkit->getRoomMessages([
+                'room_id' => $room_Id,
+                'direction' => 'newer',
+                'limit' => 100
+            ]);
+
+            $messages = collect($fetchMessages['body'])->map(function ($message) {
+                return [
+                    'id' => $message['id'],
+                    'senderId' => $message['user_id'],
+                    'text' => $message['text'],
+                    'timestamp' => $message['created_at'],
+                ];
+            });
+
+            $avatar = User::where('id_pusher', $friendID)->first()->avatar;
+            $FriendName = User::where('id_pusher', $friendID)->first()->name;
+
+            return view('box-chat-friend')->with(compact('curentPusherID', 'listRooms', 'messages', 'room_Id', 'listFriends', 'avatar', 'FriendName'));
+        }else{
+            return view('index', compact('listFriends', 'listRooms'));
+        }
     }
 
      /**

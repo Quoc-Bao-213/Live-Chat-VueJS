@@ -27,14 +27,13 @@ class RegisterController extends Controller
         // $avatar = $request->avatar;
         $id_pusher = strtolower(Str::random(5));
 
-        $this->chatkit->createUser([
-            'id' =>  $id_pusher,
-            'name' => $request->username,
-        ]);
-
         $check = $user::where('email', $email)->exists();
 
         if(!$check){
+            $this->chatkit->createUser([
+                'id' =>  $id_pusher,
+                'name' => $request->username,
+            ]);
             $user->name = $username;
             $user->email = $email;
             $user->password = Hash::make($pass);
@@ -43,8 +42,7 @@ class RegisterController extends Controller
             $user->remember_token = Str::random(10);
             $user->id_pusher = $id_pusher;
             $user->save();
-
-            return redirect(route("signup"))->with('notifyRegister',"Register Success!");
+            return redirect(route("signin"))->with('notify',"Register Success!");
         }else{
             return redirect(route("signup"))->with('error',"Your email already exists!");
         }

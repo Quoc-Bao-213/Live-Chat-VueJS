@@ -25,10 +25,14 @@
             <div class="row align-items-center justify-content-center no-gutters min-vh-100">
 
                 <div class="col-12 col-md-5 col-lg-4 py-8 py-md-11">
-
+                    
                     @if(session('notify'))
-                        <div class="alert alert-danger" style="text-align: center;" role="alert">
+                        <div class="alert alert-success" style="text-align: center;" role="alert">
                             {{ session('notify') }}
+                        </div>
+                    @elseif (session('error'))
+                        <div class="alert alert-danger" style="text-align: center;" role="alert">
+                            {{ session('error') }}
                         </div>
                     @endif
 

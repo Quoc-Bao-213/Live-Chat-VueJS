@@ -91,10 +91,10 @@
     <!-- Modal: Invite friends -->
 
     <!-- Scripts -->
-    <script src="assets/jquery.js"></script>
-    <script src="assets/bootstrap.js"></script>
-    <script src="assets/plugins.js"></script>
-    <script src="assets/template.js"></script>
+    <script src="{{ asset('assets/jquery.js') }}"></script>
+    <script src="{{ asset('assets/bootstrap.js') }}"></script>
+    <script src="{{ asset('assets/plugins.js') }}"></script>
+    <script src="{{ asset('assets/template.js') }}"></script>
     <!-- Scripts -->
 
 

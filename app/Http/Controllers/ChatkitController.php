@@ -54,9 +54,9 @@ class ChatkitController extends Controller
         $fetchMessages = $this->chatkit->getRoomMessages([
             'room_id' => $roomId,
             'direction' => 'newer',
-            'limit' => 10
+            'limit' => 50
         ]);
-            
+
         $messages = collect($fetchMessages['body'])->map(function ($message) {
             if (isset( $message['attachment']['resource_link'])){
                 return [

@@ -84,9 +84,10 @@ class ChatUserController extends Controller
 
         $listFriends = User::all();
         $avatar = User::where('id_pusher', $friendID)->first()->avatar;
+        $FriendName = User::where('id_pusher', $friendID)->first()->name;
         $listRooms = RoomChat::all();
 
-        return view('box-chat-friend')->with(compact('curentPusherID', 'listRooms', 'messages', 'room_Id', 'listFriends', 'avatar'));
+        return view('box-chat-friend')->with(compact('curentPusherID', 'listRooms', 'messages', 'room_Id', 'listFriends', 'avatar', 'FriendName'));
     }
 
      /**

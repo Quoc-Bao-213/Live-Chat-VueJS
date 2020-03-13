@@ -33,7 +33,276 @@
 </template> -->
 
 <template>
+    <div v-if="users" class="chat-body">
 
+        <!-- Chat: Header -->
+        <div class="chat-header border-bottom py-4 py-lg-6 px-lg-8">
+            <div class="container-xxl">
+
+                <div class="row align-items-center">
+
+                    <!-- Close chat(mobile) -->
+                    <div class="col-3 d-xl-none">
+                        <ul class="list-inline mb-0">
+                            <li class="list-inline-item">
+                                <a class="text-muted px-0" href="#" data-chat="open">
+                                    <i class="icon-md fe-chevron-left"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Chat photo -->
+                    <div class="col-6 col-xl-6">
+                        <div class="media text-center text-xl-left">
+                            <div class="avatar avatar-sm d-none d-xl-inline-block mr-5">
+                                <img v-bind:src="imgRoomVue" class="avatar-img" alt="">
+                            </div>
+
+                            <div class="media-body align-self-center text-truncate">
+                                <h6 class="text-truncate mb-n1">{{ roomNameVue }}</h6>
+                                <!-- Comming Soon -->
+                                <small class="text-muted">35 members</small>
+                                <small class="text-muted mx-2"> • </small>
+                                <!-- Comming Soon -->
+                                <small class="text-muted">HTML, CSS, and Javascript Help</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Chat toolbar -->
+                    <!--<div class="col-3 col-xl-6 text-right">
+                        <ul class="nav justify-content-end">
+                            <li class="nav-item list-inline-item d-none d-xl-block mr-5">
+                                <a class="nav-link text-muted px-3" data-toggle="collapse" data-target="#chat-1-search"
+                                    href="#" title="Search this chat">
+                                    <i class="icon-md fe-search"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>-->
+
+                </div><!-- .row -->
+
+            </div>
+        </div>
+        <!-- Chat: Header -->
+
+        <!-- Chat: Search -->
+        <!--<div class="collapse border-bottom px-lg-8" id="chat-1-search">
+            <div class="container-xxl py-4 py-lg-6">
+
+                <div class="input-group">
+                    <input type="text" class="form-control form-control-lg" placeholder="Search this chat"
+                        aria-label="Search this chat">
+
+                    <div class="input-group-append">
+                        <button class="btn btn-lg btn-ico btn-secondary btn-minimal" type="submit">
+                            <i class="fe-search"></i>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div> -->
+        <!-- Chat: Search -->
+
+        <!-- Chat: Content-->
+        <div id="chatbox" class="chat-content px-lg-8">
+            <div class="container-xxl py-6 py-lg-10">
+                <div v-for="message in messages" :key="message.id">
+
+                    <!-- Message -->
+                    <div style="margin-bottom: 1em;" v-if="message.senderId != getCurrentUser" class="message">
+                        <!-- Avatar -->
+                        <a class="avatar avatar-sm mr-4 mr-lg-5" href="#" data-chat-sidebar-toggle="#chat-1-user-profile">
+                            <img class="avatar-img" src="" alt="">
+                        </a>
+
+                        <!-- Message: body -->
+                        <div class="message-body">
+
+                            <!-- Message: row -->
+                            <div class="message-row">
+                                <div class="d-flex align-items-center">
+
+                                    <!-- Message: content -->
+                                    <div class="message-content bg-light">
+                                        <h6 class="mb-2">{{ findSender(message.senderId).name }}</h6>
+                                        <div>{{ message.text }}</div>
+
+                                        <div class="mt-1">
+                                            <small class="opacity-65">{{ formatTime(message.timestamp) }}</small>
+                                        </div>
+                                    </div>
+                                    <!-- Message: content -->
+
+                                    <!-- Message: dropdown -->
+                                    <div class="dropdown">
+                                        <a class="text-muted opacity-60 ml-3" href="#" data-toggle="dropdown"
+                                            aria-haspopup="true" aria-expanded="false">
+                                            <i class="fe-more-vertical"></i>
+                                        </a>
+
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item d-flex align-items-center" href="#">
+                                                Edit <span class="ml-auto fe-edit-3"></span>
+                                            </a>
+                                            <a class="dropdown-item d-flex align-items-center" href="#">
+                                                Share <span class="ml-auto fe-share-2"></span>
+                                            </a>
+                                            <a class="dropdown-item d-flex align-items-center" href="#">
+                                                Delete <span class="ml-auto fe-trash-2"></span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <!-- Message: dropdown -->
+
+                                </div>
+                            </div>
+                            <!-- Message: row -->
+
+                        </div>
+                        <!-- Message: Body -->
+                    </div>
+                    <!-- Message -->
+
+                    <!-- Message -->
+                    <div style="margin-bottom: 1em;" v-else class="message message-right">
+                        <!-- Avatar -->
+                        <div class="avatar avatar-sm ml-4 ml-lg-5 d-none d-lg-block">
+                            <img class="avatar-img" v-bind:src="imgSenderVue" alt="">
+                        </div>
+
+                        <!-- Message: body -->
+                        <div class="message-body">
+
+                            <!-- Message: row -->
+                            <div class="message-row">
+                                <div class="d-flex align-items-center justify-content-end">
+
+                                    <!-- Message: dropdown -->
+                                    <div class="dropdown">
+                                        <a class="text-muted opacity-60 mr-3" href="#" data-toggle="dropdown"
+                                            aria-haspopup="true" aria-expanded="false">
+                                            <i class="fe-more-vertical"></i>
+                                        </a>
+
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item d-flex align-items-center" href="#">
+                                                Edit <span class="ml-auto fe-edit-3"></span>
+                                            </a>
+                                            <a class="dropdown-item d-flex align-items-center" href="#">
+                                                Share <span class="ml-auto fe-share-2"></span>
+                                            </a>
+                                            <a class="dropdown-item d-flex align-items-center" href="#">
+                                                Delete <span class="ml-auto fe-trash-2"></span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <!-- Message: dropdown -->
+
+                                    <!-- Message: content -->
+                                    <div class="message-content bg-primary text-white">
+                                        <div>{{ message.text }}</div>
+
+                                        <div class="mt-1">
+                                            <small class="opacity-65">{{ formatTime(message.timestamp) }}</small>
+                                        </div>
+                                    </div>
+                                    <!-- Message: content -->
+
+                                </div>
+                            </div>
+                            <!-- Message: row -->
+
+                        </div>
+                        <!-- Message: body -->
+                    </div>
+                    <!-- Message -->
+
+                 </div>
+            </div>
+            <div id="typing"></div>
+            <!-- Scroll to end -->
+            <div class="end-of-chat"></div>
+        </div>
+        <!-- Chat: Content -->
+
+        <!-- Chat: DropzoneJS container -->
+        <div class="chat-files hide-scrollbar px-lg-8">
+            <div class="container-xxl">
+                <div class="dropzone-previews-js form-row py-4"></div>
+            </div>
+        </div>
+        <!-- Chat: DropzoneJS container -->
+
+        <!-- Chat: Footer -->
+        <div class="chat-footer border-top py-4 py-lg-6 px-lg-8">
+            <div class="container-xxl">
+
+                <div id="chat-id-1-form" data-emoji-form>
+                    <div class="form-row align-items-center">
+                        <div class="col">
+                            <div class="input-group">
+
+                                <!-- Textarea -->
+                                <input id="chat-id-1-input" class="form-control bg-transparent border-0"
+                                    placeholder="Type your message..." v-bind:class="[activeClass]" v-on:keyup="isTypingIn" type="text" v-model="message"
+                @keyup.enter="sendMessage" rows="1" data-emoji-input
+                                    data-autosize="true" autofocus>
+
+                                <!-- Emoji button -->
+                                <div class="input-group-append">
+                                    <button class="btn btn-ico btn-secondary btn-minimal bg-transparent border-0"
+                                        type="button" data-emoji-btn>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round"
+                                            class="feather feather-smile injected-svg">
+                                            <circle cx="12" cy="12" r="10"></circle>
+                                            <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
+                                            <line x1="9" y1="9" x2="9.01" y2="9"></line>
+                                            <line x1="15" y1="9" x2="15.01" y2="9"></line>
+                                        </svg>
+                                    </button>
+                                </div>
+
+                                <!-- Upload button -->
+                                <div class="input-group-append">
+                                    <button id="chat-upload-btn-1"
+                                        class="btn btn-ico btn-secondary btn-minimal bg-transparent border-0 dropzone-button-js"
+                                        type="button">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round"
+                                            class="feather feather-paperclip injected-svg">
+                                            <path
+                                                d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48">
+                                            </path>
+                                        </svg>
+                                    </button>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <!-- Submit button -->
+                        <div class="col-auto">
+                            <button @click="sendMessage" class="btn btn-ico btn-primary rounded-circle" >
+                                <span class="fe-send"></span>
+                            </button>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        <!-- Chat: Footer -->
+    </div>
 </template>
 
 <script>
@@ -45,6 +314,9 @@
             roomId: String,
             userId: String,
             initialMessages: Array,
+            imgRoom: String,
+            imgSender: String,
+            roomName: String,
         },
         data() {
             return {
@@ -54,6 +326,9 @@
                 messages: this.initialMessages,
                 users: null,
                 image: '',
+                imgRoomVue: this.imgRoom,
+                imgSenderVue: this.imgSender,
+                roomNameVue: this.roomName,
             }
         },
         methods: {
@@ -117,31 +392,30 @@
                             }
                             if (message.senderId != this.userId) {
                                 // sound mess
-                                var audio = new Audio('/sound/facebook_sound.mp3');
-                                audio.play();
+                                // var audio = new Audio('/sound/facebook_sound.mp3');
+                                // audio.play();
                                 //
-                                const Toast = Swal.mixin({
-                                    toast: true,
-                                    position: 'center-end',
-                                    showConfirmButton: false,
-                                    timer: 3000,
-                                    timerProgressBar: true,
-                                    onOpen: (toast) => {
-                                        toast.addEventListener('mouseenter', Swal.stopTimer)
-                                        toast.addEventListener('mouseleave', Swal.resumeTimer)
-                                    }
-                                })
-                                Toast.fire({
-                                    icon: 'success',
-                                    title: 'You have a Message!'
-                                })
+                                // const Toast = Swal.mixin({
+                                //     toast: true,
+                                //     position: 'center-end',
+                                //     showConfirmButton: false,
+                                //     timer: 3000,
+                                //     timerProgressBar: true,
+                                //     onOpen: (toast) => {
+                                //         toast.addEventListener('mouseenter', Swal.stopTimer)
+                                //         toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                //     }
+                                // })
+                                // Toast.fire({
+                                //     icon: 'success',
+                                //     title: 'You have a Message!'
+                                // })
                             }
                             await this.scrollToEnd();
                         },
                         onUserJoined: async user => {
                             await this.getUsers()
-                            if(this.userId != this.currentUser)
-                            {
+                            if (this.userId != this.currentUser) {
                                 this.messages.push({
                                     text: `${user.name} joined ${this.formatTime(user.created_at)}`
                                 })
@@ -200,16 +474,16 @@
                 if (this.image) {
                     isAttachment = true;
                 }
-                axios.post( `${process.env.MIX_APP_URL}/api/message`, {
+                axios.post(`${process.env.MIX_APP_URL}/api/message`, {
                     user: this.userId,
                     message: mess,
                     currentRoom: this.roomId,
                     isAttachment: isAttachment,
                     image: this.image
                 })
-                .then(message => {
-                    this.message = ''
-                })
+                    .then(message => {
+                        this.message = ''
+                    })
             },
             findSender(senderId) {
                 // console.log(this.users.find(user => senderId == user.id));
@@ -234,4 +508,4 @@
     };
 </script>
 
-    </script>
+</script>

@@ -14,7 +14,6 @@
     <link href="{{ asset('assets/template.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/template_002.css') }}" rel="stylesheet" media="(prefers-color-scheme: dark)">
 
-
 </head>
 <!-- Head -->
 
@@ -38,7 +37,7 @@
             <div id="chat-2" class="chat dropzone-form-js" data-dz-url="some.php">
 
                 <!-- Chat: body -->
-                <chatfr user-id='{{ $curentPusherID }}' img-friend='{{ $avatar }}' img-sender='{{ Auth::user()->avatar }}' room-id='{{ $room_Id }}' :initial-messages='@json($messages)'> </chatfr>
+                <chatfr user-id='{{ $curentPusherID }}' friend-name="{{ $FriendName }}" img-friend='{{ $avatar }}' img-sender='{{ Auth::user()->avatar }}' room-id='{{ $room_Id }}' :initial-messages='@json($messages)'> </chatfr>
                 <!-- Chat: body -->
 
             </div>

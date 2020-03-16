@@ -26,6 +26,7 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
+        "v-emoji-picker": "^2.1.5",
         "vue-emoji-picker": "^1.0.1"
     }
 }

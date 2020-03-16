@@ -14,8 +14,6 @@
     <link href="{{ asset('assets/template.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/template_002.css') }}" rel="stylesheet" media="(prefers-color-scheme: dark)">
 
-
-
 </head>
 <!-- Head -->
 
@@ -56,7 +54,7 @@
     <!-- Layout -->
 
     <!-- DropzoneJS: Template -->
-    <div id="dropzone-template-js">
+    {{-- <div id="dropzone-template-js">
         <div class="col-lg-4 my-3">
             <div class="card bg-light">
                 <div class="card-body p-3">
@@ -88,7 +86,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
     <!-- DropzoneJS: Template -->
 
     <!-- Modal: Invite friends -->

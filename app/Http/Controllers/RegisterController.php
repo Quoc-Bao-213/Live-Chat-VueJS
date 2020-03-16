@@ -32,7 +32,7 @@ class RegisterController extends Controller
         if(!$check){
             $this->chatkit->createUser([
                 'id' =>  $id_pusher,
-                'name' => $request->username,
+                'name' => ucwords($request->username),
             ]);
             $user->name = $username;
             $user->email = $email;

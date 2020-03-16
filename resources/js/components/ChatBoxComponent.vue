@@ -1,37 +1,3 @@
-<!-- resources/js/components/ChatBoxComponent.vue -->
-<!-- <template>
-    <div class="card-body">
-        <div id="chatbox" v-if="users">
-            <dl v-for="message in messages" :key="message.id">
-                <div v-if="message.senderId == getcurrentUser" class="right-mess">
-                    <i> ({{ formatTime(message.timestamp) }}) </i>
-                    <dt v-if="message.id"> <strong>{{ findSender(message.senderId).name }}</strong></dt>
-                    <img  v-if="message.image" :src="message.image" height="200">
-                    <br>
-                    <dd>{{ message.text }}</dd>
-                </div>
-                <div v-else class="left-mess">
-                    <i> ({{ formatTime(message.timestamp) }}) </i>
-                    <dt v-if="message.id"><strong>{{ findSender(message.senderId).name }}</strong></dt>
-                    <img :src="message.image" height="200">
-                    <br>
-                    <dd> {{ message.text }}</dd>
-                </div>
-            </dl>
-        </div>
-        <div id="typing"></div>
-        <hr>
-        <div class="input-group">
-            <input v-bind:class="[activeClass]" v-on:keyup="isTypingIn" type="text" v-model="message"
-                @keyup.enter="sendMessage" class="form-control" placeholder="Type your message..." autofocus>
-            <input type="file" accept="image/*" class="form-control-file" v-on:change="onImageChange" id="uploadimages">
-            <div class="input-group-append">
-                <button @click="sendMessage" class="btn btn-primary">Send</button>
-            </div>
-        </div>
-    </div>
-</template> -->
-
 <template>
     <div class="chat-body">
 
@@ -234,7 +200,7 @@
         <div class="chat-footer border-top py-4 py-lg-6 px-lg-8">
             <div class="container-xxl">
 
-                <div id="chat-id-1-form" data-emoji-form>
+                <div id="chat-id-1-form">
                     <div class="form-row align-items-center">
                         <div class="col">
                             <div class="input-group">
@@ -242,13 +208,18 @@
                                 <!-- Textarea -->
                                 <input id="chat-id-1-input" class="form-control bg-transparent border-0"
                                     placeholder="Type your message..." v-on:keyup="isTypingIn" type="text"
-                                    v-model="message" @keyup.enter="sendMessage" rows="1" data-emoji-input
+                                    v-model="message" @keyup.enter="sendMessage" rows="1"
                                     data-autosize="true" autofocus>
 
                                 <!-- Emoji button -->
-                                <div class="input-group-append">
+                                <div class="input-group-append" style="position: relative">
+                                     <VEmojiPicker style="position: absolute; bottom: 50px; right: -137px;"
+                                    v-show="showDialog"
+                                    labelSearch="Search"
+                                    @select="onSelectEmoji"
+                                    />
                                     <button class="btn btn-ico btn-secondary btn-minimal bg-transparent border-0"
-                                        type="button" data-emoji-btn>
+                                        type="button" @click="toogleDialogEmoji">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                             stroke-linecap="round" stroke-linejoin="round"
@@ -263,8 +234,6 @@
 
                                 <!-- Upload button -->
                                 <div class="input-group-append">
-                                    <!-- <input type="file" accept="image/*" class="form-control-file"
-                                        v-on:change="onImageChange" id="uploadimages"> -->
                                     <span class="btn btn-file bg-transparent dropzone-button-js">
                                         <i style="font-size: 20px; padding-top: 1px; color: rgb(182, 182, 182); display: block;" class="fe-paperclip"></i> <input type="file" v-on:change="onImageChange" accept="image/*">
                                     </span>
@@ -297,11 +266,14 @@
 </template>
 
 <script>
-    import EmojiPicker from 'vue-emoji-picker'
     import axios from 'axios';
     import moment from 'moment';
     import Chatkit from '@pusher/chatkit-client';
+    import VEmojiPicker from "v-emoji-picker";
     export default {
+        components: {
+            VEmojiPicker
+        },
         props: {
             roomId: String,
             userId: String,
@@ -321,6 +293,7 @@
                 imgRoomVue: this.imgRoom,
                 imgSenderVue: this.imgSender,
                 roomNameVue: this.roomName,
+                showDialog: false,
             }
         },
         methods: {
@@ -349,19 +322,19 @@
                     hooks: {
                         onUserStartedTyping: user => {
                             console.log(`User ${user.name} started typing`)
-                            /// chat
-                            var test = this.$el.querySelector("#typing")
+                            // chat
+                            var test = document.getElementById("typing")
                             test.innerHTML = `<img style="height: 30px" src="https://thumbs.gfycat.com/WavyViciousIrishdraughthorse-size_restricted.gif" alt="">`
                         },
                         onUserStoppedTyping: user => {
                             console.log(`User ${user.name} stopped typing`)
                             //unchat
-                            var test = this.$el.querySelector("#typing")
+                            var test = document.getElementById("typing")
                             test.innerHTML = ''
                         },
                         onMessage: async message => {
 
-                            // check image
+                            // CHECK IMAGE
                             if (message['parts'][1]) {
                                 await this.messages.push({
                                     id: message.id,
@@ -371,7 +344,6 @@
                                     timestamp: message.createdAt,
                                 })
                                 this.image = null;
-                                // console.log('dax xoa hinh');
                             }
                             else {
                                 await this.messages.push({
@@ -406,6 +378,7 @@
                             }
 
                             await this.scrollToEnd();
+
                         },
                         onUserJoined: async user => {
                             await this.getUsers()
@@ -419,7 +392,7 @@
                     messageLimit: 0
                 })
             },
-            // send image
+            // SEND IMAGE
             onImageChange(e) {
                 let files = e.target.files || e.dataTransfer.files;
                 if (!files.length)
@@ -436,7 +409,14 @@
                 reader.readAsDataURL(file);
                 console.log(this.image);
             },
-            // typing
+            // EMOJI
+            toogleDialogEmoji() {
+                this.showDialog = !this.showDialog;
+            },
+            onSelectEmoji(emoji) {
+                this.message += emoji.data;
+            },
+            // IS TYPING
             isTypingIn() {
                 if (this.message.length > 0) {
                     this.currentUser.isTypingIn({ roomId: this.roomId })
@@ -459,37 +439,17 @@
                 console.log('sent here 1');
                 // check attachment first
                 var isAttachment = false;
-           
+
                 var mess = this.message;
                 this.message = "";
+
                 // check image isset
-                if (this.image) { 
+                if (this.image) {
                     console.log('sent here 2');
-                    //  ney co hinh anh thi set is att == true
+
                     isAttachment = true;
 
                     axios.post(`${process.env.MIX_APP_URL}/api/message`, {
-                        user: this.userId,
-                        message: mess, // hỉu cái này k?  lấy cái text mình nhập , yup, dunneneok nhe
-                        currentRoom: this.roomId,
-                        isAttachment: isAttachment,
-                        image: this.image
-                    })
-                    .then(message => {
-                        this.message = ''
-                    }) 
-                        // nó return mất
-                }else{              
-                        if (mess.trim() === '') {
-                            console.log('sent here 3- without text');
-                            console.log(mess);
-                        // check when nothing type on input then set active input color red
-                        this.activeClass = "btn-danger";
-                        
-                        return;
-                    }
-                    console.log('sent here 4');
-                        axios.post(`${process.env.MIX_APP_URL}/api/message`, {
                         user: this.userId,
                         message: mess,
                         currentRoom: this.roomId,
@@ -500,8 +460,24 @@
                             this.message = ''
                         })
 
-                    } // Hieu chua Tuan chưa hiểu cái else, nếu k có ảnh sao lại check cái ô 
-               
+                }else{
+                    if (mess.trim() === '') {
+                        console.log('sent here 3- without text');
+
+                        return;
+                    }
+                    console.log('sent here 4');
+                    axios.post(`${process.env.MIX_APP_URL}/api/message`, {
+                    user: this.userId,
+                    message: mess,
+                    currentRoom: this.roomId,
+                    isAttachment: isAttachment,
+                    image: this.image
+                    })
+                        .then(message => {
+                            this.message = ''
+                        })
+                }
             },
             findSender(senderId) {
                 // console.log(this.users.find(user => senderId == user.id));
@@ -522,15 +498,7 @@
         created() {
             this.getUsers();
             this.connectToChatkit();
-            this.scrollToEnd();
         },
-        watch : {
-            message:function(val) {
-                 // this.message = val+'11111';
-                  console.log(val);
-               }
-               
-            }
     };
 </script>
 

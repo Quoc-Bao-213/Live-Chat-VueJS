@@ -14,6 +14,7 @@
     <link href="{{ asset('assets/template.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/template_002.css') }}" rel="stylesheet" media="(prefers-color-scheme: dark)">
 
+    <script src="https://unpkg.com/vue-emoji-picker/dist/vue-emoji-picker.js"></script>
 
 
 </head>

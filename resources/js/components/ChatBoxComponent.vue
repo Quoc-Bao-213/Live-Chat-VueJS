@@ -62,7 +62,7 @@
                             <div class="media-body align-self-center text-truncate">
                                 <h6 class="text-truncate mb-n1">{{ roomNameVue }}</h6>
                                 <!-- Comming Soon -->
-                                <small class="text-muted">35 members</small>
+                                <small class="text-muted" @click="scrollToEnd">35 members</small>
                                 <small class="text-muted mx-2"> • </small>
                                 <!-- Comming Soon -->
                                 <small class="text-muted">HTML, CSS, and Javascript Help</small>
@@ -297,6 +297,7 @@
 </template>
 
 <script>
+    import EmojiPicker from 'vue-emoji-picker'
     import axios from 'axios';
     import moment from 'moment';
     import Chatkit from '@pusher/chatkit-client';
@@ -440,7 +441,7 @@
                 if (this.message.length > 0) {
                     this.currentUser.isTypingIn({ roomId: this.roomId })
                         .then(() => {
-                            console.log('Success!')
+                            console.log('notificate typing Success!')
                         })
                         .catch(err => {
                             console.log(`Error sending typing indicator: ${err}`)
@@ -455,32 +456,51 @@
                     });
             },
             sendMessage() {
+                console.log('sent here 1');
+                // check attachment first
                 var isAttachment = false;
            
                 var mess = this.message;
                 this.message = "";
                 // check image isset
-                if (this.image) {
+                if (this.image) { 
+                    console.log('sent here 2');
+                    //  ney co hinh anh thi set is att == true
                     isAttachment = true;
-                }
-                //  if (this.message.trim() === '') {
-                //     // check when nothing type on input then set active input color red
-                //     this.activeClass = "btn-danger";
-                //     return;
-                // }
 
-    
-                axios.post(`${process.env.MIX_APP_URL}/api/message`, {
-                    user: this.userId,
-                    message: mess,
-                    currentRoom: this.roomId,
-                    isAttachment: isAttachment,
-                    image: this.image
-                })
+                    axios.post(`${process.env.MIX_APP_URL}/api/message`, {
+                        user: this.userId,
+                        message: mess, // hỉu cái này k?  lấy cái text mình nhập , yup, dunneneok nhe
+                        currentRoom: this.roomId,
+                        isAttachment: isAttachment,
+                        image: this.image
+                    })
                     .then(message => {
                         this.message = ''
+                    }) 
+                        // nó return mất
+                }else{              
+                        if (mess.trim() === '') {
+                            console.log('sent here 3- without text');
+                            console.log(mess);
+                        // check when nothing type on input then set active input color red
+                        this.activeClass = "btn-danger";
+                        
+                        return;
+                    }
+                    console.log('sent here 4');
+                        axios.post(`${process.env.MIX_APP_URL}/api/message`, {
+                        user: this.userId,
+                        message: mess,
+                        currentRoom: this.roomId,
+                        isAttachment: isAttachment,
+                        image: this.image
                     })
-                    
+                        .then(message => {
+                            this.message = ''
+                        })
+
+                    } // Hieu chua Tuan chưa hiểu cái else, nếu k có ảnh sao lại check cái ô 
                
             },
             findSender(senderId) {
@@ -502,7 +522,15 @@
         created() {
             this.getUsers();
             this.connectToChatkit();
+            this.scrollToEnd();
         },
+        watch : {
+            message:function(val) {
+                 // this.message = val+'11111';
+                  console.log(val);
+               }
+               
+            }
     };
 </script>
 

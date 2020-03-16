@@ -456,21 +456,20 @@
             },
             sendMessage() {
                 var isAttachment = false;
-
-                if (this.message.trim() === '') {
-                    // check when nothing type on input then set active input color red
-                    this.activeClass = "btn-danger";
-                    return;
-                }
-
+           
                 var mess = this.message;
                 this.message = "";
-
                 // check image isset
                 if (this.image) {
                     isAttachment = true;
                 }
+                //  if (this.message.trim() === '') {
+                //     // check when nothing type on input then set active input color red
+                //     this.activeClass = "btn-danger";
+                //     return;
+                // }
 
+    
                 axios.post(`${process.env.MIX_APP_URL}/api/message`, {
                     user: this.userId,
                     message: mess,
@@ -481,6 +480,8 @@
                     .then(message => {
                         this.message = ''
                     })
+                    
+               
             },
             findSender(senderId) {
                 // console.log(this.users.find(user => senderId == user.id));

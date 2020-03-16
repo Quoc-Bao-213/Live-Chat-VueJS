@@ -95,6 +95,7 @@
     <script src="{{ asset('assets/bootstrap.js') }}"></script>
     <script src="{{ asset('assets/plugins.js') }}"></script>
     <script src="{{ asset('assets/template.js') }}"></script>
+    
     <!-- Scripts -->
 
 

@@ -103,6 +103,9 @@ class ChatUserController extends Controller
      */
     public function sendMessage(Request $request)
     {
+
+        // duplicate code nhieu qua
+        // em moi check toi do à @@
         $roomId = $request->currentRoom;
         $my_id = Auth::user()->id_pusher;
         if($request->isAttachment)
@@ -114,14 +117,16 @@ class ChatUserController extends Controller
             $saveImage = Storage::disk('mychat')->put($nameImage, $base64_image);
             $resource_link = url('/').'/uploads/'.$nameImage;
 
-            //
+            // hieu chua ? hiểu anh
             $options['sender_id'] = $my_id;
             $options['room_id']  = $roomId;
-            $options['text']  = $request->message;
-
-            $options['attachment']['resource_link'] = $resource_link            ;
+            if (!empty($request->message)){
+                $options['text']  = $request->message;
+            }else{
+                $options['text']  = ' ';
+            }
+            $options['attachment']['resource_link'] = $resource_link;
             $options['attachment']['type'] = 'image';
-
             $message = $this->chatkit->sendMessage($options);
         }else{
             $message = $this->chatkit->sendSimpleMessage([

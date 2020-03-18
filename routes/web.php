@@ -24,12 +24,6 @@ Route::post('logout', 'LoginController@Logout')->name('logout');
 
 Route::middleware('auth')->group(function(){
 
-    // Route::get('/homepage', function () {
-    //     return view('welcome');
-    // })->name('homepage');
-
-    // Route::get('/gr/chat/{roomid}', 'ChatkitController@chat')->name('chat');
-
     // Trang Index
     route::get('/homepage','ChatUserController@index')->name('index');
 
@@ -43,6 +37,9 @@ Route::middleware('auth')->group(function(){
     // API
     Route::get('/api/users', 'ChatUserController@getUsers');
     Route::post('/api/message','ChatUserController@sendMessage');
+
+    // Route delete message
+    Route::get('/group/delmessage/{messageid}', 'ChatkitController@deleteMessage');
 
     // Route::get('/test', function () {
     //     return view('test');

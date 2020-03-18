@@ -103,11 +103,9 @@ class ChatUserController extends Controller
      */
     public function sendMessage(Request $request)
     {
-
-        // duplicate code nhieu qua
-        // em moi check toi do à @@
         $roomId = $request->currentRoom;
         $my_id = Auth::user()->id_pusher;
+
         if($request->isAttachment)
         {
 
@@ -151,13 +149,4 @@ class ChatUserController extends Controller
 
         return response($users);
     }
-
-    // public function deleteMessage(Request $request)
-    // {
-    //     $delete = $this->chatkit->deleteMessage([
-    //     'message_id' => Auth::user()->id_pusher,
-    //     'room_id' => 'myroom'
-    //   ]);
-
-    // }
 }

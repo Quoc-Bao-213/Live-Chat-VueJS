@@ -74,8 +74,9 @@
         <!-- Chat: Search -->
 
         <!-- Chat: Content-->
+
         <div id="chatbox" v-if="users" class="chat-content px-lg-8">
-            <div v-for="message in messages" :key="message.id" class="container-xxl py-6">
+            <div v-for="(message, index) in messages" :key="message.id" class="container-xxl py-6">
 
                 <!-- Message -->
                 <div v-if="message.senderId != getcurrentUser" class="message">
@@ -149,26 +150,26 @@
                                 <!-- Message: dropdown -->
                                 <div class="dropdown">
                                     <a class="text-muted opacity-60 mr-3" href="#" data-toggle="dropdown"
-                                        aria-haspopup="true" aria-expanded="false">
+                                        aria-haspopup="true" aria-expanded="false" @click="toogleDialogDelete">
                                         <i class="fe-more-vertical"></i>
                                     </a>
 
-                                    <div class="dropdown-menu">
+                                    <div class="dropdown-menu" v-bind:class="{show: isActive}" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(8px, -140px, 0px);" x-placement="top-start">
                                         <a class="dropdown-item d-flex align-items-center" href="#">
                                             Edit <span class="ml-auto fe-edit-3"></span>
                                         </a>
                                         <a class="dropdown-item d-flex align-items-center" href="#">
                                             Share <span class="ml-auto fe-share-2"></span>
                                         </a>
-                                        <a class="dropdown-item d-flex align-items-center" href="#">
+                                        <button class="dropdown-item d-flex align-items-center" @click="deleteMessage(index)">
                                             Delete <span class="ml-auto fe-trash-2"></span>
-                                        </a>
+                                        </button>
                                     </div>
                                 </div>
                                 <!-- Message: dropdown -->
 
                                 <!-- Message: content -->
-                                <div class="message-content bg-primary text-white">
+                                <div v-if="message.id" class="message-content bg-primary text-white">
                                     <div style="word-wrap:break-word;">{{ message.text }}</div>
                                     <img v-if="message.image" :src="message.image" height="200">
                                     <div class="mt-1">
@@ -294,6 +295,8 @@
                 imgSenderVue: this.imgSender,
                 roomNameVue: this.roomName,
                 showDialog: false,
+                isActive: false,
+                urlIdMessage: 'http://pusher.localhost/group/delmessage/',
             }
         },
         methods: {
@@ -416,6 +419,9 @@
             onSelectEmoji(emoji) {
                 this.message += emoji.data;
             },
+            toogleDialogDelete(){
+                this.isActive = !this.isActive;
+            },
             // IS TYPING
             isTypingIn() {
                 if (this.message.length > 0) {
@@ -427,6 +433,14 @@
                             console.log(`Error sending typing indicator: ${err}`)
                         })
                 }
+            },
+            deleteMessage(index){
+
+                //TODO call api delete id
+                // process UI
+                this.messages[index].text = "avc"
+                // console.log(this.messages[index].text = "avc");
+                console.log(index); // key lam` index
             },
             getUsers() {
                 axios.get(`${process.env.MIX_APP_URL}/api/users`)

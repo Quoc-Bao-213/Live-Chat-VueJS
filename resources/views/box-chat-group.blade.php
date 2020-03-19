@@ -36,7 +36,13 @@
             <div id="chat-1" class="chat dropzone-form-js" data-dz-url="some.php">
 
                 <!-- Chat: body -->
-                <chatgr user-id='{{ $chatkit_id }}' img-room="{{ $imgRoom }}" img-sender='{{ Auth::user()->avatar }}' room-id='{{ $roomId }}' room-name="{{ $roomName }}"  :initial-messages='@json($messages)'>
+                <chatgr
+                    user-id='{{ $chatkit_id }}'
+                    img-room="{{ $imgRoom }}"
+                    room-id='{{ $roomId }}'
+                    room-name="{{ $roomName }}"
+                    :avatar='@json($listAvatar)'
+                    :initial-messages='@json($messages)'>
                 </chatgr>
                 <!-- Chat: body -->
 

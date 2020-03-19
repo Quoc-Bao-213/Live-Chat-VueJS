@@ -81,7 +81,9 @@ class ChatkitController extends Controller
 
         });
 
-        return view('box-chat-group')->with(compact('messages', 'roomId', 'chatkit_id', 'listFriends', 'listRooms', 'roomName', 'imgRoom'));
+        $listAvatar = DB::select("select id_pusher, avatar from users");
+
+        return view('box-chat-group')->with(compact('messages', 'roomId', 'chatkit_id', 'listFriends', 'listRooms', 'roomName', 'imgRoom', 'listAvatar'));
     }
 
     /**
@@ -128,14 +130,34 @@ class ChatkitController extends Controller
 
     public function deleteMessage(Request $request)
     {
-        $roomID = $request->session()->get('room_id');
-        $this->chatkit->deleteMessage([
+
+
+        // $roomID = $request->session()->get('room_id');
+        // $my_id = Auth::user()->id_pusher;
+
+        $deleteMessage = $this->chatkit->deleteMessage([
             'message_id' => $request->messageid,
-            'room_id' => $roomID
+            'room_id' => $request->currentRoom,
         ]);
 
-        $idRoomDB = RoomChat::where('id_room', $roomID)->first()->id;
+        if($deleteMessage){
+            return response(['message' => true]);
+        }
 
-        return redirect('group/'.$idRoomDB);
+        return response(['message' => false]);
+
+
+
+        // echo  $deleteMessageID;
+
+        // $deleteMessage = $this->chatkit->editSimpleMessage($roomID, (int)($request->idMessage), [
+        //     'sender_id' => $my_id,
+        //     'text' => $request->message,
+        //   ]);
+
+        //return response($deleteMessage);
+
+        // $idRoomDB = RoomChat::where('id_room', $roomID)->first()->id;
+        // return redirect('group/'.$idRoomDB);
     }
 }

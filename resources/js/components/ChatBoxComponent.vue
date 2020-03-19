@@ -1,11 +1,10 @@
 <template>
-    <div class="chat-body">
+    <div class="chat-body" @click="selected = undefined" >
 
         <!-- Chat: Header -->
         <div class="chat-header border-bottom py-4 py-lg-6 px-lg-8">
             <div class="container-xxl">
-
-                <div class="row align-items-center">
+                <div class="row align-items-center longlonglong">
 
                     <!-- Close chat(mobile) -->
                     <div class="col-3 d-xl-none">
@@ -82,7 +81,7 @@
                 <div v-if="message.senderId != getcurrentUser" class="message">
                     <!-- Avatar -->
                     <a class="avatar avatar-sm mr-4 mr-lg-5" href="#" data-chat-sidebar-toggle="#chat-1-user-profile">
-                        <img class="avatar-img" src="https://i.picsum.photos/id/500/200/200.jpg" alt="">
+                        <img class="avatar-img" :src="findAvt(message.senderId)" alt="">
                     </a>
 
                     <!-- Message: body -->
@@ -104,7 +103,7 @@
                                 <!-- Message: content -->
 
                                 <!-- Message: dropdown -->
-                                <div class="dropdown">
+                                <!-- <div class="dropdown">
                                     <a class="text-muted opacity-60 ml-3" href="#" data-toggle="dropdown"
                                         aria-haspopup="true" aria-expanded="false">
                                         <i class="fe-more-vertical"></i>
@@ -121,7 +120,7 @@
                                             Delete <span class="ml-auto fe-trash-2"></span>
                                         </a>
                                     </div>
-                                </div>
+                                </div> -->
                                 <!-- Message: dropdown -->
 
                             </div>
@@ -137,7 +136,7 @@
                 <div v-else class="message message-right">
                     <!-- Avatar -->
                     <div class="avatar avatar-sm ml-4 ml-lg-5 d-none d-lg-block">
-                        <img class="avatar-img" v-bind:src="imgSenderVue" alt="">
+                        <img class="avatar-img" :src="findAvt(message.senderId)" alt="">
                     </div>
 
                     <!-- Message: body -->
@@ -150,18 +149,17 @@
                                 <!-- Message: dropdown -->
                                 <div class="dropdown">
                                     <a class="text-muted opacity-60 mr-3" href="#" data-toggle="dropdown"
-                                        aria-haspopup="true" aria-expanded="false" @click="toogleDialogDelete">
+                                        aria-haspopup="true" aria-expanded="false" @click="selected = index">
                                         <i class="fe-more-vertical"></i>
                                     </a>
-
-                                    <div class="dropdown-menu" v-bind:class="{show: isActive}" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(8px, -140px, 0px);" x-placement="top-start">
+                                    <div class="dropdown-menu" :class="{show:index == selected}" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(8px, -140px, 0px);" x-placement="top-start">
                                         <a class="dropdown-item d-flex align-items-center" href="#">
                                             Edit <span class="ml-auto fe-edit-3"></span>
                                         </a>
                                         <a class="dropdown-item d-flex align-items-center" href="#">
                                             Share <span class="ml-auto fe-share-2"></span>
                                         </a>
-                                        <button class="dropdown-item d-flex align-items-center" @click="deleteMessage(index)">
+                                        <button class="dropdown-item d-flex align-items-center" @click="deleteMessage(index, message.id)">
                                             Delete <span class="ml-auto fe-trash-2"></span>
                                         </button>
                                     </div>
@@ -193,9 +191,6 @@
             <div class="end-of-chat"></div>
         </div>
         <!-- Chat: Content -->
-
-
-
 
         <!-- Chat: Footer -->
         <div class="chat-footer border-top py-4 py-lg-6 px-lg-8">
@@ -280,8 +275,8 @@
             userId: String,
             initialMessages: Array,
             imgRoom: String,
-            imgSender: String,
             roomName: String,
+            avatar: Array,
         },
         data() {
             return {
@@ -292,11 +287,10 @@
                 users: null,
                 image: '',
                 imgRoomVue: this.imgRoom,
-                imgSenderVue: this.imgSender,
                 roomNameVue: this.roomName,
                 showDialog: false,
-                isActive: false,
-                urlIdMessage: 'http://pusher.localhost/group/delmessage/',
+                selected: undefined,
+                avatarVue: this.avatar,
             }
         },
         methods: {
@@ -335,8 +329,18 @@
                             var test = document.getElementById("typing")
                             test.innerHTML = ''
                         },
-                        onMessage: async message => {
+                        onMessageDeleted: message => {
 
+                            var deleteMessID = message;
+                            this.messages.map(function(messages){
+                                if (messages.id == deleteMessID ){
+                                   return messages.text = 'Message Have been Deleted.';
+                                }
+                            });
+                            console.log('hoook delete herre');
+                        },
+                        onMessage: async message => {
+                            //console.log(this.users);
                             // CHECK IMAGE
                             if (message['parts'][1]) {
                                 await this.messages.push({
@@ -395,6 +399,12 @@
                     messageLimit: 0
                 })
             },
+            findAvt(senderid){
+                // console.log(this.users);
+                var atv = this.users.find(element => element.id == senderid);
+                // console.log( atv.avatar );
+                return atv.avatar;
+            },
             // SEND IMAGE
             onImageChange(e) {
                 let files = e.target.files || e.dataTransfer.files;
@@ -419,9 +429,6 @@
             onSelectEmoji(emoji) {
                 this.message += emoji.data;
             },
-            toogleDialogDelete(){
-                this.isActive = !this.isActive;
-            },
             // IS TYPING
             isTypingIn() {
                 if (this.message.length > 0) {
@@ -434,13 +441,26 @@
                         })
                 }
             },
-            deleteMessage(index){
-
+            deleteMessage(index, messageid){
+                // console.log(this.users);
+                console.log('function delete herre');
+                var isAttachment = false;
+                this.selected = undefined
                 //TODO call api delete id
+                axios.post(`${process.env.MIX_APP_URL}/api/delmessage`, {
+                    user: this.userId,
+                    currentRoom: this.roomId,
+                    messageid : messageid
+                })
+                .then(message => {
+                       this.messages[index].text = 'message have been deleted';
+                })
+                //console.log(this.messages);
                 // process UI
-                this.messages[index].text = "avc"
-                // console.log(this.messages[index].text = "avc");
-                console.log(index); // key lam` index
+
+                // console.log(this.messages[index].id); // id message
+                // console.log(index) // KEY
+
             },
             getUsers() {
                 axios.get(`${process.env.MIX_APP_URL}/api/users`)

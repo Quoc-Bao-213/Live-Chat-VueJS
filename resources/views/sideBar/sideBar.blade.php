@@ -1,3 +1,16 @@
+@php
+     $section = explode( '/', Request::path() );
+    //
+    $grclass = "";
+    $frclass = "";
+
+    if ( $section[0] == 'group'){
+        $grclass = 'show active';
+    }else{
+        $frclass = 'show active';
+    }
+@endphp
+
 <div class="sidebar">
     <div class="tab-content h-100" role="tablist">
         {{-- Create Group --}}
@@ -88,7 +101,7 @@
         </div>
 
         {{-- Chat Friend --}}
-        <div class="tab-pane fade h-100 show active" id="tab-content-dialogs" role="tabpanel">
+        <div class="tab-pane fade h-100 {{ $frclass }}" id="tab-content-dialogs" role="tabpanel">
             <div class="d-flex flex-column h-100">
 
                 <div class="hide-scrollbar">
@@ -158,7 +171,7 @@
         </div>
 
         {{-- Chat Group --}}
-        <div class="tab-pane fade h-100" id="tab-content-group" role="tabpanel">
+        <div class="tab-pane fade h-100 {{ $grclass }}" id="tab-content-group" role="tabpanel">
             <div class="d-flex flex-column h-100">
 
                 <div class="hide-scrollbar">

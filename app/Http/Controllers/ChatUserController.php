@@ -106,16 +106,14 @@ class ChatUserController extends Controller
         $roomId = $request->currentRoom;
         $my_id = Auth::user()->id_pusher;
 
-        if($request->isAttachment)
+        if($request->isAttachment) // true
         {
-
             $imageType = 'jpg';
             $base64_image = base64_decode(explode(',',$request->image)[1]);
             $nameImage = Str::random(10).".".$imageType;
             $saveImage = Storage::disk('mychat')->put($nameImage, $base64_image);
             $resource_link = url('/').'/uploads/'.$nameImage;
 
-            // hieu chua ? hiểu anh
             $options['sender_id'] = $my_id;
             $options['room_id']  = $roomId;
             if (!empty($request->message)){
@@ -133,6 +131,7 @@ class ChatUserController extends Controller
                 'text' => $request->message
             ]);
         }
+
         return response($message);
     }
 
@@ -146,7 +145,14 @@ class ChatUserController extends Controller
     {
         $opt['limit'] = 100;
         $users = $this->chatkit->getUsers($opt);
-
+        foreach ($users['body'] as $key => $user) {
+           $raw = "select avatar from users where id_pusher = '".$user['id']."'";
+           if ($userQuery = DB::select($raw)){
+               $users['body'][$key]['avatar'] = $userQuery[0]->avatar;
+           }else{
+                $users['body'][$key]['avatar'] = 'hinh-defaul.jpg.jav';
+           }
+        }
         return response($users);
     }
 }

@@ -1,3 +1,16 @@
+@php
+     $section = explode( '/', Request::path() );
+    //
+    $grclass = "";
+    $frclass = "";
+
+    if ($section[0] == 'group'){
+        $grclass = 'active';
+    }else{
+        $frclass = 'active';
+    }
+@endphp
+
 <div class="navigation navbar navbar-light justify-content-center py-xl-7">
 
     <!-- Brand -->
@@ -32,22 +45,34 @@
 
         <!-- Chats Friend -->
         <li class="nav-item mt-xl-9">
-            <a class="nav-link position-relative p-0 py-xl-3 active" data-toggle="tab" href="#tab-content-dialogs" title="Chat Friends" role="tab">
+            <a class="nav-link position-relative p-0 py-xl-3 {{ $frclass }}" data-toggle="tab" href="#tab-content-dialogs" title="Chat Friends" role="tab">
                 <i class="icon-lg fe-message-square"></i>
             </a>
         </li>
 
         <!-- Chats Group -->
         <li class="nav-item mt-xl-9">
-            <a class="nav-link position-relative p-0 py-xl-3" data-toggle="tab" href="#tab-content-group" title="Chat Group" role="tab">
+            <a class="nav-link position-relative p-0 py-xl-3 {{ $grclass }}" data-toggle="tab" href="#tab-content-group" title="Chat Group" role="tab">
                 <i class="icon-lg fe-users mr-4" style="margin-left: 13px;"></i>
             </a>
         </li>
 
         <!-- Profile -->
-        <li class="nav-item mt-xl-9" style="margin-bottom: 27em">
+        <li class="nav-item mt-xl-9" >
             <a class="nav-link position-relative p-0 py-xl-3" data-toggle="tab" href="#tab-content-user" title="My Profile" role="tab">
                 <i class="icon-lg fe-user"></i>
+            </a>
+        </li>
+
+        <li class="nav-item mt-xl-9 d-none d-xl-block invisible flex-xl-grow-1">
+            <a class="nav-link position-relative p-0 py-xl-3" data-toggle="tab" href="#tab-content-demos" title="Demos" role="tab">
+                <i class="icon-lg fe-layers"></i>
+            </a>
+        </li>
+
+        <li class="nav-item mt-xl-9">
+            <a class="nav-link position-relative p-0 invisible py-xl-3" href="#" title="Settings">
+                <i class="icon-lg fe-settings"></i>
             </a>
         </li>
 

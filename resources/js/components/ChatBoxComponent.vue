@@ -27,7 +27,11 @@
                             <div class="media-body align-self-center text-truncate">
                                 <h6 class="text-truncate mb-n1">{{ roomNameVue }}</h6>
                                 <!-- Comming Soon -->
+<<<<<<< HEAD
                                 <small class="text-muted" @click="scrollToEnd">{{ this.users.length}} members</small>
+=======
+                                <small class="text-muted" @click="scrollToEnd">00 members</small>
+>>>>>>> 749c0c75a134fbf21aa5ae9879530039f1660730
                                 <small class="text-muted mx-2"> • </small>
                                 <!-- Comming Soon -->
                                 <small class="text-muted">HTML, CSS, and Javascript Help</small>
@@ -95,7 +99,7 @@
                                 <div style="max-width: 45%" class="message-content bg-light">
                                     <h6 class="mb-2">{{ findSender(message.senderId).name }}</h6>
                                     <div style="word-wrap:break-word;">{{ message.text }}</div>
-                                    <img v-if="message.image" :src="message.image" height="200">
+                                    <img v-if="message.image" style="width: 100%" :src="message.image" height="200">
                                     <div class="mt-1">
                                         <small class="opacity-65">{{ formatTime(message.timestamp) }}</small>
                                     </div>
@@ -148,11 +152,10 @@
 
                                 <!-- Message: dropdown -->
                                 <div class="dropdown">
-                                    <a class="text-muted opacity-60 mr-3" href="#" data-toggle="dropdown"
-                                        aria-haspopup="true" aria-expanded="false" @click="selected = index">
+                                    <a class="text-muted opacity-60 mr-3" href="javascript:void(0)" data-toggle="dropdown" @click="selected = index">
                                         <i class="fe-more-vertical"></i>
                                     </a>
-                                    <div class="dropdown-menu" :class="{show:index == selected}" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(8px, -140px, 0px);" x-placement="top-start">
+                                    <div class="dropdown-menu" x-placement="bottom-start" :class="{show:index == selected}">
                                         <a class="dropdown-item d-flex align-items-center" href="#">
                                             Edit <span class="ml-auto fe-edit-3"></span>
                                         </a>
@@ -167,9 +170,9 @@
                                 <!-- Message: dropdown -->
 
                                 <!-- Message: content -->
-                                <div v-if="message.id" class="message-content bg-primary text-white">
+                                <div style="max-width: 45%" class="message-content bg-primary text-white">
                                     <div style="word-wrap:break-word;">{{ message.text }}</div>
-                                    <img v-if="message.image" :src="message.image" height="200">
+                                    <img v-if="message.image" style="width: 100%" :src="message.image" height="200">
                                     <div class="mt-1">
                                         <small class="opacity-65">{{ formatTime(message.timestamp) }}</small>
                                     </div>
@@ -334,13 +337,20 @@
                             var deleteMessID = message;
                             this.messages.map(function(messages){
                                 if (messages.id == deleteMessID ){
-                                   return messages.text = 'Message Have been Deleted.';
+                                    return [
+                                        messages.text = 'Message Have been Deleted.',
+                                        messages.image = '',
+                                    ];
                                 }
                             });
                             console.log('Hook Delete Here');
                         },
                         onMessage: async message => {
+<<<<<<< HEAD
                             // console.log(this.userId);
+=======
+                            // console.log(this.users.length);
+>>>>>>> 749c0c75a134fbf21aa5ae9879530039f1660730
                             // CHECK IMAGE
                             if (message['parts'][1]) {
                                 await this.messages.push({
@@ -442,20 +452,26 @@
             },
             deleteMessage(index, messageid){
                 // console.log(this.users);
+<<<<<<< HEAD
                 console.log('function delete here');
                 var isAttachment = false;
+=======
+                console.log('function delete herre');
+                var isAttachment = true;
+>>>>>>> 749c0c75a134fbf21aa5ae9879530039f1660730
                 this.selected = undefined
                 //TODO call api delete id
                 axios.post(`${process.env.MIX_APP_URL}/api/delmessage`, {
                     user: this.userId,
                     currentRoom: this.roomId,
-                    messageid : messageid
+                    messageid : messageid,
+                    isAttachment: isAttachment,
                 })
                 .then(message => {
-                       this.messages[index].text = 'message have been deleted';
+                       this.messages[index].text = 'Message Have been Deleted.';
+                       this.messages[index].image = '';
                 })
-                //console.log(this.messages);
-                // process UI
+                // console.log(this.messages[index].imgage);
 
                 // console.log(this.messages[index].id); // id message
                 // console.log(index) // KEY

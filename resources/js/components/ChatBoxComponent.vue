@@ -27,11 +27,7 @@
                             <div class="media-body align-self-center text-truncate">
                                 <h6 class="text-truncate mb-n1">{{ roomNameVue }}</h6>
                                 <!-- Comming Soon -->
-<<<<<<< HEAD
-                                <small class="text-muted" @click="scrollToEnd">{{ this.users.length}} members</small>
-=======
                                 <small class="text-muted" @click="scrollToEnd">00 members</small>
->>>>>>> 749c0c75a134fbf21aa5ae9879530039f1660730
                                 <small class="text-muted mx-2"> • </small>
                                 <!-- Comming Soon -->
                                 <small class="text-muted">HTML, CSS, and Javascript Help</small>
@@ -346,11 +342,9 @@
                             console.log('Hook Delete Here');
                         },
                         onMessage: async message => {
-<<<<<<< HEAD
                             // console.log(this.userId);
-=======
                             // console.log(this.users.length);
->>>>>>> 749c0c75a134fbf21aa5ae9879530039f1660730
+
                             // CHECK IMAGE
                             if (message['parts'][1]) {
                                 await this.messages.push({
@@ -452,13 +446,8 @@
             },
             deleteMessage(index, messageid){
                 // console.log(this.users);
-<<<<<<< HEAD
                 console.log('function delete here');
                 var isAttachment = false;
-=======
-                console.log('function delete herre');
-                var isAttachment = true;
->>>>>>> 749c0c75a134fbf21aa5ae9879530039f1660730
                 this.selected = undefined
                 //TODO call api delete id
                 axios.post(`${process.env.MIX_APP_URL}/api/delmessage`, {

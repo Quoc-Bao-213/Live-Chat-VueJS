@@ -30,7 +30,8 @@ class ChatkitController extends Controller
         $chatkit_id = Auth::user()->id_pusher;
         $listRooms = RoomChat::all();
         $listFriends = User::all();
-
+        
+      
         $query = DB::select("select count(id) as NumberOfRoom from room_chats");
 
         if ((int)$request->roomid > $query[0]->NumberOfRoom){
@@ -56,7 +57,7 @@ class ChatkitController extends Controller
             'room_id' => $roomId,
             'direction' => 'newer',
             'limit' => 100,
-            'initial_id' => 104153000,
+            // 'initial_id' => 104153000,
         ]);
 
         // dd ($fetchMessages['body'])

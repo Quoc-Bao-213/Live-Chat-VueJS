@@ -4,7 +4,7 @@
         <!-- Chat: Header -->
         <div class="chat-header border-bottom py-4 py-lg-6 px-lg-8">
             <div class="container-xxl">
-                <div class="row align-items-center longlonglong">
+                <div class="row align-items-center">
 
                     <!-- Close chat(mobile) -->
                     <div class="col-3 d-xl-none">
@@ -27,7 +27,7 @@
                             <div class="media-body align-self-center text-truncate">
                                 <h6 class="text-truncate mb-n1">{{ roomNameVue }}</h6>
                                 <!-- Comming Soon -->
-                                <small class="text-muted" @click="scrollToEnd">35 members</small>
+                                <small class="text-muted" @click="scrollToEnd">{{ this.users.length}} members</small>
                                 <small class="text-muted mx-2"> • </small>
                                 <!-- Comming Soon -->
                                 <small class="text-muted">HTML, CSS, and Javascript Help</small>
@@ -337,10 +337,10 @@
                                    return messages.text = 'Message Have been Deleted.';
                                 }
                             });
-                            console.log('hoook delete herre');
+                            console.log('Hook Delete Here');
                         },
                         onMessage: async message => {
-                            //console.log(this.users);
+                            // console.log(this.userId);
                             // CHECK IMAGE
                             if (message['parts'][1]) {
                                 await this.messages.push({
@@ -385,7 +385,6 @@
                             }
 
                             await this.scrollToEnd();
-
                         },
                         onUserJoined: async user => {
                             await this.getUsers()
@@ -443,7 +442,7 @@
             },
             deleteMessage(index, messageid){
                 // console.log(this.users);
-                console.log('function delete herre');
+                console.log('function delete here');
                 var isAttachment = false;
                 this.selected = undefined
                 //TODO call api delete id
@@ -490,10 +489,9 @@
                         isAttachment: isAttachment,
                         image: this.image
                     })
-                        .then(message => {
-                            this.message = ''
-                        })
-
+                    .then(message => {
+                        this.message = ''
+                    })
                 }else{
                     if (mess.trim() === '') {
                         console.log('sent here 3- without text');

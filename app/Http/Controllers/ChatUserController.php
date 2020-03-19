@@ -78,6 +78,16 @@ class ChatUserController extends Controller
             ]);
 
             $messages = collect($fetchMessages['body'])->map(function ($message) {
+                if (isset($message['attachment']['resource_link'])){
+                    return [
+                        'id' => $message['id'],
+                        'senderId' => $message['user_id'],
+                        'text' => $message['text'],
+                        'timestamp' => $message['created_at'],
+                        'image' =>  $message['attachment']['resource_link'],
+                    ];
+                }
+                // dd ($message['attachment']['resource_link']);
                 return [
                     'id' => $message['id'],
                     'senderId' => $message['user_id'],

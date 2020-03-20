@@ -41,6 +41,7 @@
                     img-room="{{ $imgRoom }}"
                     room-id='{{ $roomId }}'
                     room-name="{{ $roomName }}"
+                    count-member = "{{ $countMember }}"
                     :avatar='@json($listAvatar)'
                     :initial-messages='@json($messages)'>
                 </chatgr>

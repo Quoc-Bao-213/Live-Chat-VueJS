@@ -45,6 +45,5 @@ Route::middleware('auth')->group(function(){
     Route::get('/api/users', 'ChatUserController@getUsers');
     Route::post('/api/message','ChatUserController@sendMessage');
     Route::post('/api/delmessage', 'ChatkitController@deleteMessage');
-    
 });
 

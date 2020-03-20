@@ -55,11 +55,13 @@ return [
     |
     */
 
-    // 'from' => array(
-    //     'address' => env('MAIL_FROM_ADDRESS', 'pieyep2703@gmail.com'),
+    // 'from' => [
+    //     'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
     //     'name' => env('MAIL_FROM_NAME', 'Example'),
-    // ),
-    'from' => array('address' => 'pieyep2703@gmail.com', 'name' => 'tuanle'),
+    // ],
+
+    'from' => array('address' => 'pieyep2703@gmail.com', 'name' => 'TaQuocBao'),
+
     /*
     |--------------------------------------------------------------------------
     | E-Mail Encryption Protocol

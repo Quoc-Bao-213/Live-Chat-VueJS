@@ -90,33 +90,15 @@
                             <div class="d-flex align-items-center">
 
                                 <!-- Message: content -->
-                                <div style="max-width: 35%" class="message-content bg-light">
+                                <div style="max-width: 45%" class="message-content bg-light">
                                     <h6 class="mb-2">{{ findSender(message.senderId).name }}</h6>
                                     <div style="word-wrap:break-word;">{{ message.text }}</div>
-                                    <img v-if="message.image"  style="width:100%" :src="message.image" height="200">
+                                    <img style="width: 100%;" v-if="message.image" :src="message.image" height="200">
                                     <div class="mt-1">
                                         <small class="opacity-65">{{ formatTime(message.timestamp) }}</small>
                                     </div>
                                 </div>
                                 <!-- Message: content -->
-
-                                <!-- Message: dropdown -->
-                                <!-- <div class="dropdown">
-                                    <a class="text-muted opacity-60 ml-3" href="#naruto" data-toggle="dropdown"
-                                        aria-haspopup="true" aria-expanded="false">
-                                        <i class="fe-more-vertical"></i>
-                                    </a>
-
-                                    <div id="naruto" class="dropdown-menu">
-                                        <a class="dropdown-item d-flex align-items-center" href="#">
-                                            Edit <span class="ml-auto fe-edit-3"></span>
-                                        </a>
-                                        <a class="dropdown-item d-flex align-items-center" href="#">
-                                            Delete <span class="ml-auto fe-trash-2"></span>
-                                        </a>
-                                    </div>
-                                </div> -->
-                                <!-- Message: dropdown -->
 
                             </div>
                         </div>
@@ -162,9 +144,9 @@
                                 <!-- Message: dropdown -->
 
                                 <!-- Message: content -->
-                                <div v-if="message.id" class="message-content bg-primary text-white">
+                                <div style="max-width: 45%" class="message-content bg-primary text-white">
                                     <div style="word-wrap:break-word;">{{ message.text }}</div>
-                                    <img v-if ="message.image" style="width: 100%" :src="message.image" height="200">
+                                    <img style="width: 100%;" v-if ="message.image" :src="message.image" height="200">
                                     <div class="mt-1">
                                         <small class="opacity-65">{{ formatTime(message.timestamp) }}</small>
                                     </div>
@@ -178,7 +160,7 @@
                     </div>
                     <!-- Message: body -->
                 </div>
-                <!-- Message --> 
+                <!-- Message -->
 
             </div>
             <div id="typing"></div>
@@ -334,10 +316,13 @@
                             var deleteMessID = message;
                             this.messages.map(function(messages){
                                 if (messages.id == deleteMessID ){
-                                   return messages.text = 'Message Have been Deleted.';
+                                   return [
+                                        messages.text = 'Message Have been Deleted.',
+                                        messages.image = '',
+                                    ];
                                 }
                             });
-                            console.log('Hook Delete Here');
+                            // console.log('Hook Delete Here');
                         },
                         onMessage: async message => {
                              if (message['parts'][1]) {
@@ -404,18 +389,17 @@
             // DELETE MESS
               deleteMessage(index, messageid){
                 // console.log(this.users);
-                console.log('function delete here');
-                var isAttachment = false;
+                // console.log('function delete here');
                 this.selected = undefined
                 //TODO call api delete id
                 axios.post(`${process.env.MIX_APP_URL}/api/delmessage`, {
                     user: this.userId,
                     currentRoom: this.roomId,
                     messageid : messageid,
-                    isAttachment: isAttachment
+                    isAttachment: this.messages[index].image,
                 })
-                .then(  message => {
-                    this.messages[index].text = 'Message have been Deleted';
+                .then(message => {
+                    this.messages[index].text = 'Message Have been Deleted.';
                     this.messages[index].image = '';
                 })
                 //console.log(this.messages);
@@ -454,7 +438,6 @@
                 axios.get(`${process.env.MIX_APP_URL}/api/users`)
                     .then(res => {
                         this.users = res['data']['body']
-
                     });
             },
             sendMessage() {

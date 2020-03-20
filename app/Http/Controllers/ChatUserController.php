@@ -121,7 +121,7 @@ class ChatUserController extends Controller
             $imageType = 'jpg';
             $base64_image = base64_decode(explode(',',$request->image)[1]);
             $nameImage = Str::random(10).".".$imageType;
-            $saveImage = Storage::disk('mychat')->put($nameImage, $base64_image);
+            Storage::disk('mychat')->put($nameImage, $base64_image);
             $resource_link = url('/').'/uploads/'.$nameImage;
 
             $options['sender_id'] = $my_id;
@@ -160,7 +160,7 @@ class ChatUserController extends Controller
            if ($userQuery = DB::select($raw)){
                $users['body'][$key]['avatar'] = $userQuery[0]->avatar;
            }else{
-                $users['body'][$key]['avatar'] = 'hinh-defaul.jpg.jav';
+                $users['body'][$key]['avatar'] = "https://i.picsum.photos/id/".rand(100, 999)."/200/200.jpg";
            }
         }
         return response($users);

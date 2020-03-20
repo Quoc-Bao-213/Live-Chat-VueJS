@@ -1,5 +1,5 @@
 @php
-     $section = explode( '/', Request::path() );
+     $section = explode('/', Request::path());
     //
     $grclass = "";
     $frclass = "";
@@ -52,7 +52,6 @@
                             <div id="create-group-details" class="tab-pane fade show active" role="tabpanel">
                                 <form action="{{ route('createroom') }}" method="POST">
                                     @csrf
-                                    {{-- Comming Soon --}}
                                     <div class="form-group">
                                         <label class="small">Photo</label>
                                         <div class="position-relative text-center bg-secondary rounded p-6">
@@ -61,12 +60,11 @@
                                             </div>
 
                                             <p class="small text-muted mb-0">You can upload jpg, gif or png
-                                                files. <br> Max file size 3mb. <br> <strong>This Function Comming Soon</strong> </p>
-                                            <input id="upload-chat-photo" class="d-none" name="uploadimg" type="button">
+                                                files. <br> Max file size 3mb. <br> </p>
+                                            <input id="upload-chat-photo" class="d-none" name="uploadimg" accept="image/*" type="button">
                                             <label class="stretched-label mb-0" for="upload-chat-photo"></label>
                                         </div>
                                     </div>
-                                    {{-- Comming Soon --}}
 
                                     <div class="form-group">
                                         <label class="small" for="new-chat-title">Name</label>
@@ -75,13 +73,13 @@
 
                                     {{-- Comming Soon --}}
                                     <div class="form-group">
-                                        <label class="small" for="new-chat-topic">Topic (optional)</label>
-                                        <input class="form-control form-control-lg" name="new-chat-topic" id="new-chat-topic" placeholder="Group Topic" type="text">
+                                        <label class="small" for="new-chat-topic">Topic (optional) (Comming Soon)</label>
+                                        <input disabled class="form-control form-control-lg" name="new-chat-topic" id="new-chat-topic" placeholder="Group Topic" type="text">
                                     </div>
 
                                     <div class="form-group mb-0">
-                                        <label class="small" for="new-chat-description">Description</label>
-                                        <textarea class="form-control form-control-lg" name="new-chat-description" id="new-chat-description" rows="6" placeholder="Group Description"></textarea>
+                                        <label class="small" for="new-chat-description">Description (Comming Soon)</label>
+                                        <textarea disabled class="form-control form-control-lg" name="new-chat-description" id="new-chat-description" rows="6" placeholder="Group Description"></textarea>
                                     </div>
                                     {{-- Comming Soon --}}
 
@@ -205,7 +203,7 @@
                                             <div class="media">
 
                                                 <div class="avatar mr-5">
-                                                    <img class="avatar-img" src="{{ $room->avatar_room }}" alt="Bootstrap Themes">
+                                                    <img class="avatar-img" src="{{ asset($room->avatar_room) }}" alt="Bootstrap Themes">
                                                 </div>
 
                                                 <div class="media-body overflow-hidden">

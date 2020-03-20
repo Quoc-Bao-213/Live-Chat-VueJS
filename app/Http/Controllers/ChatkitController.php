@@ -7,6 +7,8 @@ use App\RoomChat;
 use App\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ChatkitController extends Controller
 {
@@ -30,8 +32,8 @@ class ChatkitController extends Controller
         $chatkit_id = Auth::user()->id_pusher;
         $listRooms = RoomChat::all();
         $listFriends = User::all();
-        
-      
+
+
         $query = DB::select("select count(id) as NumberOfRoom from room_chats");
 
         if ((int)$request->roomid > $query[0]->NumberOfRoom){
@@ -46,21 +48,29 @@ class ChatkitController extends Controller
 
         $roomId = $this->roomId;
 
-        $request->session()->put('room_id', $roomId);
+        // $request->session()->put('room_id', $roomId);
 
         $this->chatkit->addUsersToRoom([
             'room_id' => $this->roomId,
             'user_ids' => [$chatkit_id],
         ]);
 
+        $getUserRoom = $this->chatkit->getUserRooms([
+            'id' => Auth::user()->id_pusher,
+        ]);
+
+        // dd ($getUserRoom['body']);
+        for ($i = 0; $i < count($getUserRoom['body']); $i++){
+            if ($roomId === $getUserRoom['body'][$i]['id'])
+                $countMember = count($getUserRoom['body'][$i]['member_user_ids']);
+        }
+
         $fetchMessages = $this->chatkit->getRoomMessages([
             'room_id' => $roomId,
             'direction' => 'newer',
             'limit' => 100,
-            // 'initial_id' => 104153000,
+            'initial_id' => 104153000,
         ]);
-
-        // dd ($fetchMessages['body'])
 
         $messages = collect($fetchMessages['body'])->map(function ($message) {
             if (isset($message['attachment']['resource_link'])){
@@ -84,7 +94,7 @@ class ChatkitController extends Controller
 
         $listAvatar = DB::select("select id_pusher, avatar from users");
 
-        return view('box-chat-group')->with(compact('messages', 'roomId', 'chatkit_id', 'listFriends', 'listRooms', 'roomName', 'imgRoom', 'listAvatar'));
+        return view('box-chat-group')->with(compact('messages', 'roomId', 'chatkit_id', 'listFriends', 'listRooms', 'roomName', 'imgRoom', 'listAvatar', "countMember"));
     }
 
     /**
@@ -116,13 +126,19 @@ class ChatkitController extends Controller
             'name' => $roomName,
             'user_ids' => [Auth::user()->id_pusher],
             'private' => false,
-            'custom_data' => ['foo' => 'bar']
         ]);
 
         $roomChat->room_name = $roomName;
         $roomChat->id_room = $create['body']['id'];
+        // if ($request->uploadimg){
+        //     $imageType = 'jpg';
+        //     $nameImage = "uploads/".Str::random(10)."_imgRoom.".$imageType;
+        //     Storage::disk('mychat')->put($nameImage, $request->uploadimg);
+
+        //     $roomChat->avatar_room = $nameImage;
+        // }else{
         $roomChat->avatar_room = "https://i.picsum.photos/id/".rand(500, 999)."/200/200.jpg";
-        // $roomChat->avatar_room = $imgRoom;
+        // }
         $roomChat->id_user_create_room = Auth::user()->id_pusher;
         $roomChat->save();
 
@@ -131,34 +147,20 @@ class ChatkitController extends Controller
 
     public function deleteMessage(Request $request)
     {
-
-
-        // $roomID = $request->session()->get('room_id');
-        // $my_id = Auth::user()->id_pusher;
-
         $deleteMessage = $this->chatkit->deleteMessage([
             'message_id' => $request->messageid,
             'room_id' => $request->currentRoom,
         ]);
 
+        if ($request->isAttachment){
+            $path = explode('/', $request->isAttachment);
+            $file = $path[4];
+            Storage::disk('mychat')->delete($file);
+        }
+
         if($deleteMessage){
             return response(['message' => true]);
         }
-
         return response(['message' => false]);
-
-
-
-        // echo  $deleteMessageID;
-
-        // $deleteMessage = $this->chatkit->editSimpleMessage($roomID, (int)($request->idMessage), [
-        //     'sender_id' => $my_id,
-        //     'text' => $request->message,
-        //   ]);
-
-        //return response($deleteMessage);
-
-        // $idRoomDB = RoomChat::where('id_room', $roomID)->first()->id;
-        // return redirect('group/'.$idRoomDB);
     }
 }

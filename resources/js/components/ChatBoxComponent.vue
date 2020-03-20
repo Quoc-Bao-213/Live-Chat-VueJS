@@ -27,7 +27,7 @@
                             <div class="media-body align-self-center text-truncate">
                                 <h6 class="text-truncate mb-n1">{{ roomNameVue }}</h6>
                                 <!-- Comming Soon -->
-                                <small class="text-muted" @click="scrollToEnd">00 members</small>
+                                <small class="text-muted" @click="scrollToEnd">{{ countMemberVue }} members</small>
                                 <small class="text-muted mx-2"> • </small>
                                 <!-- Comming Soon -->
                                 <small class="text-muted">HTML, CSS, and Javascript Help</small>
@@ -102,27 +102,6 @@
                                 </div>
                                 <!-- Message: content -->
 
-                                <!-- Message: dropdown -->
-                                <!-- <div class="dropdown">
-                                    <a class="text-muted opacity-60 ml-3" href="#" data-toggle="dropdown"
-                                        aria-haspopup="true" aria-expanded="false">
-                                        <i class="fe-more-vertical"></i>
-                                    </a>
-
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item d-flex align-items-center" href="#">
-                                            Edit <span class="ml-auto fe-edit-3"></span>
-                                        </a>
-                                        <a class="dropdown-item d-flex align-items-center" href="#">
-                                            Share <span class="ml-auto fe-share-2"></span>
-                                        </a>
-                                        <a class="dropdown-item d-flex align-items-center" href="#">
-                                            Delete <span class="ml-auto fe-trash-2"></span>
-                                        </a>
-                                    </div>
-                                </div> -->
-                                <!-- Message: dropdown -->
-
                             </div>
                         </div>
                         <!-- Message: row -->
@@ -148,7 +127,7 @@
 
                                 <!-- Message: dropdown -->
                                 <div class="dropdown">
-                                    <a class="text-muted opacity-60 mr-3" href="javascript:void(0)" data-toggle="dropdown" @click="selected = index">
+                                    <a class="text-muted opacity-60 mr-3" href="#" data-toggle="dropdown" @click="selected = index">
                                         <i class="fe-more-vertical"></i>
                                     </a>
                                     <div class="dropdown-menu" x-placement="bottom-start" :class="{show:index == selected}">
@@ -276,6 +255,7 @@
             imgRoom: String,
             roomName: String,
             avatar: Array,
+            countMember: String,
         },
         data() {
             return {
@@ -290,6 +270,7 @@
                 showDialog: false,
                 selected: undefined,
                 avatarVue: this.avatar,
+                countMemberVue: this.countMember,
             }
         },
         methods: {
@@ -339,7 +320,7 @@
                                     ];
                                 }
                             });
-                            console.log('Hook Delete Here');
+                            // console.log('Hook Delete Here');
                         },
                         onMessage: async message => {
                             // console.log(this.userId);
@@ -446,15 +427,14 @@
             },
             deleteMessage(index, messageid){
                 // console.log(this.users);
-                console.log('function delete here');
-                var isAttachment = false;
+                // console.log('function delete here');
                 this.selected = undefined
                 //TODO call api delete id
                 axios.post(`${process.env.MIX_APP_URL}/api/delmessage`, {
                     user: this.userId,
                     currentRoom: this.roomId,
                     messageid : messageid,
-                    isAttachment: isAttachment,
+                    isAttachment: this.messages[index].image,
                 })
                 .then(message => {
                        this.messages[index].text = 'Message Have been Deleted.';

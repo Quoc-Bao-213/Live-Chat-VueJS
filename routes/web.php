@@ -39,6 +39,8 @@ Route::middleware('auth')->group(function(){
     Route::post('/api/message','ChatUserController@sendMessage');
     Route::post('/api/delmessage', 'ChatkitController@deleteMessage');
 
+    // ROUTE USE FOR TEST
+    // Route::get('api/test', 'ChatkitController@getUserJoinRoom');
     // Route::get('/test', function () {
     //     return view('test');
     // })->name('test');

@@ -19,6 +19,13 @@ Route::post('/','LoginController@Login')->name('actionLogin');
 Route::get('/register','RegisterController@index')->name('signup');
 Route::post('/register','RegisterController@register')->name('actionRegister');
 
+// Trang Resetpassword
+Route::get('/resetpass','ResetpassController@index')->name('resetpassword');
+Route::post('/resetpass','ResetpassController@reset')->name('resetpassword');
+Route::get('/linkreset','ResetpassController@linkReset')->name('linkReset');
+Route::get('/change-pass','ResetpassController@changePass')->name('changepass');
+Route::post('/change-pass','ResetpassController@processChangePass');
+
 // Trang Logout
 Route::post('logout', 'LoginController@Logout')->name('logout');
 
@@ -38,9 +45,6 @@ Route::middleware('auth')->group(function(){
     Route::get('/api/users', 'ChatUserController@getUsers');
     Route::post('/api/message','ChatUserController@sendMessage');
     Route::post('/api/delmessage', 'ChatkitController@deleteMessage');
-
-    // Route::get('/test', function () {
-    //     return view('test');
-    // })->name('test');
+    
 });
 

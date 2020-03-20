@@ -65,7 +65,7 @@
                                 <input type="checkbox" class="custom-control-input" checked="" id="checkbox-remember">
                                 <label class="custom-control-label" for="checkbox-remember">Remember me</label>
                             </div>
-                            <a href="#">Reset password</a>
+                            <a href="{{route('resetpassword')}}">Reset password</a>
                         </div>
                         {{-- Comming Soon --}}
 

@@ -307,6 +307,7 @@
                         this.currentUser = user;
                         this.subscribeToRoom();
                         console.log('Connected Successfully')
+                        console.log(this.currentUser);
                     })
                     .catch(error => {
                         console.log('Error on connection', error)
@@ -456,7 +457,7 @@
                     messageid : messageid,
                     isAttachment: isAttachment,
                 })
-                .then(message => {
+                .then(message  => {
                        this.messages[index].text = 'Message Have been Deleted.';
                        this.messages[index].image = '';
                 })
@@ -470,7 +471,7 @@
                 axios.get(`${process.env.MIX_APP_URL}/api/users`)
                     .then(res => {
                         this.users = res['data']['body']
-                        // console.log(res['data']['body']);
+                        console.log(res);
                     });
             },
             sendMessage() {

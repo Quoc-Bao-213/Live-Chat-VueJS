@@ -93,7 +93,7 @@
                                 <div style="max-width: 35%" class="message-content bg-light">
                                     <h6 class="mb-2">{{ findSender(message.senderId).name }}</h6>
                                     <div style="word-wrap:break-word;">{{ message.text }}</div>
-                                    <img v-if="message.image" :src="message.image" height="200">
+                                    <img v-if="message.image"  style="width:100%" :src="message.image" height="200">
                                     <div class="mt-1">
                                         <small class="opacity-65">{{ formatTime(message.timestamp) }}</small>
                                     </div>
@@ -164,7 +164,7 @@
                                 <!-- Message: content -->
                                 <div v-if="message.id" class="message-content bg-primary text-white">
                                     <div style="word-wrap:break-word;">{{ message.text }}</div>
-                                    <img v-if ="message.image" :src="message.image" height="200">
+                                    <img v-if ="message.image" style="width: 100%" :src="message.image" height="200">
                                     <div class="mt-1">
                                         <small class="opacity-65">{{ formatTime(message.timestamp) }}</small>
                                     </div>
@@ -329,7 +329,7 @@
                             var test = this.$el.querySelector("#typing")
                             test.innerHTML = ''
                         },
-                        onMessageDeleted: message => {
+                        onMessageDeleted: async message => {
 
                             var deleteMessID = message;
                             this.messages.map(function(messages){
@@ -411,10 +411,12 @@
                 axios.post(`${process.env.MIX_APP_URL}/api/delmessage`, {
                     user: this.userId,
                     currentRoom: this.roomId,
-                    messageid : messageid
+                    messageid : messageid,
+                    isAttachment: isAttachment
                 })
-                .then(message => {
-                       this.messages[index].text = 'message have been deleted';
+                .then(  message => {
+                    this.messages[index].text = 'Message have been Deleted';
+                    this.messages[index].image = '';
                 })
                 //console.log(this.messages);
                 // process UI

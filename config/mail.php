@@ -29,7 +29,7 @@ return [
     |
     */
 
-    'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
+    'host' => env('MAIL_HOST', 'smtp.gmail.com'),
 
     /*
     |--------------------------------------------------------------------------
@@ -42,7 +42,7 @@ return [
     |
     */
 
-    'port' => env('MAIL_PORT', 587),
+    'port' => env('MAIL_PORT', 25),
 
     /*
     |--------------------------------------------------------------------------
@@ -55,11 +55,11 @@ return [
     |
     */
 
-    'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
-        'name' => env('MAIL_FROM_NAME', 'Example'),
-    ],
-
+    // 'from' => array(
+    //     'address' => env('MAIL_FROM_ADDRESS', 'pieyep2703@gmail.com'),
+    //     'name' => env('MAIL_FROM_NAME', 'Example'),
+    // ),
+    'from' => array('address' => 'pieyep2703@gmail.com', 'name' => 'tuanle'),
     /*
     |--------------------------------------------------------------------------
     | E-Mail Encryption Protocol

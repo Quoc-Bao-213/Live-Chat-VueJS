@@ -132,7 +132,7 @@ class ChatkitController extends Controller
         $roomChat->id_room = $create['body']['id'];
         // if ($request->uploadimg){
         //     $imageType = 'jpg';
-        //     $nameImage = "uploads/".Str::random(10)."_imgRoom.".$imageType;
+        //     $nameImage = "uploads/".Str::random(5)."_imgRoom.".$imageType;
         //     Storage::disk('mychat')->put($nameImage, $request->uploadimg);
 
         //     $roomChat->avatar_room = $nameImage;

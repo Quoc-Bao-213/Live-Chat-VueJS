@@ -60,7 +60,7 @@ return [
     //     'name' => env('MAIL_FROM_NAME', 'Example'),
     // ],
 
-    'from' => array('address' => 'pieyep2703@gmail.com', 'name' => 'TaQuocBao'),
+    'from' => array('address' => 'coderb2103@gmail.com', 'name' => 'LiveChat'),
 
     /*
     |--------------------------------------------------------------------------

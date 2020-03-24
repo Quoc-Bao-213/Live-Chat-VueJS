@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1, shrink-to-fit=no">
-    <title>Sign In</title>
+    <title>Change Password</title>
 
     <!-- Template core CSS -->
 
@@ -23,10 +23,11 @@
 
         <div class="container d-flex flex-column">
             <div class="row align-items-center justify-content-center no-gutters min-vh-100">
-                <div class="col-12 col-md-5 col-lg-4 py-8 py-md-11">    
-                    <h1 class="font-bold text-center">????</h1>               
+                <div class="col-12 col-md-5 col-lg-4 py-8 py-md-11">
+                    <h1 class="font-bold text-center">Change Password</h1>
+                    {{-- for {{ '@'.$name ??  }} --}}
                     <!-- Text -->
-                    <p class="text-center mb-6">???</p>
+                    <p class="text-center mb-6">Enter your new password.</p>
 
                     <!-- Form -->
                     <form class="mb-6" method="post" action="#">
@@ -37,21 +38,19 @@
                         @endif
                         @csrf
                         <!-- Email -->
-            
+
                         <!-- Password -->
                         <div class="form-group">
                             <label for="password" class="sr-only">Password</label>
                             <input type="password" name="password" class="form-control form-control-lg" id="password" placeholder="Enter your password">
-                            {{-- <span class="text-danger" style="margin-left: 10px;">{{ $errors->first('password') }}</span> --}}
+                            <span class="text-danger" style="display:block; margin-left: 10px;">{{ $errors->first('password') }}</span>
                         </div>
 
-                        {{-- Comming Soon --}}
-                        {{-- <div class="form-group">
+                        <div class="form-group">
                             <label for="password" class="sr-only">Confirm Password</label>
-                            <input type="password" name="confirmpassword" class="form-control form-control-lg" id="password" placeholder="Confirm enter your password"> --}}
-                            {{-- <span class="text-danger" style="margin-left: 10px;">{{ $errors->first('password') }}</span> --}}
-                        {{-- </div> --}}
-                        {{-- Comming Soon --}}
+                            <input type="password" name="confirmpassword" class="form-control form-control-lg" id="password" placeholder="Confirm your password">
+                            <span class="text-danger" style="display:block; margin-left: 10px;">{{ $errors->first('confirmpassword') }}</span>
+                        </div>
 
                         <!-- Submit -->
                         <button class="btn btn-lg btn-block btn-primary" type="submit">Reset password</button>
